@@ -1,0 +1,8 @@
+h3.title= @page.title
+
+= @page.content.html_safe
+
+- if @page.page_images.present?
+  .images
+    - @page.page_images.each do |im|
+      = link_to image_tag(im.image_url(:page)), im.image_url, class: 'expand'

@@ -1,0 +1,12 @@
+h2 Rede Social
+= simple_form_for [:admin, resource], :html => { :class => 'form-horizontal' } do |f|
+  section.panel.panel-default
+    header.panel-heading.font-bold
+      = resource.new_record? ? "Adicionar Rede Social" : "Editar Rede Social"
+    .panel-body
+      = f.input :name, :label => 'Nome'
+      .line.line-dashed.b-b.line-lg.pull-in
+      = f.input :url, :label => 'URL'
+      .line.line-dashed.b-b.line-lg.pull-in
+
+  = render 'admin/shared/form_actions', f: f

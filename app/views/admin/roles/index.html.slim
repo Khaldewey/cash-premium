@@ -1,0 +1,15 @@
+h2 Grupos
+.panel.panel-default
+  .table-responsive
+    table.table.table-striped.b-t.b-light
+      thead
+        tr
+          th.text-center Nome
+          th.text-center(width=210) Ações
+      tbody    
+        - collection.each do |r|
+          tr
+            td.text-center= r.name
+            td.text-center.links-actions
+              = render 'admin/shared/actions', r: r
+= render 'admin/shared/create'

@@ -1,0 +1,4 @@
+Atualização do projeto base Target.
+ - Atualização da sintaxe do Sass
+ - Adiciona importação dos arquivos css e js, do jquery.fancybox e lightSlider
+ 

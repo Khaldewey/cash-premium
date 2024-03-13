@@ -1,0 +1,95 @@
+doctype html
+html lang="pt-BR"
+  head
+    meta charset="utf-8"
+    meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"
+    meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"
+    meta name="description" content="#{meta_description}"
+    link href= '/favicon.png' rel='icon'
+    title= title
+
+    = stylesheet_link_tag "frontend/application", media: "all"
+    = javascript_include_tag "frontend/application"
+
+    = csrf_meta_tags
+    /[if lt IE 9]
+      = javascript_include_tag 'html5shiv-printshiv'
+    - if @analytics.present?
+      /-- Global site tag (gtag.js) - Google Analytics -->
+      script async="" src="https://www.googletagmanager.com/gtag/js?id=#{@analytics.tag}"
+      
+      javascript:
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', '#{@analytics.tag}');
+
+  body
+    header
+      .menu-background
+        .container
+          .col-sm-12.menu-background
+            .row
+              .col-lg-12.col-md-12.col-sm-12.menu-items
+                nav#menu
+                  .col-sm-2.logo
+                    .box-img
+                      = link_to root_path do
+                        = image_tag 'logo.png', class: 'img-responsive'
+
+                  .col-sm-9.menu-box
+                    = link_to 'Ser Celebridade', root_url+"#about", class: 'menu-link actived'
+                    = link_to 'Proposta Pedagógica', root_url, class: 'menu-link'
+                    = link_to 'Projetos', root_url, class: 'menu-link'
+                    = link_to 'Diferenciais', root_url, class: 'menu-link'
+                    = link_to 'Galeria', root_url, class: 'menu-link'
+                    = link_to 'Contato', root_url+"#contact", class: 'menu-link'
+                  
+                .menu-toggle.visible-sm.visible-xs.pull-right
+                  span.icon-bar
+                  span.icon-bar
+                  span.icon-bar
+    #banner
+      .banner-box
+        .banner-carousel
+          - if @banner.present?
+            - @banner.each do |imgs|
+              = image_tag imgs.image_url, class: 'img-responsive'
+    #main
+      = yield
+
+    footer
+      .footer-address.col-xs-12.col-md-12
+        .address-column1.col-md-10.col-md-offset-1
+          = render 'frontend/contact/new'          
+        .address-column2.col-md-5.col-md-offset-1          
+          - if @localization.present?
+            .address.icon-contacts
+              .color = icon('fas', "map-marker")
+              span = raw @localization.address
+          - if @phone.present?
+            .phone-box
+              - @phone.each do |tel|            
+                .phone.icon-contacts
+                  .color = icon('fas', "phone")
+                  span = tel.phone
+          - if @email.present?
+            .email.icon-contacts
+              .color = icon('fas', "envelope")
+              = mail_to @email.email do
+                span = @email.email
+          - if @social_network.present?
+            .social-networks.icon-contacts
+              - @social_network.each do |midia|
+                = link_to midia.url, target: '_blank', class: 'menu-icon' do
+                  .midia-icon = icon('fab fa', "#{midia.slug}")
+        .address-column3.col-md-5
+            - if @localization.present? && @localization.link.present?
+              = link_to @localization.link, target: '_blank' do
+                = image_tag @localization.image_url(:map), class:'img-responsive'
+      .footer-box.col-xs-12.col-md-12
+        / .col-md-1.col-sm-2.col-xs-6.col-sm-offset-1.logo-colegio
+        /   = image_tag 'logo-branca.png', class:'img-responsive'
+        .logo-acerte
+          = image_tag 'logo_acerte.png', class:'img-responsive'

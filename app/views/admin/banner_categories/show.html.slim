@@ -1,0 +1,53 @@
+h2 = resource.name
+
+
+- if resource.banners.present?
+  section.panel.panel-default
+    header.panel-heading.font-bold
+      #image-sortable.dd.nestable data-update-path="#{update_position_admin_banner_category_banners_path(resource)}"
+        ol.dd-list
+          - resource.banners.each do |image|
+            li.banners-dd3-content.dd-item.dd3-item data-id= image.id
+              .dd-handle.dd3-handle
+                | Drag
+              .dd3-content
+                .col-md-2
+                  = image_tag image.image_url(:thumb).to_s
+                .col-md-9  
+                  = simple_form_for [:admin, resource, image], remote: true do |f|
+                    = f.input :published_at_string, :label => 'Publicação', input_html: { class: 'datetime', data: { :'date-format' => "DD/MM/YYYY hh:mm:ss" } }
+                    = f.input :expires_at_string, :label => 'Expira em', input_html: { class: 'datetime', data: { :'date-format' => "DD/MM/YYYY hh:mm:ss" } }
+                    = f.input :link, label: 'Link', hint: "Ex: http://www.google.com"
+                    .col-md-offset-2 
+                      = f.submit 'Atualizar', class: 'btn btn-primary ml-15'
+                .col-md-1
+                  = link_to admin_banner_category_banner_path(resource, image), method: :delete, data: { confirm: 'Tem certeza?' }, class: 'btn btn-danger pull-right trash' do
+                    = icon('far', 'trash-alt')
+               
+#uploader.span12.pull-left
+
+#buttons.span12.left
+  = link_to 'Voltar', collection_path(resource), class: 'btn btn-danger mr-10'
+  - if can? :update, resource_class
+    = link_to 'Editar', edit_resource_path(resource), class: 'btn btn-success'
+
+javascript:
+  $(function(){
+    $("#uploader").pluploadQueue({
+      runtimes: 'gears,flash,silverlight,browserplus,html5',
+      url: '#{admin_banner_category_banners_path(resource)}',
+      multipart_params: {
+        '#{request_forgery_protection_token}': '#{form_authenticity_token}',
+        '#{Rails.application.config.session_options[:key]}': '#{request.session_options[:id]}'
+        },
+
+      init: {
+        UploadComplete: function(up, files) {
+          window.setTimeout('location.reload()', 600);
+        },
+      },
+      filters : [
+          {title : "Image files", extensions : "jpg,jpeg,gif,png"},
+      ],
+    });
+  });

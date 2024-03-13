@@ -1,0 +1,100 @@
+.col-sm-12
+  h3.m-b-xs.text-black Dashboard
+.col-sm-12
+  .row
+    .col-sm-12
+      .panel.b-a
+        .row.m-n
+          .col-md-6.b-b.b-r
+            .block.padder-v.hover href="#" 
+              span.i-s.i-s-2x.pull-left.m-r-sm
+                .text-danger
+                  = icon('far', 'image')
+              span.clear
+                span.h3.block.m-t-xs.text-danger= @banners_count
+                small.text-muted.text-u-c Banners
+          .col-md-6.b-b
+            .block.padder-v.hover href="#" 
+              span.i-s.i-s-2x.pull-left.m-r-sm
+                .text-success
+                  = icon('fas', 'book')
+              span.clear
+                span.h3.block.m-t-xs.text-success= @pages_count
+                small.text-muted.text-u-c Páginas
+          .col-md-6.b-b.b-r
+            .block.padder-v.hover href="#" 
+              span.i-s.i-s-2x.pull-left.m-r-sm
+                .text-info
+                  = icon('fas', 'sitemap')
+              span.clear
+                span.h3.block.m-t-xs.text-info= @category_articles_count
+                small.text-muted.text-u-c Categoria de conteúdo
+          .col-md-6.b-b
+            .block.padder-v.hover href="#" 
+              span.i-s.i-s-2x.pull-left.m-r-sm
+                .text-primary
+                  = icon('fas', 'cogs')
+              span.clear
+                span.h3.block.m-t-xs.text-primary= @articles_count
+                small.text-muted.text-u-c Conteúdo  
+  .row 
+    .col-md-4
+      section.panel.b-light
+        header.panel-heading
+          strong Calendário
+        #calendar.bg-light.dker.m-l-n-xxs.m-r-n-xxs
+    .col-sm-8
+      .panel.b-a
+        header.panel-heading.b-b
+          strong Suporte
+        .row.m-n
+          .col-md-6.b-b.b-r
+            .block.padder-v.hover href="#" 
+              span.i-s.i-s-2x.pull-left.m-r-sm
+                .text-danger
+                  = icon('far', 'envelope')
+              span.clear
+                span.h3.block.m-t-xs.text-danger E-mail
+                small.text-muted contato@agenciaacerte.com
+          .col-md-6.b-b
+            .block.padder-v.hover href="#" 
+              span.i-s.i-s-2x.pull-left.m-r-sm
+                .text-danger
+                  = icon('fas', 'phone')
+              span.clear
+                span.h3.block.m-t-xs.text-danger Telefone
+                small.text-muted.text-u-c
+                  | (79) 3217-2727 
+          .col-md-6.b-b.b-r
+            .block.padder-v.hover href="#" 
+              span.i-s.i-s-2x.pull-left.m-r-sm
+                .text-danger
+                  = icon('fas', 'map-marker-alt')
+              span.clear
+                span.h3.block.m-t-xs.text-danger Endereço
+                small.text-muted Av.: Ministro Geraldo Barreto Sobral, Nº 2100 - JFC Trade Center Sala 1307 - Jardins
+          .col-md-6.b-r
+            .block.padder-v.hover href="#" 
+              span.i-s.i-s-2x.pull-left.m-r-sm
+                .text-danger
+                  = icon('fas', 'home')
+              span.clear
+                span.h3.block.m-t-xs.text-danger Site
+                = link_to 'agenciaacerte.com', 'https://www.agenciaacerte.com/', target: '_blank', class: 'small text-muted'
+                 
+        
+javascript:
+  var cTime = new Date(), month = cTime.getMonth()+1, year = cTime.getFullYear();
+
+  theMonths = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Augosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+
+  theDays = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
+      
+  $('#calendar').calendar({
+      months: theMonths,
+      days: theDays,
+      popover_options:{
+          placement: 'top',
+          html: true
+      }
+  });

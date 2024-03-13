@@ -1,0 +1,18 @@
+h2 Usuário
+= simple_form_for [:admin, resource], :html => { :class => 'form-horizontal' } do |f|
+  section.panel.panel-default
+    header.panel-heading.font-bold
+      = resource.new_record? ? "Adicionar Usuário" : "Editar Usuário #{resource.email}"
+    .panel-body  
+      = f.input :email, :label => 'E-mail'
+      .line.line-dashed.b-b.line-lg.pull-in
+      = f.input :password, :label => 'Senha'
+      .line.line-dashed.b-b.line-lg.pull-in
+      = f.input :password_confirmation, :label => 'Repita a Senha'
+      - if current_user.role.name == "Admin" 
+        .line.line-dashed.b-b.line-lg.pull-in
+        = f.association :role, as: :radio_buttons, :label => 'Grupos', wrapper: :horizontal_radio_and_checkboxes
+      .line.line-dashed.b-b.line-lg.pull-in
+      = f.input :is_active, :label => 'Está Ativo?'
+
+  = render 'admin/shared/form_actions', f: f

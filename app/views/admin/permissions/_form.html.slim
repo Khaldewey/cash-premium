@@ -1,0 +1,13 @@
+h2 Permissões
+= simple_form_for [:admin, resource], :html => { :class => 'form-horizontal' } do |f|
+  section.panel.panel-default
+    header.panel-heading.font-bold
+      = resource.new_record? ? "Adicionar Grupo" : "Editar Grupo #{resource.object_type}"
+    .panel-body  
+      = f.input :object_type, :label => 'Módulo'
+      .line.line-dashed.b-b.line-lg.pull-in
+      = f.input :action_name, collection: Permission::ACTIONS , :label => 'Ação'
+      .line.line-dashed.b-b.line-lg.pull-in
+      = f.input :description, :label => 'Descrição'
+
+  = render 'admin/shared/form_actions', f: f

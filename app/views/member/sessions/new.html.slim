@@ -1,0 +1,17 @@
+= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+  .list-group
+    .list-group-item
+      = f.input_field :email, placeholder: 'E-mail', required: false, autofocus: true, class: 'form-control no-border'
+    .list-group-item
+      = f.input_field :password, placeholder: 'Senha', required: false, class: 'form-control no-border'
+    - if devise_mapping.rememberable?
+      .text-center.m-t.m-b
+        = f.input_field :remember_me, as: :boolean
+        = f.label :remeber_me, label: 'Lembrar minha senha', as: :boolean
+
+  = f.button :submit, "Entrar", class: 'btn btn-lg btn-primary btn-block'
+
+.text-center.m-t.m-b
+= link_to new_password_path(resource_name) do
+  .small
+    | Perdeu sua senha?

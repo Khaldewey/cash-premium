@@ -1,0 +1,11 @@
+h2 Conteúdo - Categorias
+= simple_form_for [:admin, resource], html: { class: 'form-horizontal' } do |f|
+  section.panel.panel-default
+    header.panel-heading.font-bold
+      = resource.new_record? ? "Adicionar Categoria de Conteúdo" : "Editar Categoria de Conteúdo #{resource.name}"
+    .panel-body  
+      = f.input :name, label: 'Nome'
+      .line.line-dashed.b-b.line-lg.pull-in
+      = f.input :is_active, as: :boolean, label: 'Está Ativa?'
+
+  = render 'admin/shared/form_actions', f: f

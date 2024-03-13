@@ -1,0 +1,19 @@
+h2 Páginas
+-if collection.count > 5
+  = render 'admin/shared/create_only'
+.panel.panel-default
+  .table-responsive
+    table.table.table-striped.b-t.b-light
+      thead
+        tr
+          th.text-center Título
+          th.text-center(width=210) Ações
+      tbody
+        - collection.order(created_at: :desc).each do |r|
+          tr
+            td.text-center= r.title
+            td.text-center.links-actions
+              = render 'admin/shared/actions', r: r
+              - if can? :show, resource_class
+                = render 'admin/shared/action_images', r: r
+= render 'admin/shared/create'

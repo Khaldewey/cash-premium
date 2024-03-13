@@ -1,0 +1,16 @@
+h2 Categorias de Banner
+= simple_form_for [:admin, resource], :html => { :class => 'form-horizontal' } do |f|
+  section.panel.panel-default
+    header.panel-heading.font-bold
+      = resource.new_record? ? "Adicionar Categoria de Banner" : "Editar Categoria de Banner #{resource.name}"
+    .panel-body
+      = f.input :name, :label => 'Nome'
+      .line.line-dashed.b-b.line-lg.pull-in
+      = f.input :image_height, :label => 'Altura da imagem', hint: 'Dimensão medida em pixels. Utilize apenas números'
+      .line.line-dashed.b-b.line-lg.pull-in  
+      = f.input :image_width, :label => 'Largura da imagem', hint: 'Dimensão medida em pixels. Utilize apenas números'
+      .line.line-dashed.b-b.line-lg.pull-in
+      = f.input :is_active, :label => 'Está Ativa?'
+    
+
+  = render 'admin/shared/form_actions', f: f

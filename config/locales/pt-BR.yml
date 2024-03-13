@@ -1,0 +1,16 @@
+pt-BR:
+  will_paginate:
+    previous_label: "&laquo;"
+    next_label: "&raquo;"
+    page_gap: "&hellip;"
+
+  errors:
+    messages:
+      blank: preenchimento obrigatório
+
+  time:
+    formats:
+      date_month_year_concise: '%d %m %Y'
+      date_month_name_year_concise: '%d de %b de %Y'
+      default: '%FT%T'
+      date_month_year_time_concise: '%d-%b-%Y %H:%M'

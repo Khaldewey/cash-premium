@@ -1,0 +1,20 @@
+h2 Usuários
+.panel.panel-default
+  .table-responsive
+    table.table.table-striped.b-t.b-light
+      thead
+        tr
+          th.text-center E-mail
+          th.text-center Ativo
+          th.text-center Último Login
+          th.text-center(width=210) Ações
+      tbody    
+        - collection.each do |r|
+          tr
+            td.text-center= r.email
+            td.text-center
+              = render 'admin/shared/is_active', r: r
+            td.text-center= r.last_sign_in_at.strftime('%d/%m/%Y %H:%M:%S') if r.last_sign_in_at.present?
+            td.text-center.links-actions
+              = render 'admin/shared/actions', r: r
+= render 'admin/shared/create'

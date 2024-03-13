@@ -1,0 +1,2 @@
+class LotteryQuotum < ApplicationRecord
+end

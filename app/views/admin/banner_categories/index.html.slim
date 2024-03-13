@@ -1,0 +1,24 @@
+h2 Banner - Categorias
+-if collection.count > 5
+  = render 'admin/shared/create_only'
+.panel.panel-default
+  .table-responsive
+    table.table.table-striped.b-t.b-light
+      thead
+        tr
+          th.text-center Nome
+          th.text-center Largura
+          th.text-center Altura
+          th.text-center Está Ativa?
+          th.text-center (width=310) Ações
+      tbody    
+        - collection.order(id: :desc).each do |r|
+          tr
+            td.text-center= r.name
+            td.text-center= r.image_width
+            td.text-center= r.image_height
+            td.text-center= render 'admin/shared/is_active', r: r
+            td.text-center.links-actions
+              = render 'admin/shared/actions', r: r
+              = render 'admin/shared/action_images', r: r
+= render 'admin/shared/create'

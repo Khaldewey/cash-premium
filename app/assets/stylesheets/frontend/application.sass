@@ -1,0 +1,212 @@
+@import bootstrap
+@import compass
+@import font-awesome-sprockets
+@import font-awesome
+@import jquery.fancybox.min
+@import lightslider.min
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap')
+//@import "icons/*.png"
+//@include all-icons-sprites
+
+//variaveis globais do codigo
+$maincolor: #5f5aa7
+input[type=email]::-webkit-input-placeholder, input[type=text]::-webkit-input-placeholder, textarea::-webkit-input-placeholder
+  :opacity 1 !important
+
+input[type=text]::-moz-placeholder, input[type=email]::-moz-placeholder, textarea::-moz-placeholder
+  :opacity 1 !important
+
+textarea
+  :resize none
+
+\*:focus
+  :outline 0 !important
+
+abbr[title]
+  :border none !important
+
+a
+  &:hover, &:active, &:visited
+    :text-decoration none
+
+
+#menu
+  display: flex
+  align-items: center
+  font-family: 'Montserrat', sans-serif
+  .menu-box
+    display: flex
+    justify-content: space-between
+  .menu-link
+    color: #504a44
+    font-family: 'Montserrat', sans-serif
+    font-weight: 600
+
+//about
+#about
+  float: left
+  width: 100%
+  .about-box
+    display: flex
+    justify-content: center
+    margin-top: 2.2em
+    padding-left: 0px
+    .about-image-box
+      padding-left: 0px
+      .img-responsive
+    .about-text-box
+      .about-title
+        font-size: 4rem
+        width: min-content
+        font-weight: bold
+      span
+        font-size: 4rem
+        width: min-content
+        color: $maincolor
+      .about-content
+        font-size: 2rem
+        text-align: justify
+        font-weight: 200
+        line-height: 1.7em
+  .valors-box
+    display: flex
+    justify-content: space-evenly
+    .valor-box
+      margin-bottom: 1em
+      .valor-title
+        color: $maincolor
+        font-size: 3rem
+        text-transform: uppercase
+        margin-bottom: 1.8em
+        font-weight: bold
+        text-align: center
+      .valor-description
+        font-size: 2rem
+        text-align: justify
+        font-weight: 500
+        letter-spacing: 1px
+        height: 8.5em
+        overflow: hidden
+
+.btn-more
+  color: $maincolor
+  border: $maincolor solid 1px
+  text-transform: uppercase
+  background: #ffffff
+  border-radius: 20px
+
+       
+
+
+.footer-address
+  background: #cbcbcb
+  float: left
+  width: 100%
+  padding: 60px 15px
+  .address-column1
+    margin-bottom: 30px
+    #contact
+      .contact-title
+        font-size: 3rem
+        color: #2f265a
+        font-weight: bold
+        text-transform: uppercase
+        letter-spacing: 2px
+        line-height: 6rem
+        margin-bottom: 2em 
+    #new_contact
+      color: #ffffff
+      .collumn2
+        min-height: 160px
+        display: flex
+        flex-direction: column
+        justify-content: space-between
+        .input-box
+          .contact-input
+            background: $maincolor
+            width: 100%
+            text-transform: uppercase
+            border: none
+            border-radius: 10px
+            height: 40px
+            padding-left: 10px
+          .contact-input::-webkit-input-placeholder
+            color: #ffffff
+      .collumn3
+        .input-box
+          .contact-input-m
+            background: $maincolor
+            width: 100%
+            text-transform: uppercase
+            border: none
+            border-radius: 10px
+            min-height: 160px
+            padding-left: 10px
+            padding-top: 10px
+          .contact-input-m::-webkit-input-placeholder
+            color: #ffffff
+        .contact-buttom-box
+          display: flex
+          margin-top: 10px
+          .btn-submit
+            color: #fff
+            background-color: $maincolor
+            border-color: #635ea9
+            width: 80px
+            border-radius: 10px
+            height: 40px
+
+  .address-column2
+    display: flex
+    flex-direction: column
+    min-height: 250px
+    justify-content: space-evenly
+    font-size: 1.2em
+    .phone-box
+      display: flex
+      .phone
+        padding-bottom: 10px
+        font-weight: bold
+        display: flex
+        .color
+          .fa-phone
+            transform: rotateY(180deg)
+            padding-left: 5px
+        span
+          margin-right: 70px
+    .email
+      a
+        color: #333333
+    .social-networks
+      display: flex
+      font-size: 20px
+      .midia-icon
+        margin-right: 15px
+        color: #333333
+    .address
+      line-height: 21px
+      letter-spacing: 1px
+      font-family: 'Poppins', sans-serif
+      margin-bottom: 10px
+      display: flex
+    .icon-contacts
+      display: flex
+      .color
+        margin-right: 5px
+  .address-column3
+    border-left: 2px #000 solid
+
+.g-recaptcha
+  transform: scale(0.80)
+  transform-origin: 0 0
+
+.footer-box
+  min-height: 2.5em
+  background: #585858
+  width: 100%
+  display: flex
+  align-content: center
+  justify-content: flex-end
+  .logo-acerte
+    padding-top: 10px
+      

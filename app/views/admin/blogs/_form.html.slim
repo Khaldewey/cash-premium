@@ -1,0 +1,25 @@
+h2 Post
+= simple_form_for [:admin, resource], :html => { :class => 'form-horizontal' } do |f|
+  section.panel.panel-default
+    header.panel-heading.font-bold
+      = resource.new_record? ? "Adicionar Post" : "Editar Post"
+    .panel-body
+      = f.input :title, :label => 'Titulo'
+      .line.line-dashed.b-b.line-lg.pull-in
+      = f.input :abstract, :label => 'Resumo'
+      .line.line-dashed.b-b.line-lg.pull-in
+      = f.input :published_at_string, as: :string, :label => 'Data de Publicação', input_html: { class: 'datetime', data: { :'date-format' => "DD/MM/YYYY" } }
+      .line.line-dashed.b-b.line-lg.pull-in
+      = f.input :image, as: :image_preview, :label => 'Imagem', :input_html => { :preview_version => :preview }
+      = f.hidden_field :image_cache
+      - if !resource.new_record? && resource.image.present?      
+        .form-group
+          label.remove-image-label
+            = f.check_box :remove_image, class: 'remove-image-checkbox'
+            |Remover Imagem
+           
+      .line.line-dashed.b-b.line-lg.pull-in
+      = f.input :content, :label => 'Conteúdo', :as => :ckeditor, :input_html => { :ckeditor => { :toolbar => 'Pure' } }
+
+
+  = render 'admin/shared/form_actions', f: f

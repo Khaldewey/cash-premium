@@ -1,0 +1,11 @@
+h2 Grupos
+= simple_form_for [:admin, resource], :html => { :class => 'form-horizontal' } do |f|
+  section.panel.panel-default
+    header.panel-heading.font-bold
+      = resource.new_record? ? "Adicionar Grupo" : "Editar Grupo #{resource.name}"
+    .panel-body  
+      = f.input :name, :label => 'Nome'
+      .line.line-dashed.b-b.line-lg.pull-in
+      = f.association :permissions, as: :check_boxes, :label => 'Permissões', wrapper: :horizontal_radio_and_checkboxes
+
+  = render 'admin/shared/form_actions', f: f

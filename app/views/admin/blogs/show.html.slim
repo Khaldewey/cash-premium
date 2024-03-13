@@ -1,0 +1,16 @@
+.container
+  .col-sm-12.col-xs-12
+    .row
+      .col-sm-7.col-xs-12
+        h6 Data de Publicação: #{l @blog.published_at, format: :date_month_name_year_concise}
+        h2 = @blog.title
+        h5 = @blog.abstract
+        - if @blog.image?
+          .row
+            .col-sm-12.col-xs-12
+              = image_tag @blog.image_url, class: 'img-responsive'
+        h5 = raw @blog.content
+
+#buttons.span12.left
+  - if can? :update, resource_class
+    = link_to 'Editar', edit_resource_path(resource), class: 'btn btn-success'

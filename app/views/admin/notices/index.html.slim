@@ -1,0 +1,61 @@
+h2 Categoria de Notícia - #{parent.name}
+.panel.panel-default
+  .panel-body
+    = simple_form_for :search, url: search_admin_notice_category_notices_path, html: {class: 'search-form'}, method: :get do |f|
+      .row
+        .col-md-3
+          = f.label :title, label: 'Título', required: false
+          = f.input_field :title, class: 'col-md-12 form-control'
+        .col-md-3
+          = f.label :published_at, label: 'Data de Criação (DD/MM/AAAA)', required: false
+          = f.input_field :published_at, class: 'col-md-12 form-control datetime', data: { :'date-format' => "DD/MM/YYYY" }
+        .col-md-1.mt-25
+          = f.submit 'Buscar', class: 'btn btn-primary'
+        .col-md-1.mt-25
+          = link_to 'Limpar Busca', '', class: 'btn btn-warning'
+-if collection.count > 5
+  = render 'admin/shared/create_only'
+
+.panel.panel-default
+  .table-responsive
+    table.table.table-striped.b-t.b-light
+      thead
+        tr
+          th Título
+          th Data de Publicação
+          th Está ativa?
+          th É Destaque?
+          th(width=310) Ações
+      tbody
+        - @collection.order(published_at: :desc).each do |r|
+          tr
+            td= r.title
+            td= r.published_at.strftime("%d/%m/%Y") if r.published_at.present?
+            td= r.is_active? ? 'Sim' : 'Não'
+            td
+              - if r.is_highlight?
+                = link_to admin_notice_is_highlight_path(r), method: :put, class: "btn btn-success" do
+                  = icon('fas', 'check')
+              - else
+                = link_to admin_notice_is_highlight_path(r), method: :put, class: "btn btn-danger" do
+                  = icon('fas', 'ban')
+            td.links-actions
+              - if can? :update, resource_class
+                = link_to edit_resource_path(r), class: "btn btn-info" do
+                  = icon('far', 'edit')
+              - if can? :destroy, resource_class
+                = link_to resource_path(r), method: :delete, class: "btn btn-danger", title: 'Apagar', data: { confirm: 'Tem Certeza?', toggle: 'tooltip' } do
+                  = icon('far', 'trash-alt')
+
+              = link_to admin_notice_category_notice_path(parent, r), target: "_blank", class: "btn btn-warning" do
+                = icon('far', 'eye')
+
+              - if r.is_active?
+                = link_to admin_notice_is_active_path(r), method: :put, class: "btn btn-danger" do
+                  = icon('fas', 'ban')
+              - else
+                = link_to admin_notice_is_active_path(r), method: :put, class: "btn btn-success" do
+                  = icon('fas', 'check')
+
+
+= render 'admin/shared/create'

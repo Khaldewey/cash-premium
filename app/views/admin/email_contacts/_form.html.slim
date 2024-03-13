@@ -1,0 +1,8 @@
+h2= parent.name
+= simple_form_for [:admin, parent, resource], :html => { :class => 'form-horizontal' } do |f|
+  section.panel.panel-default
+    header.panel-heading.font-bold
+      = resource.new_record? ? "Adicionar Email" : "Editar Email #{resource.email}"
+    .panel-body  
+      = f.input :email, :label => 'Email'
+  = render 'admin/shared/form_actions', f: f

@@ -1,0 +1,19 @@
+h2 Permissões
+.panel.panel-default
+  .table-responsive
+    table.table.table-striped.b-t.b-light
+      thead
+        tr
+          th.text-center Modelo
+          th.text-center Ação
+          th.text-center Descrição
+          th.text-center(width=210) Ações
+      tbody    
+        - collection.each do |r|
+          tr
+            td.text-center= r.object_type
+            td.text-center= r.action_name
+            td.text-center= r.description
+            td.text-center.links-actions
+              = render 'admin/shared/actions', r: r
+= render 'admin/shared/create'

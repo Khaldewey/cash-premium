@@ -1,0 +1,18 @@
+pt-BR:
+  activerecord:
+    models:
+      article_category: Categoria de Conteúdo
+      article: Conteúdo
+      banner: Banner
+      banner_category: Categoria de Banner
+      newsletter: Newsletter
+      page: Página
+      page_image: Imagens para Página
+      image: Imagens para Conteúdo
+      localization: Localização
+      phone: Telefone
+      email_category: Categoria de Email
+      email_contact: Email de contato
+      social_network: Rede Social
+      role: Grupo
+      user: Usuário

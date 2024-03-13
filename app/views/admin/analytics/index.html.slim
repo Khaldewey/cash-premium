@@ -1,0 +1,15 @@
+h2 Google Analytics
+.panel.panel-default
+  .table-responsive
+    table.table.table-striped.b-t.b-light
+      thead
+        tr
+          th Token
+          th(width=310) Ações
+      tbody
+        - collection.each do |r|
+          tr
+            td= r.tag
+            td.links-actions
+              = render 'admin/shared/actions', r: r
+= render 'admin/shared/create'

@@ -1,0 +1,89 @@
+section#agreement
+  .container
+    .col-sm-12.banner-box-external
+       h2 
+       h3 Adicionar Bloqueio de Transmissão 
+    = form_for [current_membro_cliente, Blockage.new] do |f|
+      .form-group
+        = f.label :data_hora_inicio, 'Data e Hora de Início'
+        = f.datetime_field :data_hora_inicio, class: 'form-control'
+      
+      .form-group
+        = f.label :data_hora_final, 'Data e Hora Final'
+        = f.datetime_field :data_hora_final, class: 'form-control' 
+      
+      .form-group
+        /= label 'Tipo', for: 'tipo-dropdown'
+        = select_tag 'tipo-dropdown', options_for_select(['Selecione o tipo', 'YouTube', 'Vimeo', 'Imagem']), id: 'tipo-dropdown', class: 'form-control'
+  
+     
+       
+            
+
+      .form-group#youtube-field(style='display: none;')
+        = f.label :link_youtube, 'Link do YouTube'
+        = f.text_field :link_youtube, id: 'link-youtube', class: 'form-control'
+        /= label 'Link do YouTube', for: 'link-youtube'
+        /= text_field_tag 'link-youtube', nil, id: 'link-youtube', class: 'form-control'
+
+      .form-group#vimeo-field(style='display: none;')
+        = f.label :link_vimeo, 'Link do Vimeo'
+        = f.text_field :link_vimeo, id: 'link-vimeo', class: 'form-control'
+        /= label 'Link do Vimeo', for: 'link-vimeo'
+        /= text_field_tag 'link-vimeo', nil, id: 'link-vimeo', class: 'form-control'
+
+      .form-group#imagem-field(style='display: none;')
+        = f.file_field :link_imagem, as: :image_preview, :label => 'Imagem', id: 'link-imagem', :input_html => { :preview_version => :preview }, hint: "Largura: 458px  - Altura: 458px "
+        /= label 'Link da Imagem', for: 'link-imagem'
+        /= text_field_tag 'link-imagem', nil, id: 'link-imagem', class: 'form-control'
+      
+      /.form-group
+        = f.label :link_youtube, 'Link do YouTube'
+        = f.text_field :link_youtube, class: 'form-control'
+      
+      /.form-group
+        = f.label :link_vimeo, 'Link do Vimeo'
+        = f.text_field :link_vimeo, class: 'form-control'
+      
+      /.form-group
+        = f.label :link_imagem, 'Link da Imagem'
+        = f.text_field :link_imagem, class: 'form-control'
+      
+      .form-group(style='display: none;')
+        = f.label :url_stream_id, 'Url Stream', style: 'display: none;'
+        = f.collection_select :url_stream_id, UrlStream.where(customer_id: current_membro_cliente.customer_id), :id, :url, prompt: 'Selecione um Url Stream', class: 'form-control', selected: 1, style: 'display: none;'
+      
+      .form-group
+        = f.label :status, 'Status'
+        = f.check_box :status, class: 'form-check-input'
+    
+      = f.submit 'Adicionar Blockage', class: 'btn btn-primary'
+
+    h2 Lista de Bloqueios
+
+    table.table
+      thead
+        tr
+          th Data de Início
+          th Data de Término
+          th Link do YouTube
+          th Link do Vimeo
+          th Link da Imagem
+          th Status
+
+      tbody
+        - @blockages.each do |blockage|
+          tr
+            td= blockage.data_hora_inicio
+            td= blockage.data_hora_final
+            td= blockage.link_youtube
+            td= blockage.link_vimeo
+            td= blockage.link_imagem
+            td= blockage.status 
+
+    .button-container
+      button#copy-link Copiar Iframe
+      iframe(width="100%" height="665" frameborder="0" scrolling="no" src= @cliente_url style="border: 0; outline: 0;")
+      
+
+    
