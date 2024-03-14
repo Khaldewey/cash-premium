@@ -1,5 +1,5 @@
 class Member::RegistrationsController < Devise::RegistrationsController
-  layout 'member'
+  layout 'login'
 
   before_action :defaults
 
@@ -10,5 +10,9 @@ class Member::RegistrationsController < Devise::RegistrationsController
   def account_update_params
     params.require(:member).permit(:name, :email, :phone, :password, :password_confirmation, :current_password)
   end 
+
+  def sign_up_params
+    params.require(:member).permit(:email, :password, :password_confirmation, :name, :phone)
+  end
 
 end

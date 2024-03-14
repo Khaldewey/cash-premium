@@ -49,9 +49,9 @@ $(function() {
     $(".dropdown-menu").slideToggle();
   });
 
-  $("#phone_phone").inputmask("(99)[9]9999-9999").on("focusout", function () {
+  $("#phone_phone, #phone_field").inputmask("(99)[9]9999-9999").on("focusout", function () {
     var len = this.value.replace(/\D/g, '').length;
-    $(this).inputmask(len > 10 ? "(99)[9]99999-9999" : "(99) 9999-9999");
+    $(this).inputmask(len > 10 ? "(99)[9]9999-9999" : "(99) 9999-9999");
   });
 
   $('[data-toggle="tooltip"]').tooltip();
@@ -85,5 +85,7 @@ $(function() {
     toastr.success($('.notice').text(), "Sucesso!", options);  
 
   if($('.alert').text() !== "") 
-    toastr.error($('.alert').text(), "Falha!", options);
+    toastr.error($('.alert').text(), "Falha!", options); 
+
+  
 });

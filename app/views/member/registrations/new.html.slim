@@ -1,0 +1,17 @@
+.sign-up
+  h2 Cadastre-se
+
+  = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'form-horizontal' }) do |f|
+    = f.error_notification
+
+    .form-inputs
+       = f.input :email,  label: 'Email', input_html: { id: 'email_field' }
+       = f.input :name,  label: 'Nome'
+       = f.input :phone,  label: 'Telefone', input_html: { id: 'phone_field' }
+       = f.input :password, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length), label: 'Senha'
+       = f.input :password_confirmation, label: 'Repita a senha'
+
+    .form-actions
+      = f.button :submit, "Enviar"
+
+= render "member/shared/links"
