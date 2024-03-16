@@ -143,15 +143,6 @@ ActiveRecord::Schema.define(version: 2024_03_11_170333) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "lottery_quota", force: :cascade do |t|
-    t.bigint "lottery_id"
-    t.bigint "quota_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["lottery_id"], name: "index_lottery_quota_on_lottery_id"
-    t.index ["quota_id"], name: "index_lottery_quota_on_quota_id"
-  end
-
   create_table "members", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -261,13 +252,6 @@ ActiveRecord::Schema.define(version: 2024_03_11_170333) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "quota", force: :cascade do |t|
-    t.boolean "purchased"
-    t.integer "ticket"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "roles", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -325,8 +309,6 @@ ActiveRecord::Schema.define(version: 2024_03_11_170333) do
   add_foreign_key "articles", "article_categories"
   add_foreign_key "banners", "banner_categories"
   add_foreign_key "email_contacts", "email_categories"
-  add_foreign_key "lottery_quota", "lotteries"
-  add_foreign_key "lottery_quota", "quota", column: "quota_id"
   add_foreign_key "notices", "notice_categories"
   add_foreign_key "page_images", "pages"
   add_foreign_key "permissions_roles", "permissions"

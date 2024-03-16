@@ -2,9 +2,9 @@ class MembroCliente::EditPasswordController < MembroCliente::ApplicationControll
   #load_and_authorize_resource :membro_cliente
 
   def update
-    if params[:user][:password].blank?
-      params[:user].delete(:password)
-      params[:user].delete(:password_confirmation)
+    if params[:member][:password].blank?
+      params[:member].delete(:password)
+      params[:member].delete(:password_confirmation)
     end
 
     update! { collection_path }
@@ -28,7 +28,7 @@ class MembroCliente::EditPasswordController < MembroCliente::ApplicationControll
 
   private
   def member_params
-    params.require(:membro_cliente).permit(:password, :password_confirmation)
+    params.require(:member).permit(:password, :password_confirmation)
   end
 
 end

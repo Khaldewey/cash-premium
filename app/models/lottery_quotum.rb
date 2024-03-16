@@ -1,2 +1,0 @@
-class LotteryQuotum < ApplicationRecord
-end

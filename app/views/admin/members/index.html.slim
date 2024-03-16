@@ -1,0 +1,15 @@
+h2 Telefones
+.panel.panel-default
+  .table-responsive
+    table.table.table-striped.b-t.b-light
+      thead
+        tr
+          th.text-center Telefone
+          th.text-center(width=210) Ações
+      tbody
+        - collection.order(id: :desc).each do |r|
+          tr
+            td.text-center= r.phone
+            td.text-center.links-actions
+              = render 'admin/shared/actions', r: r
+= render 'admin/shared/create'

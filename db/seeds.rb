@@ -17,7 +17,10 @@ models = {
   'Video' => 'Vídeo',
   'Blog' => 'Blog',
   'Role' => 'Grupo',
-  'User' => 'Usuário'
+  'User' => 'Usuário',
+  'Lottery' => 'Loteria',
+  'Quota' => 'Cotas',
+  'Member' => 'Clientes'
 }
 
 actions = { 'create' => 'adicionar', 'read' => 'visualizar', 'update' => 'editar', 'destroy' => 'remover' }

@@ -8,8 +8,8 @@
        = f.input :email,  label: 'Email', input_html: { id: 'email_field' }
        = f.input :name,  label: 'Nome'
        = f.input :phone,  label: 'Telefone', input_html: { id: 'phone_field' }
-       = f.input :password, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length), label: 'Senha'
-       = f.input :password_confirmation, label: 'Repita a senha'
+       = f.input :password, hint: ("#{@minimum_password_length} carácteres mínimo" if @minimum_password_length), label: 'Senha'
+       = f.input :password_confirmation, placeholder: 'Repita a Senha', label_html: { style: 'visibility: hidden;' }
 
     .form-actions
       = f.button :submit, "Enviar"

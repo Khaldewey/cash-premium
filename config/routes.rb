@@ -37,7 +37,8 @@ Target::Application.routes.draw do
 
     resources :email_categories do
       resources :email_contacts
-    end
+    end 
+    
 
     resources :banner_categories do
       resources :banners do
@@ -53,13 +54,26 @@ Target::Application.routes.draw do
           post :update_position
         end
       end
-    end
+    end 
+    
+    resources :lotteries do
+      collection do
+        get 'search' => 'lotteries#search', as: :search
+      end
+    end 
+
+    
+    resources :members do
+      collection do
+        get 'search' => 'members#search', as: :search
+      end
+    end 
 
     resources :blogs do
       collection do
         get 'search' => 'blogs#search', as: :search
       end
-    end
+    end 
 
     resources :tutorials do
       collection do

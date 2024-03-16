@@ -183,7 +183,20 @@ html lang="pt-BR"
                               span.font-bold Grupos
                             = nav_link_to admin_permissions_path, {:class => 'menu_link'}, {:wrapper => 'li', :wrapper_class => 'item_menu', :selected_class => 'active', :url_segment => 2 }
                               = icon('far', 'circle', class: 'text-success-lt')
-                              span.font-bold Ações                              
+                              span.font-bold Ações 
+                      .text-muted.text-sm.hidden-nav-xs.padder.m-t-sm.m-b-sm Área Restrita 
+                      - if can? :read, Member
+                        = nav_link_to admin_members_path, {:class => 'menu_link'}, {:wrapper => 'li', :wrapper_class => 'item_menu', :selected_class => 'active', :url_segment => 2 } do
+                          = icon('fas', 'users')
+                          span.font-bold Clientes  
+                      - if can? :read, Lottery
+                        = nav_link_to admin_lotteries_path, {:class => 'menu_link'}, {:wrapper => 'li', :wrapper_class => 'item_menu', :selected_class => 'active', :url_segment => 2 } do
+                          = icon('fas', 'traffic-light')
+                          span.font-bold Loteria 
+                      /- if can? :read, Quota
+                        = nav_link_to admin_quota_path, {:class => 'menu_link'}, {:wrapper => 'li', :wrapper_class => 'item_menu', :selected_class => 'active', :url_segment => 2 } do
+                          = icon('fas', 'traffic-light')
+                          span.font-bold Cotas
                 footer.footer.hidden-xs.no-padder.text-center-nav-xs
                   a.btn.btn-icon.icon-muted.btn-inactive.m-l-xs.m-r-xs data-toggle="class:nav-xs" href="#nav"
                     .text
