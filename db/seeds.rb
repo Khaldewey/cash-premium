@@ -19,7 +19,6 @@ models = {
   'Role' => 'Grupo',
   'User' => 'Usuário',
   'Lottery' => 'Loteria',
-  'Quota' => 'Cotas',
   'Member' => 'Clientes'
 }
 

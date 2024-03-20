@@ -1,9 +1,13 @@
-h2 Telefone
+h2 Clientes
 = simple_form_for [:admin, resource], :html => { :class => 'form-horizontal' } do |f|
   section.panel.panel-default
     header.panel-heading.font-bold
-      = resource.new_record? ? "Adicionar Telefone" : "Editar Telefone #{resource.phone}"
-    .panel-body    
+      /= resource.new_record? ? "Adicionar Telefone" : "Editar Telefone #{resource.phone}"
+    .panel-body
+      = f.input :name, :label => 'Nome'
+      = f.input :email, :label => 'E-mail'    
       = f.input :phone, :label => 'Telefone'
+      = f.input :password, :label => 'Senha'
+      = f.input :password_confirmation, :label => 'Repita a Senha'
 
   = render 'admin/shared/form_actions', f: f
