@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_03_20_225400) do
+ActiveRecord::Schema.define(version: 2024_03_21_221943) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -142,6 +142,7 @@ ActiveRecord::Schema.define(version: 2024_03_20_225400) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "ticket"
+    t.boolean "status"
   end
 
   create_table "members", force: :cascade do |t|
@@ -155,7 +156,9 @@ ActiveRecord::Schema.define(version: 2024_03_20_225400) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.jsonb "tickets", default: []
+    t.bigint "lottery_id"
     t.index ["email"], name: "index_members_on_email", unique: true
+    t.index ["lottery_id"], name: "index_members_on_lottery_id"
     t.index ["reset_password_token"], name: "index_members_on_reset_password_token", unique: true
   end
 
@@ -311,6 +314,7 @@ ActiveRecord::Schema.define(version: 2024_03_20_225400) do
   add_foreign_key "articles", "article_categories"
   add_foreign_key "banners", "banner_categories"
   add_foreign_key "email_contacts", "email_categories"
+  add_foreign_key "members", "lotteries"
   add_foreign_key "notices", "notice_categories"
   add_foreign_key "page_images", "pages"
   add_foreign_key "permissions_roles", "permissions"

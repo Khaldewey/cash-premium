@@ -22,8 +22,7 @@ Target::Application.routes.draw do
     get 'edit_password', to: 'users#edit_password',  as: :edit_password
     patch 'update_password', to: 'users#update_password',  as: :update_password
 
-    put 'notice_is_active/:slug', to: 'notices#is_active', as: :notice_is_active
-    put 'notice_is_highlight/:slug', to: 'notices#is_highlight', as: :notice_is_highlight
+    put 'active_lottery/:slug', to: 'lotteries#active_lottery', as: :active_lottery
 
     resources :article_categories do
       resources :articles do
@@ -98,6 +97,8 @@ Target::Application.routes.draw do
     get '/editar-senha' => 'edit_password#new', as: :edit_password
     patch '/editar-senha/password' => 'edit_password#update_password', as: :update_password
     
+    get 'comprar-ticket/:id' => 'home#new', as: :new_ticket
+    post 'comprar' => 'home#create', as: :lottery_tickets
     root to: 'home#index'
   end
 
