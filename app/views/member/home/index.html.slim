@@ -1,11 +1,13 @@
 section#agreement
   .container
-    h1 Loterias Disponíveis
-    - @lotteries.each do |lottery|
-      div
-        h2 = lottery.event
-        p = lottery.date_event.strftime("%d/%m/%Y")
-        = link_to 'Participar', member_new_ticket_path(id: lottery.id)
+    
+      - @lotteries.present?
+        h1 Loterias Disponíveis
+        - @lotteries.each do |lottery|
+          div
+            h2 = lottery.event
+            p = lottery.date_event.strftime("%d/%m/%Y")
+            = link_to 'Participar', member_new_ticket_path(id: lottery.id)
 
       
     

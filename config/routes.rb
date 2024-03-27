@@ -2,13 +2,7 @@ Target::Application.routes.draw do
   
   mount Ckeditor::Engine => '/ckeditor'
 
-  get '/contato' => 'frontend/contact#new', as: :contact
-
-  post '/contato/enviar' => 'frontend/contact#send_contact', as: :send_contact
-
-  post '/newsletter/cadastrar' => 'frontend/home#create_newsletter', as: :create_newsletter
-
-  get '/pagina/:slug' => 'frontend/pages#show', as: :page
+  
 
   %w( 404 422 500 ).each do |code|
     get code, :to => "errors#show", :code => code
@@ -102,5 +96,5 @@ Target::Application.routes.draw do
     root to: 'home#index'
   end
 
-  root to: 'frontend/home#index'
+  root to: 'member/home#index'
 end
