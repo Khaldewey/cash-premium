@@ -1,13 +1,24 @@
 section#agreement
   .container
     
-      - @lotteries.present?
-        h1 Loterias Disponíveis
-        - @lotteries.each do |lottery|
+    h1 Loterias Disponíveis
+    - @lotteries.each do |lottery|
+      - if @tickets.present?
+        - if @tickets == lottery.ticket
+          div
+            h2 = lottery.event
+            p = lottery.date_event.strftime("%d/%m/%Y")
+            p Cotas esgotadas
+        - else
           div
             h2 = lottery.event
             p = lottery.date_event.strftime("%d/%m/%Y")
             = link_to 'Participar', member_new_ticket_path(id: lottery.id)
+      - else
+        div
+          h2 = lottery.event
+          p = lottery.date_event.strftime("%d/%m/%Y")
+          = link_to 'Participar', member_new_ticket_path(id: lottery.id)
 
-      
+        
     

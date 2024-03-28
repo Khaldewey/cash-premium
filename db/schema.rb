@@ -141,8 +141,8 @@ ActiveRecord::Schema.define(version: 2024_03_21_221943) do
     t.datetime "date_event"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "ticket"
     t.boolean "status"
+    t.integer "ticket"
   end
 
   create_table "members", force: :cascade do |t|
@@ -155,8 +155,8 @@ ActiveRecord::Schema.define(version: 2024_03_21_221943) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.jsonb "tickets", default: []
     t.bigint "lottery_id"
+    t.jsonb "tickets", default: {}
     t.index ["email"], name: "index_members_on_email", unique: true
     t.index ["lottery_id"], name: "index_members_on_lottery_id"
     t.index ["reset_password_token"], name: "index_members_on_reset_password_token", unique: true
