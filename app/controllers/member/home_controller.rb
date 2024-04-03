@@ -1,8 +1,10 @@
 class Member::HomeController < Member::ApplicationController
   def index
     @lotteries = Lottery.where(status: true)
-    @members = Member.where(lottery_id: @lotteries.first.id)
-    @tickets = contar_numeros(@members)
+    if @lotteries.present?
+      @members = Member.where(lottery_id: @lotteries.first.id)
+      @tickets = contar_numeros(@members)
+    end
     # -raise
   end 
 
