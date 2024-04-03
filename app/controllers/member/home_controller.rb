@@ -30,7 +30,10 @@ class Member::HomeController < Member::ApplicationController
     @lottery = Lottery.find(params[:id])
     @member = current_member 
     numbers_count = params[:member][:quantity].to_i
-
+    @all_numbers = []
+    @all_numbers = verificar_numeros_participantes(Member.all).flatten
+    
+    -raise
     if @member.tickets == nil || @member.tickets.empty?
       selected_numbers = []
       while selected_numbers.length < numbers_count do
@@ -76,5 +79,12 @@ class Member::HomeController < Member::ApplicationController
     end
   end
   
+  def verificar_numeros_participantes(membros)
+    flag_array = []
+    membros.each do |membro|
+      flag_array << membro.tickets.values.flatten
+    end
+    return flag_array
+  end
 
 end
