@@ -31,14 +31,15 @@ class Member::HomeController < Member::ApplicationController
     @member = current_member 
     numbers_count = params[:member][:quantity].to_i
     @all_numbers = []
-    @all_numbers = verificar_numeros_participantes(Member.all).flatten
-    
-    -raise
+    @all_numbers = verificar_numeros_participantes(Member.where(lottery_id: @lottery.id)).flatten
+
     if @member.tickets == nil || @member.tickets.empty?
+      available_numbers = ((1..@lottery.ticket).to_a - @all_numbers)
+      selected_numbers = available_numbers.sample(numbers_count)
       selected_numbers = []
       while selected_numbers.length < numbers_count do
         new_number = (1..@lottery.ticket).to_a.sample
-        selected_numbers << new_number unless selected_numbers.include?(new_number)
+        selected_numbers << new_number unless selected_numbers.include?(new_number) || @all_numbers.include?(new_number)
       end
       @member.lottery_id = @lottery.id
       @member.tickets ||= {} 
@@ -48,26 +49,30 @@ class Member::HomeController < Member::ApplicationController
     else
       
       if @member.tickets.keys.first.to_i == @lottery.id
-        
-        selected_numbers = (1..@lottery.ticket).to_a.sample(numbers_count)
+        available_numbers = ((1..@lottery.ticket).to_a - @all_numbers)
+        selected_numbers = available_numbers.sample(numbers_count)
+        # selected_numbers = (1..@lottery.ticket).to_a.sample(numbers_count)
         selected_numbers.each_with_index do |number, index|
           if @member.tickets[@lottery.id.to_s].include?(number)
-            available_numbers = ((1..@lottery.ticket).to_a - @member.tickets[@lottery.id.to_s])
+            available_numbers = ((1..@lottery.ticket).to_a - @member.tickets[@lottery.id.to_s] - @all_numbers)
             new_number = available_numbers.sample(1).first
+            # -raise
             selected_numbers[index] = new_number  # Substitui o número existente pelo novo número
           end
         end
         @member.tickets[@lottery.id.to_s].concat(selected_numbers)
          
       else
-        selected_numbers = []
+        available_numbers = ((1..@lottery.ticket).to_a - @all_numbers)
+        selected_numbers = available_numbers.sample(numbers_count)
         while selected_numbers.length < numbers_count do
           new_number = (1..@lottery.ticket).to_a.sample
-          selected_numbers << new_number unless selected_numbers.include?(new_number)
+          selected_numbers << new_number unless selected_numbers.include?(new_number) || @all_numbers.include?(new_number)
         end
         @member.lottery_id = @lottery.id
         @member.tickets[@lottery.id] ||= [] 
         @member.tickets[@lottery.id] += selected_numbers
+        # -raise
       end
     end
     
@@ -82,7 +87,9 @@ class Member::HomeController < Member::ApplicationController
   def verificar_numeros_participantes(membros)
     flag_array = []
     membros.each do |membro|
-      flag_array << membro.tickets.values.flatten
+      unless membro.tickets.empty?
+        flag_array << membro.tickets.values.flatten
+      end
     end
     return flag_array
   end
