@@ -3,8 +3,9 @@ section#agreement
     
     h1 Loterias Disponíveis
     - @lotteries.each do |lottery|
-      - if @tickets.present?
-        - if @tickets == lottery.ticket
+
+      - if Member.where("tickets->>:lottery_id IS NOT NULL", lottery_id: lottery.id.to_s).present?
+        - if contar_numeros(Member.where("tickets->>:lottery_id IS NOT NULL", lottery_id: lottery.id.to_s), lottery.id) == lottery.ticket
           div
             h2 = lottery.event
             p = lottery.date_event.strftime("%d/%m/%Y")

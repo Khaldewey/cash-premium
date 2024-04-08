@@ -1,24 +1,25 @@
 class Member::HomeController < Member::ApplicationController
   def index
     @lotteries = Lottery.where(status: true)
-    if @lotteries.present?
-      @members = Member.where(lottery_id: @lotteries.first.id)
-      @tickets = contar_numeros(@members)
-    end
-    # -raise
+    # if @lotteries.present?
+    #   @members = Member.where(lottery_id: @lotteries.first.id)
+    #   @tickets = contar_numeros(@members)
+    # end
+    
   end 
 
-  def contar_numeros(membros)
+  def contar_numeros(membros, id)
     total_numeros = 0
     membros.each do |membro|
       if membro[:tickets].empty?
         break
       else
-        total_numeros += membro[:tickets][membro.lottery_id.to_s].count
+        total_numeros += membro[:tickets][id.to_s].count
       end
     end
     
     return total_numeros
+   
   end
   
   def new
@@ -92,6 +93,8 @@ class Member::HomeController < Member::ApplicationController
       end
     end
     return flag_array
-  end
+  end 
+
+  helper_method :contar_numeros
 
 end
