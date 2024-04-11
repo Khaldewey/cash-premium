@@ -32,7 +32,7 @@ class Member::HomeController < Member::ApplicationController
     @member = current_member 
     numbers_count = params[:member][:quantity].to_i
     @all_numbers = []
-    @all_numbers = verificar_numeros_participantes(Member.where(lottery_id: @lottery.id)).flatten
+    @all_numbers = verificar_numeros_participantes(Member.where("tickets @> ?", { @lottery.id.to_s => [] }.to_json), @lottery.id).flatten
 
     if @member.tickets == nil || @member.tickets.empty?
       available_numbers = ((1..@lottery.ticket).to_a - @all_numbers)
@@ -49,7 +49,8 @@ class Member::HomeController < Member::ApplicationController
       # -raise
     else
       
-      if @member.tickets.keys.first.to_i == @lottery.id
+      if @member.tickets.keys.include?(@lottery.id.to_s)
+        # -raise
         available_numbers = ((1..@lottery.ticket).to_a - @all_numbers)
         selected_numbers = available_numbers.sample(numbers_count)
         # selected_numbers = (1..@lottery.ticket).to_a.sample(numbers_count)
@@ -57,7 +58,6 @@ class Member::HomeController < Member::ApplicationController
           if @member.tickets[@lottery.id.to_s].include?(number)
             available_numbers = ((1..@lottery.ticket).to_a - @member.tickets[@lottery.id.to_s] - @all_numbers)
             new_number = available_numbers.sample(1).first
-            # -raise
             selected_numbers[index] = new_number  # Substitui o número existente pelo novo número
           end
         end
@@ -85,11 +85,12 @@ class Member::HomeController < Member::ApplicationController
     end
   end
   
-  def verificar_numeros_participantes(membros)
+  def verificar_numeros_participantes(membros, id)
+
     flag_array = []
     membros.each do |membro|
-      unless membro.tickets.empty?
-        flag_array << membro.tickets.values.flatten
+      unless membro.tickets[id.to_s].empty?
+        flag_array << membro.tickets[id.to_s].flatten
       end
     end
     return flag_array
