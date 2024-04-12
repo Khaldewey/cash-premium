@@ -1,5 +1,5 @@
 = form_with(model: [@lottery, @member], url: member_lottery_tickets_path(id: @lottery.id), method: :post) do |form|
   .field
     = form.label :quantity, "Quantidade de Números"
-    = form.number_field :quantity, min: 1, max: @lottery.ticket, step: 1
+    = form.number_field :quantity, min: 1, max: @lottery.ticket - contar_numeros(Member.where("tickets->>:lottery_id IS NOT NULL", lottery_id: @lottery.id.to_s), @lottery.id), step: 1
   = form.submit "Escolher Números"
