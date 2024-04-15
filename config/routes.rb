@@ -53,8 +53,9 @@ Target::Application.routes.draw do
       collection do
         get 'search' => 'lotteries#search', as: :search
       end
+      get 'to_rank', to: 'lotteries#to_rank',  as: :to_rank
     end 
-
+    
     
     resources :members do
       collection do

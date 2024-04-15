@@ -1,0 +1,9 @@
+- if can? :to_rank, resource_class
+  = link_to admin_lottery_to_rank_path(lottery_id: r.id), class: "btn btn-info", title: 'Sortear', data: { toggle: 'tooltip'} do
+    = icon('fas', 'arrow-right')    
+- if can? :destroy, resource_class
+  = link_to resource_path(r), method: :delete, class: "btn btn-danger", title: 'Apagar', data: { confirm: 'Tem Certeza?', toggle: 'tooltip' } do
+    = icon('far', 'trash-alt') 
+- if can? :update, resource_class
+  = link_to edit_resource_path(r), class: "btn btn-info", title: 'Editar', data: { toggle: 'tooltip'} do
+    = icon('far', 'edit')
