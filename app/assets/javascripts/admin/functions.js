@@ -85,5 +85,42 @@ $(function() {
     toastr.success($('.notice').text(), "Sucesso!", options);  
 
   if($('.alert').text() !== "") 
-    toastr.error($('.alert').text(), "Falha!", options);
+    toastr.error($('.alert').text(), "Falha!", options); 
+
+  // Função para animar o realce
+  function animateHighlight() {
+    var sortedNumber = $('#sorted-number').data('sorted-number'); // Obtém o número sorteado
+    var highlightColors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff']; // Cores para realçar
+    var currentIndex = 0;
+
+    // Função para animar o realce de um número
+    function highlightNumber(index) {
+      $('.participant-number').eq(index).css('color', highlightColors[index % highlightColors.length]);
+      if (index > 0) {
+        $('.participant-number').eq(index - 1).css('color', ''); // Remove o realce do número anterior
+      }
+    }
+
+    // Realiza a animação de realce
+    var highlightInterval = setInterval(function() {
+      highlightNumber(currentIndex);
+      currentIndex++;
+
+      // Se chegou ao final, para a animação
+      if (currentIndex >= $('.participant-number').length) {
+        clearInterval(highlightInterval);
+        $('#sorted-number').text(sortedNumber).css('color', 'black'); // Define o número sorteado e realça em preto
+      }
+
+      // Se o número atual é o sorteado, para a animação
+      if ($('.participant-number').eq(currentIndex - 1).text() == sortedNumber || sortedNumber === 'null') {
+        clearInterval(highlightInterval);
+        $('#sorted-number').text(sortedNumber).css('color', 'black'); // Define o número sorteado e realça em preto
+      }
+    }, 400); // Intervalo de 1 segundo entre os realces
+  }
+
+  // Chama a função para animar o realce
+  animateHighlight();
+
 });

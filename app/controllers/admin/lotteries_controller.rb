@@ -12,9 +12,15 @@ class Admin::LotteriesController < Admin::ResourceController
 
   def to_rank
     @lottery = Lottery.find_by_id(params[:lottery_id])
-    @all_numbers = []
-    @all_numbers = verificar_numeros_participantes(Member.where("tickets @> ?", { @lottery.id.to_s => [] }.to_json), @lottery.id).flatten
-    
+    if @lottery.result == nil
+      @all_numbers = []
+      @all_numbers = verificar_numeros_participantes(Member.where("tickets @> ?", { @lottery.id.to_s => [] }.to_json), @lottery.id).flatten
+      @lottery.result = @all_numbers.sample
+      @lottery.save
+    else
+      @all_numbers = []
+      @all_numbers = verificar_numeros_participantes(Member.where("tickets @> ?", { @lottery.id.to_s => [] }.to_json), @lottery.id).flatten
+    end
   end 
 
 
