@@ -33,7 +33,7 @@ class Member::HomeController < Member::ApplicationController
     numbers_count = params[:member][:quantity].to_i
     @all_numbers = []
     @all_numbers = verificar_numeros_participantes(Member.where("tickets @> ?", { @lottery.id.to_s => [] }.to_json), @lottery.id).flatten
-
+    #Aqui entra o método para verificar se o pagamento foi efetuado
     if @member.tickets == nil || @member.tickets.empty?
       available_numbers = ((1..@lottery.ticket).to_a - @all_numbers)
       selected_numbers = available_numbers.sample(numbers_count)
@@ -95,6 +95,28 @@ class Member::HomeController < Member::ApplicationController
     end
     return flag_array
   end 
+
+  private
+
+  def make_pix_payment(member, lottery)
+    mp = MercadoPago.new('SEU_ACCESS_TOKEN') # Substitua pelo seu access token do Mercado Pago
+
+    preference_data = {
+      items: [
+        {
+          title: "Compra de Números para Sorteio",
+          quantity: 1,
+          currency_id: "BRL",
+          unit_price: 1.0 # Substitua pelo valor do pagamento
+        }
+      ],
+      external_reference: member.id.to_s # Referência externa para identificar o pagamento
+    }
+
+    preference = mp.create_preference(preference_data)
+
+    preference["response"]
+  end
 
   helper_method :contar_numeros
 
