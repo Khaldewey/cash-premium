@@ -15,10 +15,10 @@
   = f.button :submit, "Entrar", class: 'btn-login'
 .sign-up
   .text-center.m-t.m-b
-  = link_to new_password_path(resource_name) do
+  = link_to new_member_password_path() do
     .small
       | Perdeu sua senha?
-  = link_to new_registration_path(resource_name) do
+  = link_to new_member_registration_path() do
     .small
       | Cadastre-se
 
