@@ -79,7 +79,11 @@ class Member::HomeController < Member::ApplicationController
     
     
     if @member.save
-      redirect_to member_root_path, notice: "Números selecionados com sucesso!"
+      #configuração pagamento pix 
+      mercado_pago_service = MercadoPagoService.new('SEU_ACCESS_TOKEN')
+      preference = mercado_pago_service.create_pix_preference(@member, @lottery, params[:member][:quantity].to_i * 1.0) # Substitua pelo valor real
+      redirect_to preference['init_point'], notice: "Pagamento iniciado com sucesso!"
+      # redirect_to member_root_path, notice: "Números selecionados com sucesso!"
     else
       render :new
     end
@@ -95,28 +99,6 @@ class Member::HomeController < Member::ApplicationController
     end
     return flag_array
   end 
-
-  private
-
-  def make_pix_payment(member, lottery)
-    mp = MercadoPago.new('SEU_ACCESS_TOKEN') # Substitua pelo seu access token do Mercado Pago
-
-    preference_data = {
-      items: [
-        {
-          title: "Compra de Números para Sorteio",
-          quantity: 1,
-          currency_id: "BRL",
-          unit_price: 1.0 # Substitua pelo valor do pagamento
-        }
-      ],
-      external_reference: member.id.to_s # Referência externa para identificar o pagamento
-    }
-
-    preference = mp.create_preference(preference_data)
-
-    preference["response"]
-  end
 
   helper_method :contar_numeros
 
