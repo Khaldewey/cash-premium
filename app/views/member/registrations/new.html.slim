@@ -1,17 +1,36 @@
-.sign-up
-  h2 Cadastre-se
 
-  = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'form-horizontal' }) do |f|
-    = f.error_notification
+.form-container
+    = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'form-horizontal' }) do |f|
+        .login-container 
+            .header-title 
+                h3 CADASTRO
+                p Faça o cadastro para iniciar suas apostas!
+            .input-container 
+                .input-box 
+                    .text-i = icon('fas', 'envelope')
+                    = f.input_field :email, placeholder: 'Digite seu E-mail', required: false, autofocus: true, class: 'login-input'
+                .input-box 
+                    .text-i = icon('fas', 'id-card')
+                    = f.input_field :name, placeholder: 'Digite seu Nome', required: false, class: 'login-input'
+                .input-box 
+                    .text-i = icon('fas', 'mobile')
+                    = f.input_field :phone,  label: 'Telefone', placeholder: 'Digite seu Telefone', input_html: { id: 'phone_field' }, class: 'login-input'
+                .input-box 
+                    .text-i = icon('fas', 'lock')
+                    = f.input_field :password, hint: ("#{@minimum_password_length} carácteres mínimo" if @minimum_password_length), placeholder: 'Digite sua Senha', label: 'Senha', class: 'login-input'
+                .input-box 
+                    .text-i = icon('fas', 'lock')
+                    = f.input_field :password_confirmation, placeholder: 'Confirme sua Senha', label_html: { style: 'visibility: hidden;' }, class: 'login-input'
+            br/
+            .button-container 
+                = f.button :submit, "Enviar", class: 'button-register'
+                = link_to "/", class: 'button-register' do 
+                    | Voltar 
+                    
+            .sign-up
+                .text-center
 
-    .form-inputs
-       = f.input :email,  label: 'Email', input_html: { id: 'email_field' }
-       = f.input :name,  label: 'Nome'
-       = f.input :phone,  label: 'Telefone', input_html: { id: 'phone_field' }
-       = f.input :password, hint: ("#{@minimum_password_length} carácteres mínimo" if @minimum_password_length), label: 'Senha'
-       = f.input :password_confirmation, placeholder: 'Repita a Senha', label_html: { style: 'visibility: hidden;' }
 
-    .form-actions
-      = f.button :submit, "Enviar"
 
-= render "member/shared/links"
+= image_tag 'logo-main.png', class: 'img-fundo-login img-responsive'
+
