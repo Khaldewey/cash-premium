@@ -1,4 +1,4 @@
-= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+/*= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
   .list-group
     .list-group-item
       span = icon('far', 'user')
@@ -7,17 +7,32 @@
       span = icon('fas', 'lock') 
       = f.input_field :password, placeholder: 'Senha', required: false, class: 'form-control no-border list-width'
     = f.button :submit, "LOGIN", class: 'btn btn-lg btn-login btn-block'
-    .password-area
-      - if devise_mapping.rememberable?
-        .text-left
-          = f.input_field :remember_me, as: :boolean
-          = f.label :remeber_me, label: 'Lembrar-me', as: :boolean, class: 'm-l-xs'
-        .text-right
-          = link_to new_password_path(resource_name) do
-            .small
-              | Esqueci a Senha 
-          
+     
+.form-container
+    = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+        .login-container 
+            .header-title
+                = image_tag 'logo-cash-premios.png', class: 'admin-login-logo'
 
+
+            .input-container 
+                .input-box 
+                    .text-i = icon('fas', 'envelope')
+                    = f.input_field :email, placeholder: 'Digite seu E-mail', required: false, autofocus: true, class: 'login-input'
+                    
+                .input-box 
+                    span.text-i = icon('fas', 'lock')
+                    = f.input_field :password, placeholder: 'Digite sua Senha', required: false, class: 'login-input'
+                
+            - if devise_mapping.rememberable?
+                .remember-password
+                    = f.input_field :remember_me, as: :boolean
+                    = f.label :remeber_me, label: 'Lembrar minha senha', as: :boolean                 
+                = link_to new_password_path(resource_name) do       
+                    | Esqueci a Senha              
+
+            .button-container 
+                = f.button :submit, "Entrar", class: 'button-register'
 
 
 

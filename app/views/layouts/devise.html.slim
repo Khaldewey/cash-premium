@@ -16,36 +16,16 @@ html.html-devise lang="pt-BR"
       = javascript_include_tag 'html5shiv-printshiv'
 
   body
-    section#content.wrapper-md.animated.fadeInUp
-      .container.aside-xl
-        .user-img.block = image_tag 'user_icon.png'
-        section.m-b-md
+    section#login
+      .container
+        section
           = yield
-          hr
-        .logo-image.text-center.m-b-md.block = image_tag 'logo_premium.png'
+    
+        
         /.corp-info
           .corp-email.col-md-12
             span = icon('fas', 'envelope')
             = mail_to 'contato@agenciaacerte.com', 'contato@agenciaacerte.com'
 
-          .corp-phone.col-md-12
-            span = icon('fas', 'phone')  
-            = link_to '(79) 3217-2727', "tel:(79)3217-2727"
 
-          .corp-site.col-md-12
-            span = icon('fas', 'globe-americas')
-            = link_to'www.agenciaacerte.com', 'https://www.agenciaacerte.com', target: "_blank"
-
-          .corp-social.col-md-12
-            = link_to 'https://www.instagram.com/agenciaacerte', target: "_blank" do
-              span = icon('fab', 'instagram')
-
-            = link_to 'https://www.facebook.com/agenciaacerte', target: "_blank" do
-              span = icon('fab', 'facebook-square')
-
-            = link_to "https://api.whatsapp.com/send?phone=557932172727", target: "_blank" do
-              span = icon('fab', 'whatsapp')
-
-            = link_to 'https://goo.gl/maps/Xo5w368XwAyrWmEc8', target: "_blank" do
-              span = icon('fas', 'map-marker-alt')
           
