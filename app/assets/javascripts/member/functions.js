@@ -1,3 +1,50 @@
+$(document).ready(function() {
+    var larguraViewport = $(window).width();
+    let active = false
+
+    function atualizarLarguraViewport() {
+        larguraViewport = $(window).width();
+
+        if(larguraViewport > 678) {
+            $(".aside").css("left", "0")
+            active = false
+            $(".line1").removeClass("active")
+            $(".line2").removeClass("active")
+            $(".line3").removeClass("active")
+
+            $(".navbar-options").css("display", "block")
+            $(".actions-user").css("display", "none")
+        } else {
+            $(".aside").css("left", "-100vw")
+            $(".navbar-options").css("display", "none")
+            $(".actions-user").css("display", "flex")
+        }
+    }
+
+    atualizarLarguraViewport();
+
+    $(window).resize(function() {
+        atualizarLarguraViewport();
+    });
+
+    $(".button").on('click', function() {
+        if(active == false) {
+            $(".line1").addClass("active")
+            $(".line2").addClass("active")
+            $(".line3").addClass("active")
+
+            $(".aside").css("left", "0")
+        } else {
+            $(".line1").removeClass("active")
+            $(".line2").removeClass("active")
+            $(".line3").removeClass("active")
+
+            $(".aside").css("left", "-100vw")
+        }
+        active = !active       
+    });
+})
+
 $(function() {
   $(".datetime").datetimepicker({})
 

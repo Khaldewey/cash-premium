@@ -29,7 +29,9 @@
     position: fixed
     width: 200px
     top: 60px
+    left: 0
     box-shadow: 0px 0px 3px black
+    display: block
 
 .footer 
     grid-area: footer
@@ -41,3 +43,62 @@
     justify-content: center
     align-items: center
 
+@media (max-width: 678px) 
+    .root
+        grid-template-areas: "header header header" "main main main" "footer footer footer"
+    .aside 
+        left: -250px
+        transition: 300ms
+        width: 100vw
+        display: flex
+        justify-content: center
+    .open 
+        left: 0px
+    .button
+        display: block !important
+  
+//Button
+
+.line1 
+    width: 32px
+    height: 2px
+    background: #ffffff
+    margin: 8px
+    transition: 0.3s
+
+
+.line2 
+    width: 32px
+    height: 2px
+    background: #ffffff
+    margin: 8px
+    transition: 0.3s
+
+
+.line3 
+    width: 32px
+    height: 2px
+    background: #ffffff
+    margin: 8px
+    transition: 0.3s
+
+
+.button 
+    background: none
+    border: none
+    cursor: pointer
+    margin-left: 30px
+    display: none
+
+  
+.line1.active 
+    transform: rotate(-45deg) translate(-8px, 8px)
+
+  
+.line2.active 
+    opacity: 0
+  
+  
+.line3.active 
+    transform: rotate(45deg) translate(-5px, -7px)
+  
