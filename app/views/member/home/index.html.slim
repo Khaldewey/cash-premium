@@ -1,25 +1,34 @@
+
 section#agreement
   .container
     
-    h1 Loterias Disponíveis
-    - @lotteries.each do |lottery|
-
-      - if Member.where("tickets->>:lottery_id IS NOT NULL", lottery_id: lottery.id.to_s).present?
-        - if contar_numeros(Member.where("tickets->>:lottery_id IS NOT NULL", lottery_id: lottery.id.to_s), lottery.id) == lottery.ticket
-          div
-            h2 = lottery.event
-            p = lottery.date_event.strftime("%d/%m/%Y")
-            p Cotas esgotadas
-        - else
-          div
-            h2 = lottery.event
-            p = lottery.date_event.strftime("%d/%m/%Y")
-            = link_to 'Participar', member_new_ticket_path(id: lottery.id)
-      - else
-        div
-          h2 = lottery.event
-          p = lottery.date_event.strftime("%d/%m/%Y")
-          = link_to 'Participar', member_new_ticket_path(id: lottery.id)
+    //h1 Loterias Disponíveis
+    //div.sorteio-container
+        - @lotteries.each do |lottery|
+            - if Member.where("tickets->>:lottery_id IS NOT NULL", lottery_id: lottery.id.to_s).present?
+                - if contar_numeros(Member.where("tickets->>:lottery_id IS NOT NULL", lottery_id: lottery.id.to_s), lottery.id) == lottery.ticket
+                    .sorteio-box
+                        h2 = lottery.event
+                        .icon-box
+                            = icon('fas', 'user')
+                            p Cotas esgotadas
+                        
+                - else
+                    .sorteio-box
+                        h2 = lottery.event
+                        .icon-box
+                            = icon('fas', 'user')
+                            p = lottery.date_event.strftime("%d/%m/%Y")
+                        div 
+                            = link_to 'Participar', member_new_ticket_path(id: lottery.id)
+            - else
+                .sorteio-box
+                    h2 = lottery.event
+                    .icon-box
+                        = icon('fas', 'user')
+                        p = lottery.date_event.strftime("%d/%m/%Y")
+                    div 
+                        = link_to 'Participar', member_new_ticket_path(id: lottery.id)
 
         
     

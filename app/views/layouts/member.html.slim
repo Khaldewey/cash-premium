@@ -21,46 +21,64 @@ html lang="pt-BR"
     /[if lt IE 9]
       = javascript_include_tag 'html5shiv-printshiv'
 
+
+
   body
-    header
-      .container 
-        .logo-topo.col-md-12.col-xs-12
-          .col-md-3.col-sm-4.col-xs-12.logo
-            = link_to member_root_path do
-              = image_tag 'logo.png'
-          .col-md-8.col-sm-8.col-xs-12
-            .login-box
-              .d-flex
-                = icon('fas', 'user')
-                p = 'Olá, '
-                p #{current_member.name}  
-                = link_to 'Editar', member_edit_password_path, class: 'btn-area-restrita', :method => :get
-                = link_to 'Sair', destroy_member_session_path, class: 'btn-area-restrita', :method => :delete
+    .root 
+        header.header    
+            nav.navbar-home
+                .logo
+                    = image_tag 'logo-cash-premios'
+                    h1 Cash Premios
+                .navbar-options    
+                    .dropdown
+                        .dropdown-toggle data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
+                            .button-dropdown 
+                                = icon('fas', 'user')
+                                span Olá, #{current_member.name}
+                                span.caret
+                        .dropdown-menu       
+                            .itens-menu
+                                = link_to 'Editar', member_edit_password_path, class: 'btn-area-restrita', :method => :get
+                                = link_to 'Sair', destroy_member_session_path, class: 'btn-area-restrita', :method => :delete
+        aside.aside
+            .nav-container
+                .nav-item-box
+                    =icon('fas', 'home')
+                    a href="" Inicio 
+                .nav-item-box
+                    =icon('fas', 'newspaper')
+                    a href="" Campanhas 
+                .nav-item-box
+                    =icon('fas', 'list-alt')
+                    a href="" Comunicados 
+                .nav-item-box
+                    =icon('fas', 'wallet')
+                    a href="" Meus Titulos 
+                .nav-item-box
+                    =icon('fas', 'address-card')
+                    a href="" Cadastro 
+                .nav-item-box
+                    =icon('fas', 'trophy')
+                    a href="" Ganhadores 
+                .nav-item-box
+                    =icon('fas', 'vote-yea')
+                    a href="" Termos de Uso 
+                .nav-item-box
+                    =icon('fas', 'envelope')
+                    a href="" Entrar em Contato      
 
-    main
-    = yield
-  
-    footer
-      .container
-        /.col-md-3.col-sm-12.col-xs-12
-          .logo-empresa = image_tag 'marca-rodape-area.png', class: 'img-responsive'
-        /.col-md-6.col-sm-12.col-xs-12
-          .menu-footer
-            = link_to 'Início' ,member_root_path(), class: "menu-link"
-            = link_to 'Clientes', member_show_members_path(), class: "menu-link"            
-            = link_to 'Recados', member_messages_all_path(), class: "menu-link"
-        .col-md-3.col-sm-12.col-xs-12
-          .social
-            - if @social_network.present?
-              - @social_network.each do |midia|
-                = link_to midia.url, target: '_blank', class: 'menu-icon' do
-                  .midia-icon = icon('fab fa', "#{midia.slug}")
+        main.main
+            = yield
+    
+        footer.footer
+            .container
 
-        .col-md-12.col-xs-12
-          .segunda-faixa-footer
-            .d-flex
-              p = "Copyright © 2024 - Todos os direitos reservados."
-              /= image_tag 'acerte.png', class: 'img-responsive'
+                .col-md-12.col-xs-12
+                .segunda-faixa-footer
+                    .d-flex
+                    p = "Copyright © 2024 - Todos os direitos reservados."
+                    /= image_tag 'acerte.png', class: 'img-responsive'
 
-        
-          
+            
+            
