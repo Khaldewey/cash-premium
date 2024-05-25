@@ -25,6 +25,10 @@ $(document).ready(function() {
 
     $(window).resize(function() {
         atualizarLarguraViewport();
+        $(".line1").removeClass("active")
+        $(".line2").removeClass("active")
+        $(".line3").removeClass("active")
+        active = false
     });
 
     $(".button").on('click', function() {
