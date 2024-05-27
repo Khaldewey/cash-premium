@@ -79,11 +79,25 @@ class Member::HomeController < Member::ApplicationController
     
     
     if @member.save
-      #configuração pagamento pix 
-      mercado_pago_service = MercadoPagoService.new('SEU_ACCESS_TOKEN')
-      preference = mercado_pago_service.create_pix_preference(@member, @lottery, params[:member][:quantity].to_i * 1.0) # Substitua pelo valor real
-      redirect_to preference['init_point'], notice: "Pagamento iniciado com sucesso!"
-      # redirect_to member_root_path, notice: "Números selecionados com sucesso!"
+      render :pix
+      # begin
+      #   # Configuração pagamento pix
+      #   mercado_pago_service = MercadoPagoService.new('TEST-191553553627645-052119-e02f16e5c678bc716b9d93cfcdba8d03-472243321')
+      #   -raise
+      #   preference = mercado_pago_service.create_pix_preference(@member, @lottery, params[:member][:quantity].to_i * 1.0)
+        
+      #   if preference[:qr_code_url].present?
+      #     @member.update(qr_code_url: preference[:qr_code_url])
+      #     redirect_to member_root_path, notice: "Números selecionados com sucesso! Utilize o QR code para o pagamento."
+      #   else
+      #     @member.tickets = {}
+      #     redirect_to new_member_path, alert: "Erro ao gerar o QR code para pagamento. Tente novamente."
+      #   end
+      # rescue => e
+      #   @member.tickets = {}
+      #   redirect_to new_member_path, alert: "Erro ao processar o pagamento: #{e.message}. Tente novamente."
+      # end
+      redirect_to member_root_path, notice: "Números selecionados com sucesso!"
     else
       render :new
     end
