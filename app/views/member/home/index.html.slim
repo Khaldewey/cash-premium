@@ -2,8 +2,8 @@
 section#agreement
   .container
     
-    //h1 Loterias Disponíveis
-    //div.sorteio-container
+    h1 Loterias Disponíveis
+    div.sorteio-container
         - @lotteries.each do |lottery|
             - if Member.where("tickets->>:lottery_id IS NOT NULL", lottery_id: lottery.id.to_s).present?
                 - if contar_numeros(Member.where("tickets->>:lottery_id IS NOT NULL", lottery_id: lottery.id.to_s), lottery.id) == lottery.ticket
