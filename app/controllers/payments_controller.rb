@@ -1,42 +1,63 @@
 class PaymentsController < ApplicationController
-    def index 
-        require 'mercadopago'
-        sdk = Mercadopago::SDK.new('TEST-191553553627645-052119-e02f16e5c678bc716b9d93cfcdba8d03-472243321')
-        
-        custom_headers = {
-         'x-idempotency-key': SecureRandom.uuid
+  skip_before_action :verify_authenticity_token, only: [:create_pix_payment]
+  
+  def create_pix_payment
+    require 'httparty'
+    require 'json'
+    
+    # Dados do pagamento
+    payment_data = {
+      transaction_amount: 100,
+      description: "Título do produto",
+      payment_method_id: "pix",
+      payer: {
+        email: "teste@teste.com",
+        first_name: "Test",
+        last_name: "User",
+        identification: {
+          type: "CPF",
+          number: "19119119100"
+        },
+        address: {
+          zip_code: "06233200",
+          street_name: "Av. das Nações Unidas",
+          street_number: "3003",
+          neighborhood: "Bonfim",
+          city: "Osasco",
+          federal_unit: "SP"
         }
-        
-        custom_request_options = Mercadopago::RequestOptions.new(custom_headers: custom_headers)
-        
-        payment_request = {
-          transaction_amount: 100,
-          description: 'Título do produto',
-          payment_method_id: 'pix',
-          payer: {
-            email: 'israel_alves77@hotmail.com',
-            identification: {
-              type: 'CPF',
-              number: '19119119100',
-            }
-          }
-        }
-        
-        payment_response = sdk.payment.create(payment_request, request_options: custom_request_options)
-        @payment = payment_response[:response] 
-        puts @payment    
+      }
+    }
+    
+    # Gerar um valor único para a chave de idempotência
+    idempotency_key = SecureRandom.uuid
+    
+    # URL da API do Mercado Pago para criar um pagamento
+    url = 'https://api.mercadopago.com/v1/payments'
+    
+    # Headers da requisição
+    headers = {
+      'Content-Type' => 'application/json',
+      'Authorization' => "Bearer TEST-191553553627645-052119-e02f16e5c678bc716b9d93cfcdba8d03-472243321",
+      'X-Idempotency-Key' => idempotency_key
+    }
+    
+    # Realizar a requisição POST para criar o pagamento
+    response = HTTParty.post(url, headers: headers, body: payment_data.to_json)
+    
+    # Verificar a resposta
+    if response.code == 201
+      payment = JSON.parse(response.body)
+      puts "Pagamento criado com sucesso:"
+      puts payment
+    else
+      puts "Erro ao criar o pagamento:"
+      puts "Status: #{response.code}"
+      puts "Body: #{response.body}"
+    end 
+  end
+  
 
-    end
-    def create_pix_payment
-      mercado_pago_service = MercadoPagoService.new('TEST-191553553627645-052119-e02f16e5c678bc716b9d93cfcdba8d03-472243321')
-     
-  
-      amount = params[:amount].to_f # valor do pagamento
-      payer_email = params[:payer_email] # e-mail do pagador
-  
-      payment = mercado_pago_service.create_pix_payment(amount, payer_email)
-        
-      render json: { payment_id: payment['id'] } # Retorna o ID do pagamento gerado
-    end
+    
   end
   

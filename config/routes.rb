@@ -1,8 +1,8 @@
 Target::Application.routes.draw do
   
   mount Ckeditor::Engine => '/ckeditor'
-  post '/payments/create_pix_payment', to: 'payments#create_pix_payment'
-  get '/payments', to: 'payments#index'
+  post '/create_pix_payment', to: 'payments#create_pix_payment'
+ 
   
 
   %w( 404 422 500 ).each do |code|
