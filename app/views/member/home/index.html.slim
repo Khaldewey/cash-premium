@@ -1,34 +1,63 @@
 
 section#agreement
-  .container
+  .container-fluid
     
-    h1 Loterias Disponíveis
-    div.sorteio-container
-        - @lotteries.each do |lottery|
-            - if Member.where("tickets->>:lottery_id IS NOT NULL", lottery_id: lottery.id.to_s).present?
-                - if contar_numeros(Member.where("tickets->>:lottery_id IS NOT NULL", lottery_id: lottery.id.to_s), lottery.id) == lottery.ticket
-                    .sorteio-box
-                        h2 = lottery.event
-                        .icon-box
-                            = icon('fas', 'user')
-                            p Cotas esgotadas
-                        
-                - else
-                    .sorteio-box
-                        h2 = lottery.event
-                        .icon-box
-                            = icon('fas', 'user')
-                            p = lottery.date_event.strftime("%d/%m/%Y")
-                        div 
-                            = link_to 'Participar', member_new_ticket_path(id: lottery.id)
-            - else
-                .sorteio-box
-                    h2 = lottery.event
-                    .icon-box
-                        = icon('fas', 'user')
-                        p = lottery.date_event.strftime("%d/%m/%Y")
-                    div 
-                        = link_to 'Participar', member_new_ticket_path(id: lottery.id)
+    .home-title 
+        = image_tag 'Cash.png'
+        h1 Campanhas
 
-        
-    
+    .container-fluid
+        .row 
+            .sorteio-container
+                - @lotteries.each do |lottery|
+                    .col-xs-12.col-md-6.col-lg-4
+                        - if Member.where("tickets->>:lottery_id IS NOT NULL", lottery_id: lottery.id.to_s).present?
+                            - if contar_numeros(Member.where("tickets->>:lottery_id IS NOT NULL", lottery_id: lottery.id.to_s), lottery.id) == lottery.ticket
+                                .sorteio-box 
+                                    = image_tag 'hillux.jpg', class: 'sorteio-img'
+                                    h2 = lottery.event
+                                    div 
+                                        p = 'Venha participar do sorteio dessa linda moto'
+                                        p = 'Código do Sorteio: 156475'
+                                    .icon-box
+                                        = icon('fas', 'calendar')
+                                        p Cotas esgotadas
+                                    
+                                    
+                            - else
+                                .sorteio-box
+                                    = image_tag 'hillux.jpg', class: 'sorteio-img'
+                                    h2 = lottery.event
+                                    div 
+                                        p = 'Venha participar do sorteio dessa linda moto'
+                                        p = 'Código do Sorteio: 156475'
+                                    .icon-box
+                                        = icon('fas', 'calendar')
+                                        p = 'Data do Sorteio: ' + lottery.date_event.strftime("%d/%m/%Y")
+                                    .progess-container
+                                        .progress
+                                            .progress-bar role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%"
+                                                span.sr-only 60% Complete
+                                        p Quantidade de Cotas 50/50
+                                    .button-group 
+                                        = link_to 'Participar', member_new_ticket_path(id: lottery.id)
+                        - else
+                            .sorteio-box
+                                = image_tag 'hillux.jpg', class: 'sorteio-img'
+                                h2 = lottery.event
+                                div 
+                                    p = 'Venha participar do sorteio dessa linda moto'
+                                    p = 'Código do Sorteio: 156475'
+                                .icon-box
+                                    = icon('fas', 'calendar')
+                                    p = 'Data do Sorteio: ' + lottery.date_event.strftime("%d/%m/%Y")
+                                .progess-container
+                                    .progress
+                                        .progress-bar role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%"
+                                            span.sr-only 60% Complete
+                                    p Quantidade de Cotas: 50/50
+                                .button-group 
+                                    = link_to 'Participar', member_new_ticket_path(id: lottery.id)
+
+                    
+                

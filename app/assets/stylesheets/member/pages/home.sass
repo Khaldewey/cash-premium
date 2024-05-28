@@ -58,6 +58,19 @@
     span
         color: white
 
+.home-title
+    display: flex
+    justify-content: center
+    align-items: center
+    gap: 10px
+    margin: 20px
+    img
+        width: 40px
+    h1 
+        font-size: 20pt
+        color: black
+        margin: 0
+
 .actions-user
     display: flex
     justify-content: center
@@ -74,8 +87,13 @@
         text-align: center
         color: white
 
+.sorteio-img
+    width: 100%
+    border-radius: 10px 10px 0 0
 
-
+.dropdown-menu
+    min-width: 0
+    width: 100%
 
 .drop-cont 
     display: flex
@@ -91,31 +109,59 @@
 
 .sorteio-container
     display: flex
-    justify-content: start
+    justify-content: center
+    flex-wrap: wrap
+    
+.button-group
+    display: flex
     align-items: center
-    gap: 10px
-    
-    
+    justify-content: center
+    padding: 15px
+
+.progess-container
+    display: flex
+    justify-content: center
+    align-items: center
+    flex-direction: column
+    margin: 10px
+
+    .progress
+        width: 80% 
+        margin: 0
+        .progress-bar
+            background-color: #059f01
 
 .sorteio-box 
-    background-color: #17A700
+    background-color: white
+    box-shadow: 0 0 2px
     border-radius: 10px
-    width: 300px
+    width: 100%
+    margin: 0 0 50px 0px
+    display: flex
+    justify-content: center
+    flex-direction: column
     h2
-        color: white
+        color: black
         font-size: 14pt
         text-align: center
     p 
-        color: white
+        color: black
+        text-align: center
+        margin: 5px
     a
-        background-color: #adadad
+        background-color: #059f01
+        color: white
         padding: 10px
         border-radius: 10px
-    div
-        display: flex
-        justify-content: center
-        align-items: center
-        margin-bottom: 10px 
+        width: 100%
+        text-align: center
+
+.icon-box
+    display: flex
+    justify-content: center
+    align-items: center
+    i
+        color: black
 
 .nav-container
     display: flex
