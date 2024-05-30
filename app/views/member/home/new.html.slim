@@ -29,7 +29,7 @@ section#new
                     .new-sorteio
                         = form.label :quantity, "Quantidade de Números"
                         .sorteio-actions 
-                            = form.button '-', type: 'button', class: 'action-buttons button-add-numbers', decrement: 1q2         
+                            = form.button '-', type: 'button', class: 'action-buttons button-add-numbers', decrement: 1  
                             = form.number_field :quantity, min: 1, max: @lottery.ticket - contar_numeros(Member.where("tickets->>:lottery_id IS NOT NULL", lottery_id: @lottery.id.to_s), @lottery.id), step: 1, class: 'new-sorteio-input', id: 'quantity-sorteio', value: 0         
                             = form.button '+', type: 'button', class: 'action-buttons button-add-numbers', increment: 1
 
