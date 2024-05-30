@@ -77,13 +77,14 @@ class Member::HomeController < Member::ApplicationController
       end
     end
     
-    
+    -raise
     if @member.save
       
       redirect_to member_root_path, notice: "Números selecionados com sucesso!"
     else
       render :new
     end
+    
   end
   
   def verificar_numeros_participantes(membros, id)
@@ -96,6 +97,23 @@ class Member::HomeController < Member::ApplicationController
     end
     return flag_array
   end 
+
+  def pix
+    @lottery = Lottery.find(params[:id])
+    @member = current_member
+    # Método para iniciar pagamento pix
+    # payment_response = PaymentService.create_pix_payment(@member, params[:member][:quantity].to_i*@lottery.price)
+    payment_response = PaymentService.create_pix_payment(@member, 0.01)
+    if payment_response.code == 201
+      puts payment_response
+      parsed_response = payment_response.parsed_response
+      @qr_code_base64 = parsed_response.dig("point_of_interaction", "transaction_data", "qr_code_base64")
+      @qr_code = parsed_response.dig("point_of_interaction", "transaction_data", "qr_code")
+    else 
+      render :new
+    end
+   
+  end
 
   helper_method :contar_numeros
 

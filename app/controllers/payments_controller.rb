@@ -3,12 +3,13 @@ class PaymentsController < ApplicationController
   
   def create_pix_payment
     require 'httparty'
-    require 'json'
+    require 'json' 
+    require 'securerandom'
     
     # Dados do pagamento
     payment_data = {
-      transaction_amount: 100,
-      description: "Título do produto",
+      transaction_amount: 20,
+      description: "Bilhete Cash Prêmio",
       payment_method_id: "pix",
       payer: {
         email: "teste@teste.com",
@@ -44,17 +45,20 @@ class PaymentsController < ApplicationController
     
     # Realizar a requisição POST para criar o pagamento
     response = HTTParty.post(url, headers: headers, body: payment_data.to_json)
+    puts payment_data.to_json
     
     # Verificar a resposta
     if response.code == 201
       payment = JSON.parse(response.body)
-      puts "Pagamento criado com sucesso:"
-      puts payment
+      # puts "Pagamento criado com sucesso:"
+      # puts payment
     else
       puts "Erro ao criar o pagamento:"
       puts "Status: #{response.code}"
       puts "Body: #{response.body}"
     end 
+
+    render json: response.body, status: response.code
   end
   
 

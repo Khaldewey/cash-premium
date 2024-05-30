@@ -9,6 +9,8 @@ h2 Loterias
       .col-md-6.col-sm-12.col-xs-12
         = f.input :ticket, :label => 'Quantidade de Tickets'
       .col-md-6.col-sm-12.col-xs-12
+        = f.input :price, :label => 'Preço'
+      .col-md-6.col-sm-12.col-xs-12
         label = 'Data do Evento'
         = f.datetime_field :date_event, :as => :datetime
 

@@ -9,7 +9,8 @@ section#new
     
     .container-fluid  
         .row  
-            = form_with(model: [@lottery, @member], url: member_lottery_tickets_path(id: @lottery.id), method: :post) do |form|
+            /= form_with(model: [@lottery, @member], url: member_lottery_tickets_path(id: @lottery.id), method: :post) do |form|
+            = form_with(model: [@lottery, @member], url: member_validar_pagamento_path(id: @lottery.id), method: :post) do |form|
                 .container-sorteio
                     .new-sorteio-column.col-xs-12.col-md-6.col-lg-4
                         = form.button "+5", type: 'button', class: 'button-add-numbers', increment: 5

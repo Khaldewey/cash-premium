@@ -1,7 +1,7 @@
 Target::Application.routes.draw do
   
   mount Ckeditor::Engine => '/ckeditor'
-  post '/create_pix_payment', to: 'payments#create_pix_payment'
+  post '/create_pix_payment', to: 'payments#create_pix_payment', as: :create_payment
  
   
 
@@ -92,7 +92,7 @@ Target::Application.routes.draw do
   namespace :member, path: "area-member" do
     get '/editar-senha' => 'edit_password#new', as: :edit_password
     patch '/editar-senha/password' => 'edit_password#update_password', as: :update_password
-    
+    post '/pagamento' => 'home#pix', as: :validar_pagamento
     get 'comprar-ticket/:id' => 'home#new', as: :new_ticket
     post 'comprar' => 'home#create', as: :lottery_tickets
     root to: 'home#index'
