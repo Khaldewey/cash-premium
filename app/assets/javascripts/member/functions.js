@@ -51,17 +51,16 @@ $(document).ready(function() {
     $(".button-add-numbers").on('click' , function() {
         var value = parseInt($("#quantity-sorteio").val());
         var increment = parseInt($(this).attr('increment'));
-
-        console.log(value)
-        console.log(increment)
-
-        $("#quantity-sorteio").val(value + increment);
+        var decrement = parseInt($(this).attr('decrement'));
+  
+        if(increment)
+            $("#quantity-sorteio").val(value + increment);
+        
+        if(decrement && value > 0)
+            $("#quantity-sorteio").val(value - decrement);
     })
 
     $(".button-clear-numbers").on('click' , function() {
-        var value = parseInt($("#quantity-sorteio").val());
-         console.log(value)
-
         $("#quantity-sorteio").val(0);
     })
 })
