@@ -62,14 +62,40 @@
     display: flex
     justify-content: center
     align-items: center
+    flex-wrap: wrap
     gap: 10px
     margin: 20px
+    div
+        display: flex
+        justify-content: center
+        align-items: center
+        gap: 10px
     img
         width: 40px
     h1 
         font-size: 20pt
         color: black
         margin: 0
+        font-weight: bold
+    p
+        margin: 0
+        background-color: #17a700
+        color: white
+        padding: 5px 40px
+        border-radius: 20px
+
+
+.d-flex
+    display: flex
+    justify-content: center
+    width: 100%
+    align-items: center
+    gap: 20px
+    p
+        margin: 0
+
+.img-footer
+    width: 50px
 
 .actions-user
     display: flex
@@ -169,6 +195,11 @@
     align-items: start
     flex-direction: column
     width: 100%
+    position: relative
+    top: 60px
+
+.sorteio-column
+    width: 300px
 
 .nav-item-box
     display: flex
@@ -188,6 +219,123 @@
     background-color: #00790a
     color: white
 
+.new-sorteio-container
+    display: flex
+    justify-content: center
+    flex-wrap: wrap
+
+.new-sorteio-submit
+    background-color: #17a700
+    color: white
+    border: none
+    padding: 10px 30px
+    border: none
+    border-radius: 10px
+    
+.new-sorteio
+    display: flex
+    flex-direction: column
+    width: 100%
+    max-width: 300px
+    align-items: center
+    gap: 10px
+    margin-bottom: 50px
+    label 
+        font-size: 14pt
+        color: black
+
+.user-info
+    display: flex
+    background-color: #138d01
+    margin: 10px
+    
+
+.new-sorteio-box
+    display: flex
+    justify-content: center
+    align-items: center
+    gap: 10px
+    margin-top: 30px 
+    .new-sorteio-input
+        width: 100%
+        border: none
+        box-shadow: 0 0 5px
+        border-radius: 10px
+        padding: 5px
+        outline: none
+.buttons-sorteio
+    display: flex
+    justify-content: center
+    align-items: center
+    width: 100%
+    gap: 10px
+
+.inputs-box 
+    display: flex
+    gap: 20px
+.box-values
+    background-color: #059f01
+    box-shadow: 0 0 2px
+    border-radius: 10px
+    max-width: 200px
+    width: 100%
+    height: 100px
+    display: flex
+    justify-content: center
+    align-items: center
+    color: white
+    border: none
+    .values-sorteio
+        display: flex
+        justify-content: center
+        align-items: center
+        width: 100px
+        height: 100px
+        background-color: #17a700
+        border: none
+        color: white
+        border-radius: 10px
+
+.button-add-numbers
+    
+
+.new-sorteio-column
+    margin: 0
+    padding: 8px
+    display: flex
+    justify-content: center
+    width: 300px
+    height: 100px
+    button
+        width: 100%
+        border: none
+        background-color: #17a700
+        color: white
+        font-size: 14pt
+        border-radius: 10px
+
+
+.grid-container 
+    display: grid
+    grid-template-columns: repeat(3, 1fr)
+    gap: 10px 
+
+.container-sorteio
+    display: flex
+    justify-content: center
+    flex-wrap: wrap
+
+.grid-item 
+    background: none
+    button
+        width: 100%
+        height: 100px
+        border-radius: 10px
+        background-color: #17a700
+        border: none
+        font-size: 16pt
+        color: white
+
 @media (max-width: 678px)
     .nav-item-box
         border-top: 1px solid #008911
@@ -195,3 +343,9 @@
         border-top: 0px solid #008911
     .nav-item-box:last-child
         border-bottom: 1px solid #008911
+
+@media (max-width: 600px) 
+    .grid-container 
+        grid-template-columns: repeat(2, 1fr)
+    
+

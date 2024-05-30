@@ -1,5 +1,36 @@
-= form_with(model: [@lottery, @member], url: member_lottery_tickets_path(id: @lottery.id), method: :post) do |form|
-  .field
-    = form.label :quantity, "Quantidade de Números"
-    = form.number_field :quantity, min: 1, max: @lottery.ticket - contar_numeros(Member.where("tickets->>:lottery_id IS NOT NULL", lottery_id: @lottery.id.to_s), @lottery.id), step: 1
-  = form.submit "Escolher Números"
+
+section#new
+    .container-fluid   
+        .home-title 
+            div
+                = image_tag 'Cash.png'
+                h1 Comprar Tickets
+            p Escolha a quantidade
+    
+    .container-fluid  
+        .row  
+            = form_with(model: [@lottery, @member], url: member_lottery_tickets_path(id: @lottery.id), method: :post) do |form|
+                .container-sorteio
+                    .new-sorteio-column.col-xs-12.col-md-6.col-lg-4
+                        = form.button "+5", type: 'button', class: 'button-add-numbers', increment: 5
+                    .new-sorteio-column.col-xs-12.col-md-6.col-lg-4
+                        = form.button "+10", type: 'button', class: 'button-add-numbers', increment: 10
+                    .new-sorteio-column.col-xs-12.col-md-6.col-lg-4
+                        = form.button "+20", type: 'button', class: 'button-add-numbers', increment: 20
+                    .new-sorteio-column.col-xs-12.col-md-6.col-lg-4
+                        = form.button "+40", type: 'button', class: 'button-add-numbers', increment: 40
+                    .new-sorteio-column.col-xs-12.col-md-6.col-lg-4
+                        = form.button "+80", type: 'button', class: 'button-add-numbers', increment: 80
+                    .new-sorteio-column.col-xs-12.col-md-6.col-lg-4
+                        = form.button "+160", type: 'button', class: 'button-add-numbers', increment: 160
+                       
+                          
+                .new-sorteio-box
+                    .new-sorteio
+                        = form.label :quantity, "Quantidade de Números"
+                        = form.number_field :quantity, min: 1, max: @lottery.ticket - contar_numeros(Member.where("tickets->>:lottery_id IS NOT NULL", lottery_id: @lottery.id.to_s), @lottery.id), step: 1, class: 'new-sorteio-input', id: 'quantity-sorteio', value: 0         
+                        .buttons-sorteio 
+                            = form.button "Confirmar", class: 'new-sorteio-submit'
+                            = form.button 'Limpar', type: 'button', class: 'new-sorteio-submit button-clear-numbers'
+                
+    

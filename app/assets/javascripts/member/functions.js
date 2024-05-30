@@ -47,7 +47,35 @@ $(document).ready(function() {
         }
         active = !active       
     });
+
+    $(".button-add-numbers").on('click' , function() {
+        var value = parseInt($("#quantity-sorteio").val());
+        var increment = parseInt($(this).attr('increment'));
+
+        console.log(value)
+        console.log(increment)
+
+        $("#quantity-sorteio").val(value + increment);
+    })
+
+    $(".button-clear-numbers").on('click' , function() {
+        var value = parseInt($("#quantity-sorteio").val());
+         console.log(value)
+
+        $("#quantity-sorteio").val(0);
+    })
 })
+
+
+
+
+
+
+
+
+
+
+
 
 $(function() {
   $(".datetime").datetimepicker({})

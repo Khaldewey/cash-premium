@@ -3,14 +3,16 @@ section#agreement
   .container-fluid
     
     .home-title 
-        = image_tag 'Cash.png'
-        h1 Campanhas
+        div
+            = image_tag 'Cash.png'
+            h1 Campanhas
+        p Escolha sua campanha
 
     .container-fluid
         .row 
             .sorteio-container
                 - @lotteries.each do |lottery|
-                    .col-xs-12.col-md-6.col-lg-4
+                    .sorteio-column.col-xs-12.col-md-6.col-lg-4
                         - if Member.where("tickets->>:lottery_id IS NOT NULL", lottery_id: lottery.id.to_s).present?
                             - if contar_numeros(Member.where("tickets->>:lottery_id IS NOT NULL", lottery_id: lottery.id.to_s), lottery.id) == lottery.ticket
                                 .sorteio-box 
