@@ -165,5 +165,49 @@ $(function() {
   if($('.alert').text() !== "") 
     toastr.error($('.alert').text(), "Falha!", options); 
 
-  
+  // Função para verificar o pagamento apenas quando estiver no endpoint desejado
+function checkPaymentAtEndpoint() {
+  // Verifica se a URL atual corresponde ao endpoint desejado
+  if (window.location.pathname === "/area-member/pagamento") {
+      // Chama a função de verificação de pagamento
+      checkPayment();
+  }
+}
+
+  function checkPayment() {
+    console.log("Verificando Pagamento");
+
+    // Substitua 'payment_id' pelo ID real do pagamento que você deseja verificar
+    const paymentId = document.getElementById("payment_id").value;
+    
+    // Faça uma solicitação AJAX para o seu servidor que consulta a API do Mercado Pago
+    $.ajax({
+      url: `/check_payment`,
+      method: "GET",
+      data: { payment_id: paymentId },  
+      success: function (data) {
+        console.log(data);
+        if (data.status) {
+          var paymentStatus = data.status;
+          
+          // Verifica se o pagamento foi aprovado
+          if (paymentStatus === 'approved') {
+            console.log("Pagamento aprovado");
+            // Aqui você pode executar ações adicionais quando o pagamento for aprovado
+          } else {
+            console.log("Status do pagamento: " + paymentStatus);
+          }
+        } else {
+          console.error("Não foi possível obter o status do pagamento");
+        }
+      },
+      error: function (error) {
+        console.error("Erro ao verificar o pagamento:", error);
+      }
+    });
+}
+
+// Verifica o pagamento a cada 6 segundos
+ setInterval(checkPaymentAtEndpoint, 6000);
+
 });

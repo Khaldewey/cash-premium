@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_05_30_185035) do
+ActiveRecord::Schema.define(version: 2024_06_04_222134) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -237,6 +237,18 @@ ActiveRecord::Schema.define(version: 2024_05_30_185035) do
     t.index ["paragraphable_type", "paragraphable_id"], name: "index_paragraphs_on_paragraphable_type_and_paragraphable_id"
   end
 
+  create_table "payments", force: :cascade do |t|
+    t.string "status"
+    t.datetime "expiration_date"
+    t.bigint "transaction_id"
+    t.bigint "lottery_id"
+    t.bigint "member_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["lottery_id"], name: "index_payments_on_lottery_id"
+    t.index ["member_id"], name: "index_payments_on_member_id"
+  end
+
   create_table "permissions", force: :cascade do |t|
     t.string "description"
     t.string "object_type"
@@ -320,6 +332,8 @@ ActiveRecord::Schema.define(version: 2024_05_30_185035) do
   add_foreign_key "members", "lotteries"
   add_foreign_key "notices", "notice_categories"
   add_foreign_key "page_images", "pages"
+  add_foreign_key "payments", "lotteries"
+  add_foreign_key "payments", "members"
   add_foreign_key "permissions_roles", "permissions"
   add_foreign_key "permissions_roles", "roles"
   add_foreign_key "users", "roles"
