@@ -186,7 +186,6 @@ function checkPaymentAtEndpoint() {
       method: "GET",
       data: { payment_id: paymentId },  
       success: function (data) {
-        console.log(data);
         if (data.status) {
           var paymentStatus = data.status;
           
