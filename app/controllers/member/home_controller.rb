@@ -1,4 +1,9 @@
 class Member::HomeController < Member::ApplicationController
+
+  require 'httparty'
+  require 'json'
+  require 'securerandom'
+
   def index
     @lotteries = Lottery.where(status: true)
     # if @lotteries.present?
@@ -77,7 +82,6 @@ class Member::HomeController < Member::ApplicationController
       end
     end
     
-    -raise
     if @member.save
       
       redirect_to member_root_path, notice: "Números selecionados com sucesso!"
@@ -98,21 +102,98 @@ class Member::HomeController < Member::ApplicationController
     return flag_array
   end 
 
-  def pix
+  def pix  
     @lottery = Lottery.find(params[:id])
-    @member = current_member
+    @member = current_member 
+    # @payments = Payment.where(member_id: @member.id, lottery_id: @lottery.id)
+
+    #Vou verificar se tem algum pagamento pendente aqui, se for encontrado vou renderizar o qrcode do pagamento pendente e colocar o cronometro do tempo que falta para pagar
     # Método para iniciar pagamento pix
     # payment_response = PaymentService.create_pix_payment(@member, params[:member][:quantity].to_i*@lottery.price)
-    payment_response = PaymentService.create_pix_payment(@member, 0.01)
+    payment_response = create_pix_payment(@member, 0.01)
     if payment_response.code == 201
-      puts payment_response
       parsed_response = payment_response.parsed_response
       @qr_code_base64 = parsed_response.dig("point_of_interaction", "transaction_data", "qr_code_base64")
       @qr_code = parsed_response.dig("point_of_interaction", "transaction_data", "qr_code")
+      @id = parsed_response.dig("id")
+      
     else 
       render :new
     end
    
+  end 
+
+  def check_payment
+    payment_id = params[:payment_id]
+    
+    # URL da API do Mercado Pago para consultar um pagamento específico
+    url = "https://api.mercadopago.com/v1/payments/#{payment_id}"
+    
+    # Headers da requisição
+    headers = {
+      'Content-Type' => 'application/json',
+      'Authorization' => "Bearer TEST-191553553627645-052119-e02f16e5c678bc716b9d93cfcdba8d03-472243321"
+    }
+  
+    # Realizar a requisição GET para consultar o pagamento
+    response = HTTParty.get(url, headers: headers)
+    
+    # Retornar a resposta da API
+    render json: response.body
+  end 
+
+
+  def create_pix_payment(member, amount)
+      
+    # Calcula a data de expiração
+    expiration_time = (Time.now + 10*60).strftime("%Y-%m-%dT%H:%M:%S.%L%:z")
+   
+    # precisa ser igual 2024-06-05T17:48:49.105-04:00
+    
+    # Dados do pagamento
+    payment_data = {
+      transaction_amount: amount,
+      description: "Bilhete Cash Prêmio",
+      payment_method_id: "pix",
+      date_of_expiration: expiration_time,
+      payer: {
+        email: member.email,
+        first_name: member.name,
+        last_name: nil,
+        identification: {
+          type: "CPF",
+          number: nil
+        },
+        address: {
+          zip_code: nil,
+          street_name: nil,
+          street_number: nil,
+          neighborhood: nil,
+          city: nil,
+          federal_unit: nil
+        }
+      }
+    }
+
+    # Gerar um valor único para a chave de idempotência
+    idempotency_key = SecureRandom.uuid
+
+    # URL da API do Mercado Pago para criar um pagamento
+    url = 'https://api.mercadopago.com/v1/payments'
+    # TEST-191553553627645-052119-e02f16e5c678bc716b9d93cfcdba8d03-472243321 teste 
+    # APP_USR-191553553627645-052119-4e39a47a786002999f0f2bd945244922-472243321 produção
+    # Headers da requisição
+    headers = {
+      'Content-Type' => 'application/json',
+      'Authorization' => "Bearer TEST-191553553627645-052119-e02f16e5c678bc716b9d93cfcdba8d03-472243321",
+      'X-Idempotency-Key' => idempotency_key
+    }
+
+    # Realizar a requisição POST para criar o pagamento
+    response = HTTParty.post(url, headers: headers, body: payment_data.to_json)
+    
+    # Retornar a resposta da API
+    response
   end
 
   helper_method :contar_numeros

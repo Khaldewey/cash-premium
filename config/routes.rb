@@ -2,7 +2,7 @@ Target::Application.routes.draw do
   
   mount Ckeditor::Engine => '/ckeditor'
   post '/create_pix_payment', to: 'payments#create_pix_payment', as: :create_payment
- 
+  get '/check_payment' => 'member/home#check_payment', as: :check_payment
   
 
   %w( 404 422 500 ).each do |code|
@@ -94,6 +94,7 @@ Target::Application.routes.draw do
     patch '/editar-senha/password' => 'edit_password#update_password', as: :update_password
     post '/pagamento' => 'home#pix', as: :validar_pagamento
     get 'comprar-ticket/:id' => 'home#new', as: :new_ticket
+    
     post 'comprar' => 'home#create', as: :lottery_tickets
     root to: 'home#index'
   end

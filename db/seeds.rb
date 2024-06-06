@@ -62,21 +62,21 @@ end
   EmailCategory.find_or_create_by(name: name)
 end
 
-User.find_or_create_by(email: 'redacao@corp.agenciaacerte.com') do |u|
-  u.password = '#acer7e2727'
+User.find_or_create_by(email: 'redacao@corp.cash.com') do |u|
+  u.password = '#mudar123'
   u.is_active = true
   u.role = Role.where(name: 'Redação').first
 end
 
-User.find_or_create_by(email: 'atendimento@agenciaacerte.com') do |u|
-  u.password = 'Atend2727*'
+User.find_or_create_by(email: 'atendimento@cash.com') do |u|
+  u.password = 'mudar123'
   u.is_active = true
   u.role = Role.where(name: 'Atendimento').first
 end
 
 namespace :dev do
-  User.find_or_create_by(email: 'desenvolvimento@agenciaacerte.com') do |u|
-    u.password = '-, 8?Wgc-_j<np#~'
+  User.find_or_create_by(email: 'desenvolvimento@cash.com') do |u|
+    u.password = 'mudar123'
     u.is_active = true
     u.role = Role.where(name: 'Admin').first
     u.is_admin = true

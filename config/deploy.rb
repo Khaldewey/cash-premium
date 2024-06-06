@@ -5,7 +5,7 @@ require 'mina/rvm'
 require 'dedent'
 
 set :domain, ''
-set :repository, 'http://git.agenciaacerte.com/acerte/#{repository_name}.git'
+set :repository, 'http://git.cash.com/cash/#{repository_name}.git'
 set :user, 'system user plesk'
 set :db_name, ''
 set :db_username, ''
