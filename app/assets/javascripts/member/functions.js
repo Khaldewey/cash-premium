@@ -5,7 +5,7 @@ $(document).ready(function() {
     function atualizarLarguraViewport() {
         larguraViewport = $(window).width();
 
-        if(larguraViewport > 678) {
+        if(larguraViewport > 831) {
             $(".aside").css("left", "0")
             active = false
             $(".line1").removeClass("active")
