@@ -1,5 +1,9 @@
 input#payment_id(type="hidden" value="#{@id}")
-img[src="data:image/jpeg;base64,#{@qr_code_base64}" width="200" height="200"]
-label for="copiar" Copiar Hash:
-input type="text" id="copiar" value=@qr_code readonly=true 
 
+.pix-container 
+    img[src="data:image/jpeg;base64,#{@qr_code_base64}" width="200" height="200"]
+    .pix-copia
+        label for="copiar" Copiar Hash:
+        input type="text" id="copiar" value=@qr_code readonly=true 
+
+    #timer 10:00
