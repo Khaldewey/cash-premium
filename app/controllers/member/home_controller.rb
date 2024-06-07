@@ -39,7 +39,8 @@ class Member::HomeController < Member::ApplicationController
     numbers_count = params[:quantity].to_i
     @all_numbers = []
     @all_numbers = verificar_numeros_participantes(Member.where("tickets @> ?", { @lottery.id.to_s => [] }.to_json), @lottery.id).flatten
-    #Aqui entra o método para verificar se o pagamento foi efetuado
+    
+    # if @lottery.ticket - @all_numbers.count <= numbers_count
     if @member.tickets == nil || @member.tickets.empty?
       available_numbers = ((1..@lottery.ticket).to_a - @all_numbers)
       selected_numbers = available_numbers.sample(numbers_count)
@@ -68,7 +69,7 @@ class Member::HomeController < Member::ApplicationController
           end
         end
         @member.tickets[@lottery.id.to_s].concat(selected_numbers)
-         
+        
       else
         available_numbers = ((1..@lottery.ticket).to_a - @all_numbers)
         selected_numbers = available_numbers.sample(numbers_count)
@@ -79,7 +80,7 @@ class Member::HomeController < Member::ApplicationController
         @member.lottery_id = @lottery.id
         @member.tickets[@lottery.id] ||= [] 
         @member.tickets[@lottery.id] += selected_numbers
-       
+      
       end
     end
     
@@ -87,13 +88,16 @@ class Member::HomeController < Member::ApplicationController
       render json: {
         "mensagem": "Criado com êxito"
       }
-      redirect_to member_root_path, notice: "Números selecionados com sucesso!"
+      # redirect_to member_root_path, notice: "Números selecionados com sucesso!"
     else
-      render :new
-      render json: {
-        "mensagem": "Números esgotados sua compra será reembolsada"
-      }
+      redirect_to member_new_ticket_path, notice: "Números esgotados sua compra será reembolsada!"
+      # render json: {
+      #   "mensagem": "Números esgotados sua compra será reembolsada"
+      # }
     end
+    # else 
+    #   redirect_to member_new_ticket_path, notice: "Números esgotados sua compra será reembolsada imediatamente pelo administrador !"
+    # end
     
   end
   

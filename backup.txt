@@ -1,0 +1,16 @@
+ $.ajax({
+                                url: 'comprar',
+                                method: 'POST',
+                                data: { lottery_id: lotteryId, quantity: quantity },
+                                success: function(data) {
+                                    if (data) {
+                                        window.location.href = "/";
+                                        
+                                    } else {
+                                        console.error("Não foi possível fazer o post");
+                                    }
+                                },
+                                error: function(xhr, status, error) {
+                                    console.error("Erro ao fazer o post:", status, error);
+                                }
+                            });

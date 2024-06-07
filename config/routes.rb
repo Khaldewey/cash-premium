@@ -95,7 +95,7 @@ Target::Application.routes.draw do
     post '/pagamento' => 'home#pix', as: :validar_pagamento
     get 'comprar-ticket/:id' => 'home#new', as: :new_ticket
     
-    post 'comprar' => 'home#create', as: :lottery_tickets
+    put 'comprar' => 'home#create', as: :lottery_tickets
     root to: 'home#index'
   end
 

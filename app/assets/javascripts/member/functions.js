@@ -199,7 +199,7 @@ $(function () {
             checkPayment();
         }
     }
-    var isRequestMade = false;
+    
     function checkPayment() {
         console.log("Verificando Pagamento");
 
@@ -220,25 +220,18 @@ $(function () {
                         console.log("Pagamento aprovado");
                         const quantity = document.getElementById("quantity").value;
                         const lotteryId= document.getElementById("lottery_id").value;
-                        if (!isRequestMade){
-                            console.log(isRequestMade);
-                            $.ajax({
-                                url: 'comprar',
-                                method: 'POST',
-                                data: { lottery_id: lotteryId, quantity: quantity },
-                                success: function(data) {
-                                    if (data.mensagem) {
-                                        console.log(data.mensagem);
-                                        isRequestMade = true;
-                                    } else {
-                                        console.error("Não foi possível fazer o post");
-                                    }
-                                },
-                                error: function(xhr, status, error) {
-                                    console.error("Erro ao fazer o post:", status, error);
-                                }
-                            });
-                        }
+                        
+                        $.ajax({
+                            url: 'comprar',
+                            method: 'PUT',
+                            data: { lottery_id: lotteryId, quantity: quantity },
+                            success: function (data) {
+                                console.log(data.mensagem);
+                                window.location.href = "/";
+                            }
+                            
+                        });
+                        
                     } else {
                         console.log("Status do pagamento: " + paymentStatus);
                     }
@@ -253,6 +246,6 @@ $(function () {
     }
 
     // Verifica o pagamento a cada 6 segundos
-    setInterval(checkPaymentAtEndpoint, 6000);
+    setInterval(checkPaymentAtEndpoint, 10000);
 
 });
