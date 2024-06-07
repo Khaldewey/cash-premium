@@ -65,7 +65,7 @@ $(document).ready(function () {
     })
 
     var timerInterval;
-    var elapsedTime = 1 * 60; // Inicia em 10 minutos
+    var elapsedTime = 10 * 60; // Inicia em 10 minutos
     var maxTime = 0; // Termina em 0 segundos
 
     function formatTime(timeInSeconds) {
@@ -199,7 +199,7 @@ $(function () {
             checkPayment();
         }
     }
-
+    var isRequestMade = false;
     function checkPayment() {
         console.log("Verificando Pagamento");
 
@@ -213,12 +213,32 @@ $(function () {
             data: { payment_id: paymentId },
             success: function (data) {
                 if (data.status) {
-                    var paymentStatus = data.status;
+                    var paymentStatus = 'approved';
 
                     // Verifica se o pagamento foi aprovado
                     if (paymentStatus === 'approved') {
                         console.log("Pagamento aprovado");
-                        // Aqui você pode executar ações adicionais quando o pagamento for aprovado
+                        const quantity = document.getElementById("quantity").value;
+                        const lotteryId= document.getElementById("lottery_id").value;
+                        if (!isRequestMade){
+                            console.log(isRequestMade);
+                            $.ajax({
+                                url: 'comprar',
+                                method: 'POST',
+                                data: { lottery_id: lotteryId, quantity: quantity },
+                                success: function(data) {
+                                    if (data.mensagem) {
+                                        console.log(data.mensagem);
+                                        isRequestMade = true;
+                                    } else {
+                                        console.error("Não foi possível fazer o post");
+                                    }
+                                },
+                                error: function(xhr, status, error) {
+                                    console.error("Erro ao fazer o post:", status, error);
+                                }
+                            });
+                        }
                     } else {
                         console.log("Status do pagamento: " + paymentStatus);
                     }

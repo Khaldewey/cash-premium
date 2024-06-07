@@ -33,9 +33,10 @@ class Member::HomeController < Member::ApplicationController
   end
 
   def create
-    @lottery = Lottery.find(params[:id])
+    @lottery = Lottery.find(params[:lottery_id])
     @member = current_member 
-    numbers_count = params[:member][:quantity].to_i
+    # numbers_count = params[:member][:quantity].to_i
+    numbers_count = params[:quantity].to_i
     @all_numbers = []
     @all_numbers = verificar_numeros_participantes(Member.where("tickets @> ?", { @lottery.id.to_s => [] }.to_json), @lottery.id).flatten
     #Aqui entra o método para verificar se o pagamento foi efetuado
@@ -50,7 +51,7 @@ class Member::HomeController < Member::ApplicationController
       @member.lottery_id = @lottery.id
       @member.tickets ||= {} 
       @member.tickets[@lottery.id] ||= [] 
-      @member.tickets[@lottery.id] += selected_numbers
+      @member.tickets[@lottery.id] += selected_numbers 
       # -raise
     else
       
@@ -83,10 +84,15 @@ class Member::HomeController < Member::ApplicationController
     end
     
     if @member.save
-      
+      render json: {
+        "mensagem": "Criado com êxito"
+      }
       redirect_to member_root_path, notice: "Números selecionados com sucesso!"
     else
       render :new
+      render json: {
+        "mensagem": "Números esgotados sua compra será reembolsada"
+      }
     end
     
   end
@@ -104,7 +110,8 @@ class Member::HomeController < Member::ApplicationController
 
   def pix  
     @lottery = Lottery.find(params[:id])
-    @member = current_member 
+    @member = current_member
+    @numbers_count = params[:member][:quantity].to_i 
     # @payments = Payment.where(member_id: @member.id, lottery_id: @lottery.id)
 
     #Vou verificar se tem algum pagamento pendente aqui, se for encontrado vou renderizar o qrcode do pagamento pendente e colocar o cronometro do tempo que falta para pagar
