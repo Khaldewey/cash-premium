@@ -114,8 +114,8 @@
         color: white
 
 .sorteio-img
-    width: 100%
-    border-radius: 10px 10px 0 0
+    border-radius: 10px 0px 0px 10px
+    width: 150px
 
 .dropdown-menu
     min-width: 0
@@ -157,19 +157,30 @@
         .progress-bar
             background-color: #059f01
 
+.sorteio-box:hover
+    background-color: rgba(6, 159, 1, 0.103)
+
 .sorteio-box 
     background-color: white
     box-shadow: 0 0 2px
     border-radius: 10px
     width: 100%
-    margin: 0 0 50px 0px
+    margin: 0 0 30px 0px
     display: flex
-    justify-content: center
-    flex-direction: column
+    .sorteio-content
+        width: 100%
+        padding: 10px
+        display: flex
+        justify-content: center
+        align-items: center
+        flex-direction: column
+        p
+            margin: 0
     h2
         color: black
-        font-size: 14pt
+        font-size: 12pt
         text-align: center
+        margin: 0
     p 
         color: black
         text-align: center
@@ -186,6 +197,7 @@
     display: flex
     justify-content: center
     align-items: center
+    gap: 5px
     i
         color: black
 
@@ -197,9 +209,6 @@
     width: 100%
     position: relative
     top: 60px
-
-.sorteio-column
-    width: 300px
 
 .nav-item-box
     display: flex
@@ -249,6 +258,9 @@
     background-color: #138d01
     margin: 10px
     
+.container-fluid
+    margin: 0
+    padding: 10px
 
 .new-sorteio-box
     display: flex
@@ -258,7 +270,7 @@
     margin-top: 30px 
     .new-sorteio-input
         border: none
-        box-shadow: 0 0 5px
+        box-shadow: 0 0 3px
         border-radius: 10px
         padding: 5px
         outline: none
@@ -308,8 +320,56 @@
         height: 30px
         color: white
         border-radius: 50%
+        
+@keyframes blink 
+    0% 
+        opacity: 1  
+    50% 
+        opacity: 0 
+    100% 
+        opacity: 1 
 
-  
+.lottery-selected
+    display: flex
+    justify-content: center
+    align-items: center
+    flex-direction: column
+    margin-bottom: 10px
+    h2
+        font-weight: bold
+        color: black
+        font-size: 18pt
+        margin: 0
+    p
+        margin: 0
+
+.disponible
+    display: flex
+    justify-content: center
+    align-items: center
+    border-radius: 10px
+    animation: blink 1s infinite
+    margin-top: 10px
+    p
+        background-color: #17a700
+        padding: 0 20px
+        border-radius: 10px
+        color: white
+
+.not-disponible
+    display: flex
+    justify-content: center
+    align-items: center
+    border-radius: 10px
+    animation: blink 1s infinite
+    margin-top: 10px
+    p
+        background-color: #cc0202
+        padding: 0 20px
+        border-radius: 10px
+        color: white
+
+
 
 .new-sorteio-column
     margin: 0
@@ -323,7 +383,8 @@
         border: none
         background-color: #17a700
         color: white
-        font-size: 14pt
+        font-size: 20pt
+        font-weight: bold
         border-radius: 10px
 
 

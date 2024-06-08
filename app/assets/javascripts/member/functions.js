@@ -213,7 +213,7 @@ $(function () {
             data: { payment_id: paymentId },
             success: function (data) {
                 if (data.status) {
-                    var paymentStatus = 'approved';
+                    var paymentStatus = data.status
 
                     // Verifica se o pagamento foi aprovado
                     if (paymentStatus === 'approved') {
