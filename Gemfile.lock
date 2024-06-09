@@ -112,8 +112,6 @@ GEM
       warden (~> 1.2.3)
     devise-i18n (1.8.0)
       devise (>= 4.6)
-    domain_name (0.5.20190701)
-      unf (>= 0.0.5, < 1.0.0)
     erubi (1.8.0)
     execjs (2.7.0)
     ffi (1.9.25)
@@ -127,12 +125,6 @@ GEM
     has_scope (0.7.2)
       actionpack (>= 4.1)
       activesupport (>= 4.1)
-    http-accept (1.7.0)
-    http-cookie (1.0.5)
-      domain_name (~> 0.5)
-    httparty (0.21.0)
-      mini_mime (>= 1.0.0)
-      multi_xml (>= 0.5.2)
     i18n (1.5.3)
       concurrent-ruby (~> 1.0)
     inherited_resources (1.9.0)
@@ -153,8 +145,6 @@ GEM
       mini_mime (>= 0.1.1)
     marcel (0.3.3)
       mimemagic (~> 0.3.2)
-    mercadopago-sdk (2.0.1)
-      json
     meta_request (0.6.0)
       callsite (~> 0.0, >= 0.0.11)
       rack-contrib (>= 1.1, < 3)
@@ -172,10 +162,8 @@ GEM
     msgpack (1.2.4)
     msgpack (1.2.4-x64-mingw32)
     multi_json (1.13.1)
-    multi_xml (0.6.0)
     nav_lynx (1.1.1)
       rails (>= 3.1.0)
-    netrc (0.11.0)
     newrelic_rpm (6.0.0.351)
     nio4r (2.3.1)
     nokogiri (1.10.1)
@@ -219,7 +207,7 @@ GEM
       method_source
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
-    rake (13.1.0)
+    rake (13.0.6)
     ransack (2.1.1)
       actionpack (>= 5.0)
       activerecord (>= 5.0)
@@ -233,17 +221,6 @@ GEM
     responders (2.4.1)
       actionpack (>= 4.2.0, < 6.0)
       railties (>= 4.2.0, < 6.0)
-    rest-client (2.1.0)
-      http-accept (>= 1.7.0, < 2.0)
-      http-cookie (>= 1.0.2, < 2.0)
-      mime-types (>= 1.16, < 4.0)
-      netrc (~> 0.8)
-    rest-client (2.1.0-x64-mingw32)
-      ffi (~> 1.9)
-      http-accept (>= 1.7.0, < 2.0)
-      http-cookie (>= 1.0.2, < 2.0)
-      mime-types (>= 1.16, < 4.0)
-      netrc (~> 0.8)
     sass (3.4.25)
     sass-rails (5.0.7)
       railties (>= 4.0.0, < 6)
@@ -286,10 +263,6 @@ GEM
       tzinfo (>= 1.0.0)
     uglifier (4.1.20)
       execjs (>= 0.3.0, < 3)
-    unf (0.1.4)
-      unf_ext
-    unf_ext (0.0.9.1)
-    unf_ext (0.0.9.1-x64-mingw32)
     uniform_notifier (1.12.1)
     warden (1.2.8)
       rack (>= 2.0.6)
@@ -304,6 +277,7 @@ GEM
 PLATFORMS
   ruby
   x64-mingw32
+  x86_64-linux
 
 DEPENDENCIES
   better_errors
@@ -323,11 +297,9 @@ DEPENDENCIES
   execjs
   font-awesome-sass (~> 5.6.1)
   friendly_id
-  httparty
   inherited_resources
   jquery-inputmask-rails
   jquery-rails
-  mercadopago-sdk
   meta_request
   mimemagic!
   mini_magick
@@ -341,7 +313,6 @@ DEPENDENCIES
   ransack
   recaptcha (~> 5.7)
   responders
-  rest-client
   sass-rails
   sendgrid
   simple_form
@@ -358,4 +329,4 @@ RUBY VERSION
    ruby 2.4.4p296
 
 BUNDLED WITH
-   2.3.5
+   1.17.3
