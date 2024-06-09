@@ -3,7 +3,8 @@ Target::Application.routes.draw do
   mount Ckeditor::Engine => '/ckeditor'
   post '/create_pix_payment', to: 'payments#create_pix_payment', as: :create_payment
   get '/check_payment' => 'member/home#check_payment', as: :check_payment
-  
+  post 'check_phone', to: 'public#check_phone'
+  get '/comprar-bilhete/:id' => 'public#purchase', as: :new_purchase
 
   %w( 404 422 500 ).each do |code|
     get code, :to => "errors#show", :code => code

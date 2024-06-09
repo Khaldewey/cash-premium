@@ -143,7 +143,7 @@ class Member::HomeController < Member::ApplicationController
     # Headers da requisição
     headers = {
       'Content-Type' => 'application/json',
-      'Authorization' => "Bearer APP_USR-191553553627645-052119-4e39a47a786002999f0f2bd945244922-472243321"
+      'Authorization' => "Bearer TEST-191553553627645-052119-e02f16e5c678bc716b9d93cfcdba8d03-472243321"
     }
   
     # Realizar a requisição GET para consultar o pagamento
@@ -196,7 +196,7 @@ class Member::HomeController < Member::ApplicationController
     # Headers da requisição
     headers = {
       'Content-Type' => 'application/json',
-      'Authorization' => "Bearer APP_USR-191553553627645-052119-4e39a47a786002999f0f2bd945244922-472243321",
+      'Authorization' => "Bearer TEST-191553553627645-052119-e02f16e5c678bc716b9d93cfcdba8d03-472243321",
       'X-Idempotency-Key' => idempotency_key
     }
 
@@ -206,6 +206,8 @@ class Member::HomeController < Member::ApplicationController
     # Retornar a resposta da API
     response
   end
+
+  
 
   helper_method :contar_numeros
 
