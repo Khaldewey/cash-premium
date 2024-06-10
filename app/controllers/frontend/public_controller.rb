@@ -126,7 +126,7 @@ def contar_numeros(membros, id)
 
   def pix  
     @lottery = Lottery.find(params[:id])
-    @member = current_member
+    @member = Member.find_by(id: params[:member_id])
     @numbers_count = params[:member][:quantity].to_i 
     # @payments = Payment.where(member_id: @member.id, lottery_id: @lottery.id)
 

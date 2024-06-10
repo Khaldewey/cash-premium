@@ -1,0 +1,55 @@
+section#agreement
+  .container-fluid
+    
+    .home-title 
+        div
+            = image_tag 'Cash.png'
+            h1 Campanhas
+        p Escolha sua campanha
+
+    .container-fluid
+        .row 
+            .sorteio-container
+                - @lotteries.each do |lottery|
+                    .sorteio-column.col-xs-12.col-md-6.col-lg-6
+                        - if Member.where("tickets->>:lottery_id IS NOT NULL", lottery_id: lottery.id.to_s).present?
+                            - if contar_numeros(Member.where("tickets->>:lottery_id IS NOT NULL", lottery_id: lottery.id.to_s), lottery.id) == lottery.ticket
+                                .sorteio-box
+                                    = image_tag 'moto.png', class: 'sorteio-img'
+                                    .sorteio-content 
+                                        h2 = lottery.event
+                                        p Venha participar do sorteio dessa linda moto
+                               
+                                        p = 'Cod: ' + lottery.id.to_s
+                                        .icon-box
+                                            = icon('fas', 'calendar')
+                                            p = lottery.date_event.strftime('%d/%m/%Y')
+                                        .not-disponible
+                                            p Cotas esgotadas                         
+                            - else
+                                = link_to new_purchase_path(id: lottery.id), class: 'sorteio-box' do
+                                    = image_tag 'moto.png', class: 'sorteio-img'
+                                    .sorteio-content 
+                                        h2 = lottery.event 
+                                        p Venha participar do sorteio dessa linda moto
+                               
+                                        p = 'Cod: ' + lottery.id.to_s
+                                        .icon-box
+                                            = icon('fas', 'calendar')
+                                            p = lottery.date_event.strftime('%d/%m/%Y')
+                                        .disponible
+                                            p Disponível
+                                                
+                        - else
+                            = link_to new_purchase_path(id: lottery.id), class: 'sorteio-box' do
+                                = image_tag 'moto.png', class: 'sorteio-img'
+                                .sorteio-content 
+                                    h2 = lottery.event 
+                                    p Venha participar do sorteio dessa linda moto
+                               
+                                    p = 'Cod: ' + lottery.id.to_s
+                                    .icon-box
+                                        = icon('fas', 'calendar')
+                                        p = lottery.date_event.strftime('%d/%m/%Y')
+                                    .disponible
+                                        p Disponível

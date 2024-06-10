@@ -4,10 +4,10 @@ Target::Application.routes.draw do
   post '/create_pix_payment', to: 'payments#create_pix_payment', as: :create_payment
   get '/check_payment' => 'member/home#check_payment', as: :check_payment
   post 'check_phone', to: 'public#check_phone'
-  get '/comprar-bilhete/:id' => 'public#purchase', as: :new_purchase
-  get '/campanhas' => 'public#index'
-  post '/pagamento' => 'public#pix', as: :validar_pagamento
-  get 'comprar-ticket/:id' => 'public#new', as: :new_ticket
+  get '/comprar-bilhete/:id' => 'frontend/public#purchase', as: :new_purchase
+  get '/campanhas' => 'frontend/public#index'
+  post '/pagamento' => 'frontend/public#pix', as: :validar_pagamento_publico
+  get 'comprar-ticket/:id' => 'frontend/public#new', as: :new_ticket
   
   put 'comprar' => 'home#create', as: :lottery_tickets
 
