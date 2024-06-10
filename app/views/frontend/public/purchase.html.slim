@@ -8,17 +8,35 @@ html
     = javascript_include_tag 'application'
 
   body
-    = form_with(model: [@lottery], url: member_validar_pagamento_path(id: @lottery.id), method: :post, id: 'lottery-form') do |form|
-      = hidden_field_tag :lottery_id, @lottery.id
-      = hidden_field_tag :context, 'comprar-bilhete'
-      .new-sorteio-box
-        .new-sorteio
-          = form.label :phone, "Telefone"
-          .sorteio-actions
-            = form.text_field :phone, id: 'phone-field'
-          .buttons-sorteio
-            = form.button "Confirmar", class: 'new-sorteio-submit'
-            = form.button 'Limpar', type: 'button', class: 'new-sorteio-submit button-clear-numbers'
+    = form_with(model: [@lottery], url: validar_pagamento_publico_path(id: @lottery.id), method: :post, id: 'lottery-form') do |form|
+       .container-sorteio
+          .new-sorteio-column.col-xs-6.col-md-6.col-lg-4
+              = form.button "+5", type: 'button', class: 'button-add-numbers', increment: 5
+          .new-sorteio-column.col-xs-6.col-md-6.col-lg-4
+              = form.button "+10", type: 'button', class: 'button-add-numbers', increment: 10
+          .new-sorteio-column.col-xs-6.col-md-6.col-lg-4
+              = form.button "+20", type: 'button', class: 'button-add-numbers', increment: 20
+          .new-sorteio-column.col-xs-6.col-md-6.col-lg-4
+              = form.button "+40", type: 'button', class: 'button-add-numbers', increment: 40
+          .new-sorteio-column.col-xs-6.col-md-6.col-lg-4
+              = form.button "+80", type: 'button', class: 'button-add-numbers', increment: 80
+          .new-sorteio-column.col-xs-6.col-md-6.col-lg-4
+              = form.button "+160", type: 'button', class: 'button-add-numbers', increment: 160
+      
+          .new-sorteio-box
+            .new-sorteio
+                = form.label :quantity, "Quantidade de Números"
+                .sorteio-actions 
+                    = form.button '-', type: 'button', class: 'action-buttons button-add-numbers', decrement: 1  
+                    = form.number_field :quantity, min: 1, max: @lottery.ticket - contar_numeros(Member.where("tickets->>:lottery_id IS NOT NULL", lottery_id: @lottery.id.to_s), @lottery.id), step: 1, class: 'new-sorteio-input', id: 'quantity-sorteio', value: 0         
+                    = form.button '+', type: 'button', class: 'action-buttons button-add-numbers', increment: 1
+          
+                = form.label :phone, "Telefone"
+                .sorteio-actions
+                  = form.text_field :phone, id: 'phone-field'
+                .buttons-sorteio
+                  = form.button "Confirmar", class: 'new-sorteio-submit'
+                  = form.button 'Limpar', type: 'button', class: 'new-sorteio-submit button-clear-numbers'
 
   javascript:
     document.addEventListener('DOMContentLoaded', function() {
@@ -35,7 +53,7 @@ html
         event.preventDefault();
         const phone = phoneField.value;
 
-        fetch("#{url_for(controller: '/public', action: 'check_phone')}", {
+        fetch("#{url_for(controller: 'frontend/public', action: 'check_phone')}", {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -46,6 +64,7 @@ html
         .then(response => response.json())
         .then(data => {
           if (data.found) {
+            console.log(data)
             alert(`Número de telefone encontrado: ${data.name}`);
             form.action = "#{validar_pagamento_publico_path(id: @lottery.id)}?member_id=" + data.id;
           } else {

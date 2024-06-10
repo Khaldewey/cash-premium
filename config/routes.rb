@@ -3,7 +3,7 @@ Target::Application.routes.draw do
   mount Ckeditor::Engine => '/ckeditor'
   post '/create_pix_payment', to: 'payments#create_pix_payment', as: :create_payment
   get '/check_payment' => 'member/home#check_payment', as: :check_payment
-  post 'check_phone', to: 'public#check_phone'
+  post 'check_phone', to: 'frontend/public#check_phone'
   get '/comprar-bilhete/:id' => 'frontend/public#purchase', as: :new_purchase
   get '/campanhas' => 'frontend/public#index'
   post '/pagamento' => 'frontend/public#pix', as: :validar_pagamento_publico

@@ -17,7 +17,7 @@ end
 def check_phone
     @member = Member.find_by(phone: params[:phone])
     if @member
-        render json: { found: true, name: @member.name }
+        render json: { found: true, name: @member.name, id: @member.id }
     else
         render json: { found: false }
     end
@@ -127,7 +127,8 @@ def contar_numeros(membros, id)
   def pix  
     @lottery = Lottery.find(params[:id])
     @member = Member.find_by(id: params[:member_id])
-    @numbers_count = params[:member][:quantity].to_i 
+    @numbers_count = params[:lottery][:quantity].to_i 
+    -raise
     # @payments = Payment.where(member_id: @member.id, lottery_id: @lottery.id)
 
     #Vou verificar se tem algum pagamento pendente aqui, se for encontrado vou renderizar o qrcode do pagamento pendente e colocar o cronometro do tempo que falta para pagar
