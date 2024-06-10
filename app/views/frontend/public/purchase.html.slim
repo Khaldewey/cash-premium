@@ -1,0 +1,67 @@
+doctype html
+html
+  head
+    
+    = csrf_meta_tags
+    title Cash Premium 1.0
+    = stylesheet_link_tag 'application', media: 'all'
+    = javascript_include_tag 'application'
+
+  body
+    = form_with(model: [@lottery], url: member_validar_pagamento_path(id: @lottery.id), method: :post, id: 'lottery-form') do |form|
+      = hidden_field_tag :lottery_id, @lottery.id
+      = hidden_field_tag :context, 'comprar-bilhete' 
+      .new-sorteio-box
+        .new-sorteio
+          = form.label :phone, "Telefone"
+          .sorteio-actions  
+            = form.text_field :phone, id: 'phone-field'
+
+          .buttons-sorteio 
+            = form.button "Confirmar", class: 'new-sorteio-submit'
+            = form.button 'Limpar', type: 'button', class: 'new-sorteio-submit button-clear-numbers'
+
+javascript:
+  document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('lottery-form');
+    const phoneField = document.getElementById('phone-field');
+    const clearButton = document.querySelector('.button-clear-numbers');
+
+    // Função para obter o token CSRF do Rails
+    function getCsrfToken() {
+      return document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    }
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+      const phone = phoneField.value;
+
+      fetch('#{url_for(controller: "public", action: "check_phone")}', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': getCsrfToken()
+        },
+        body: JSON.stringify({ phone: phone })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.found) {
+          alert(`Número de telefone encontrado: ${data.name}`);
+          form.action = '#{member_validar_pagamento_path(id: @lottery.id)}';
+        } else {
+          alert('Número de telefone não encontrado, redirecionando para o formulário de cadastro.');
+          form.action = '#{new_member_registration_path}';
+          form.method = 'GET';
+        }
+        form.submit();
+      })
+      .catch(error => {
+        console.error('Erro:', error);
+      });
+    });
+
+    clearButton.addEventListener('click', function() {
+      phoneField.value = '';
+    });
+  });

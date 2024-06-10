@@ -6,12 +6,22 @@ class Member::HomeController < Member::ApplicationController
 
   def index
     @lotteries = Lottery.where(status: true)
+    if member_signed_in?
+      redirect_to member_lotteries_path
+    elsif user_signed_in?
+      redirect_to admin_root_path
+    else
+      redirect_to new_member_session_path
+    end
     # if @lotteries.present?
     #   @members = Member.where(lottery_id: @lotteries.first.id)
     #   @tickets = contar_numeros(@members)
     # end
-    
-  end 
+  end  
+
+  def lotteries
+    @lotteries = Lottery.where(status: true)
+  end
 
   def contar_numeros(membros, id)
     total_numeros = 0

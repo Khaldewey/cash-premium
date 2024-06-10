@@ -5,6 +5,11 @@ Target::Application.routes.draw do
   get '/check_payment' => 'member/home#check_payment', as: :check_payment
   post 'check_phone', to: 'public#check_phone'
   get '/comprar-bilhete/:id' => 'public#purchase', as: :new_purchase
+  get '/campanhas' => 'public#index'
+  post '/pagamento' => 'public#pix', as: :validar_pagamento
+  get 'comprar-ticket/:id' => 'public#new', as: :new_ticket
+  
+  put 'comprar' => 'home#create', as: :lottery_tickets
 
   %w( 404 422 500 ).each do |code|
     get code, :to => "errors#show", :code => code
@@ -95,10 +100,14 @@ Target::Application.routes.draw do
     patch '/editar-senha/password' => 'edit_password#update_password', as: :update_password
     post '/pagamento' => 'home#pix', as: :validar_pagamento
     get 'comprar-ticket/:id' => 'home#new', as: :new_ticket
-    
+    get 'campanhas' => 'home#lotteries', as: :lotteries
     put 'comprar' => 'home#create', as: :lottery_tickets
+    # root to: 'home#redirect_based_on_auth'
     root to: 'home#index'
   end
 
-  root to: 'member/home#index'
+  # devise_scope :member do
+  #   root to: 'member/sessions#new'
+  # end 
+  root to: 'frontend/public#index'
 end
