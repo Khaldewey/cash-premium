@@ -49,11 +49,14 @@ $(document).ready(function () {
     });
 
     $(".button-add-numbers").on('click', function () {
-        var value = parseInt($("#quantity-sorteio").val());
+        var quantityInput = $('#quantity-sorteio');
+
+        var value = parseInt(quantityInput.val());
+        var maxValue = parseInt(quantityInput.attr('max'));
         var increment = parseInt($(this).attr('increment'));
         var decrement = parseInt($(this).attr('decrement'));
 
-        if (increment)
+        if (increment && value < maxValue && (value + increment <= maxValue))
             $("#quantity-sorteio").val(value + increment);
 
         if (decrement && value > 0)
@@ -90,7 +93,31 @@ $(document).ready(function () {
 
     // Iniciar o cronômetro automaticamente
     timerInterval = setInterval(updateTimer, 1000);
+
+    $("#openModal").click(function() {
+        var quantityInput = $('#quantity-sorteio');
+
+        if(quantityInput.val() > 0) {
+            $("#myModal").css("display", "flex");
+        } else {
+            alert("Digite a quantidade de tickets")
+        }
+        
+    });
+
+    // Quando o usuário clicar no <span> (x), fecha o modal
+    $(".close").click(function() {
+        $("#myModal").css("display", "none");
+    });
+
+    // Quando o usuário clicar em qualquer lugar fora do modal, fecha o modal
+    $(window).click(function(event) {
+        if ($(event.target).is("#myModal")) {
+            $("#myModal").css("display", "none");
+        }
+    });
 })
+
 
 
 
