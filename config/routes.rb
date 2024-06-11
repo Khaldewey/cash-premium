@@ -1,15 +1,14 @@
 Target::Application.routes.draw do
   
   mount Ckeditor::Engine => '/ckeditor'
-  post '/create_pix_payment', to: 'payments#create_pix_payment', as: :create_payment
-  get '/check_payment' => 'member/home#check_payment', as: :check_payment
+  
+  get '/check_payment_public' => 'frontend/public#check_payment', as: :check_payment_public
   post 'check_phone', to: 'frontend/public#check_phone'
   get '/comprar-bilhete/:id' => 'frontend/public#purchase', as: :new_purchase
   get '/campanhas' => 'frontend/public#index'
   post '/pagamento' => 'frontend/public#pix', as: :validar_pagamento_publico
   get 'comprar-ticket/:id' => 'frontend/public#new', as: :new_ticket
-  
-  put 'comprar' => 'home#create', as: :lottery_tickets
+  put 'comprar_public' => 'frontend/public#create', as: :lottery_tickets_public
 
   %w( 404 422 500 ).each do |code|
     get code, :to => "errors#show", :code => code

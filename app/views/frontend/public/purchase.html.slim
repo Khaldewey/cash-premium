@@ -1,13 +1,4 @@
-doctype html
-html
-  head
-    
-    = csrf_meta_tags
-    title Cash Premium 1.0
-    = stylesheet_link_tag 'application', media: 'all'
-    = javascript_include_tag 'application'
 
-  body
     .container-fluid   
         .home-title 
             div
@@ -20,7 +11,7 @@ html
             p = 'Data do Sorteio: ' + @lottery.date_event.strftime('%d/%m/%Y')
   
     = form_with(model: [@lottery], url: validar_pagamento_publico_path(id: @lottery.id), method: :post, id: 'lottery-form') do |form|
-       .container-sorteio
+        .container-sorteio
           .new-sorteio-column.col-xs-6.col-md-6.col-lg-4
               = form.button "+5", type: 'button', class: 'button-add-numbers', increment: 5
           .new-sorteio-column.col-xs-6.col-md-6.col-lg-4
@@ -34,18 +25,18 @@ html
           .new-sorteio-column.col-xs-6.col-md-6.col-lg-4
               = form.button "+160", type: 'button', class: 'button-add-numbers', increment: 160
       
-          .new-sorteio-box
-            .new-sorteio
-                = form.label :quantity, "Quantidade de Números"
-                .sorteio-actions 
-                    = form.button '-', type: 'button', class: 'action-buttons button-add-numbers', decrement: 1  
-                    = form.number_field :quantity, min: 1, max: @lottery.ticket - contar_numeros(Member.where("tickets->>:lottery_id IS NOT NULL", lottery_id: @lottery.id.to_s), @lottery.id), step: 1, class: 'new-sorteio-input', id: 'quantity-sorteio', value: 0, readonly: true       
-                    = form.button '+', type: 'button', class: 'action-buttons button-add-numbers', increment: 1
-                .sorteio-actions                   
-                    button#openModal.new-sorteio-submit type="button" Abrir Modal
-                    = form.button 'Limpar', type: 'button', class: 'new-sorteio-submit button-clear-numbers'
+        .new-sorteio-box
+          .new-sorteio
+              = form.label :quantity, "Quantidade de Números"
+              .sorteio-actions 
+                  = form.button '-', type: 'button', class: 'action-buttons button-add-numbers', decrement: 1  
+                  = form.number_field :quantity, min: 1, max: @lottery.ticket - contar_numeros(Member.where("tickets->>:lottery_id IS NOT NULL", lottery_id: @lottery.id.to_s), @lottery.id), step: 1, class: 'new-sorteio-input', id: 'quantity-sorteio', value: 0, readonly: true       
+                  = form.button '+', type: 'button', class: 'action-buttons button-add-numbers', increment: 1
+              .sorteio-actions                   
+                  button#openModal.new-sorteio-submit type="button" Abrir Modal
+                  = form.button 'Limpar', type: 'button', class: 'new-sorteio-submit button-clear-numbers'
                
-                #myModal.modal
+                  #myModal.modal
                     .modal-content
                         span.close &times;
                         
@@ -84,7 +75,7 @@ html
                 if (data.found) {
                     console.log(data)
                     alert(`Número de telefone encontrado: ${data.name}`);
-                    form.action = "#{validar_pagamento_publico_path(id: @lottery.id)}?member_id=" + data.id;
+                    form.action = "#{validar_pagamento_publico_path(id: @lottery.id)}&member_id=" + data.id;
                 } else {
                     alert('Número de telefone não encontrado, redirecionando para o formulário de cadastro.');
                     form.action = "#{new_member_registration_path}";
