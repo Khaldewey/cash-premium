@@ -8,7 +8,7 @@ html
     = javascript_include_tag 'application'
 
   body
-    = form_with(model: [@lottery], url: validar_pagamento_publico_path(id: @lottery.id), method: :post, id: 'lottery-form') do |form|
+    = form_with(url: '#', method: :post, id: 'lottery-form') do |form|
        .container-sorteio
           .new-sorteio-column.col-xs-6.col-md-6.col-lg-4
               = form.button "+5", type: 'button', class: 'button-add-numbers', increment: 5
@@ -66,7 +66,7 @@ html
           if (data.found) {
             console.log(data)
             alert(`Número de telefone encontrado: ${data.name}`);
-            form.action = "#{validar_pagamento_publico_path(id: @lottery.id)}?member_id=" + data.id;
+            form.action = "#{validar_pagamento_publico_path(id: @lottery.id, member_id: data.id)}?member_id=" + data.id;
           } else {
             alert('Número de telefone não encontrado, redirecionando para o formulário de cadastro.');
             form.action = "#{new_member_registration_path}";
