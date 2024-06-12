@@ -39,7 +39,7 @@ class Member::HomeController < Member::ApplicationController
   
   def new
     @lottery = Lottery.find(params[:id])
-    @member = current_member 
+    @member = current_member
   end
 
   def create

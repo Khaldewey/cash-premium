@@ -55,3 +55,6 @@ EXPOSE 3000
 
 # Comando para iniciar o servidor Rails quando o contêiner for iniciado
 CMD ["sh", "-c", "DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bundle exec rake db:migrate RAILS_ENV=production && bundle exec rake db:seed RAILS_ENV=production && rails server -b 0.0.0.0 -p 3000"]
+
+# Configurando o script de entrada
+# ENTRYPOINT ["./entrypoint.sh"]
