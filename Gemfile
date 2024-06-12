@@ -16,8 +16,9 @@ gem 'httparty'
 gem 'rails', '5.2.0'
 
 gem 'rails-i18n'
+
 # Use SCSS for stylesheets
-gem 'sass-rails'
+gem 'sassc-rails'
 #
 # # Use Compass for improve SASS features
 gem 'compass-rails'

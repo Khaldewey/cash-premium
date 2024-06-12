@@ -1,31 +1,31 @@
 class Frontend::PublicController < Frontend::ApplicationController
 
-def purchase
-    @lottery = Lottery.find(params[:id])
-    # @member = Member.find_by(phone: params[:phone]) 
-end  
+  def purchase
+      @lottery = Lottery.find(params[:id])
+      # @member = Member.find_by(phone: params[:phone]) 
+  end  
 
-def index
-    @lotteries = Lottery.where(status: true)
-    if member_signed_in?
-      redirect_to member_lotteries_path
-    else
-      render :public
-    end
-end
+  def index
+      @lotteries = Lottery.where(status: true)
+      if member_signed_in?
+        redirect_to member_lotteries_path
+      else
+        render :public
+      end
+  end
 
-def check_phone
-    @member = Member.find_by(phone: params[:phone])
-    if @member
-        render json: { found: true, name: @member.name, id: @member.id }
-    else
-        render json: { found: false }
-    end
-end 
+  def check_phone
+      @member = Member.find_by(phone: params[:phone])
+      if @member
+          render json: { found: true, name: @member.name, id: @member.id }
+      else
+          render json: { found: false }
+      end
+  end 
 
 
 
-def contar_numeros(membros, id)
+  def contar_numeros(membros, id)
     total_numeros = 0
     membros.each do |membro|
       if membro[:tickets].empty?
@@ -36,17 +36,18 @@ def contar_numeros(membros, id)
     end
     
     return total_numeros
-   
+    
   end
-  
+    
   def new
     @lottery = Lottery.find(params[:id])
     @member = current_member 
   end
 
   def create
+      
     @lottery = Lottery.find(params[:lottery_id])
-    @member = current_member 
+    @member = Member.find(params[:member_id])
     # numbers_count = params[:member][:quantity].to_i
     numbers_count = params[:quantity].to_i
     @all_numbers = []
@@ -112,7 +113,7 @@ def contar_numeros(membros, id)
     # end
     
   end
-  
+    
   def verificar_numeros_participantes(membros, id)
 
     flag_array = []
@@ -128,7 +129,6 @@ def contar_numeros(membros, id)
     @lottery = Lottery.find(params[:id])
     @member = Member.find_by(id: params[:member_id])
     @numbers_count = params[:lottery][:quantity].to_i 
-    -raise
     # @payments = Payment.where(member_id: @member.id, lottery_id: @lottery.id)
 
     #Vou verificar se tem algum pagamento pendente aqui, se for encontrado vou renderizar o qrcode do pagamento pendente e colocar o cronometro do tempo que falta para pagar
@@ -144,7 +144,7 @@ def contar_numeros(membros, id)
     else 
       render :new
     end
-   
+    
   end 
 
   def check_payment
@@ -158,7 +158,7 @@ def contar_numeros(membros, id)
       'Content-Type' => 'application/json',
       'Authorization' => "Bearer TEST-191553553627645-052119-e02f16e5c678bc716b9d93cfcdba8d03-472243321"
     }
-  
+
     # Realizar a requisição GET para consultar o pagamento
     response = HTTParty.get(url, headers: headers)
     
@@ -171,7 +171,7 @@ def contar_numeros(membros, id)
       
     # Calcula a data de expiração
     expiration_time = (Time.now + 10*60).strftime("%Y-%m-%dT%H:%M:%S.%L%:z")
-   
+    
     # precisa ser igual 2024-06-05T17:48:49.105-04:00
     
     # Dados do pagamento
@@ -220,7 +220,9 @@ def contar_numeros(membros, id)
     response
   end
 
-  
+  def meus_titulos
+    
+  end
 
   helper_method :contar_numeros
 end
