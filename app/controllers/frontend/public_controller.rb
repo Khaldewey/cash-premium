@@ -99,7 +99,7 @@ class Frontend::PublicController < Frontend::ApplicationController
     
     if @member.save
       render json: {
-        "mensagem": "Criado com êxito"
+        "numbers": selected_numbers
       }
       # redirect_to member_root_path, notice: "Números selecionados com sucesso!"
     else
@@ -221,6 +221,12 @@ class Frontend::PublicController < Frontend::ApplicationController
   end
 
   def meus_titulos
+    
+  end 
+
+  def numbers
+    @numbers =  params[:numbers].split(',')
+    @member = Member.find(params[:member_id])
     
   end
 

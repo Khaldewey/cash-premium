@@ -241,7 +241,7 @@ $(function () {
             success: function (data) {
                 if (data.status) {
                     var paymentStatus = data.status
-                    paymentStatus = 'pending'
+                    paymentStatus = 'approved'
                     // Verifica se o pagamento foi aprovado
                     if (paymentStatus === 'approved') {
                         console.log("Pagamento aprovado");
@@ -253,8 +253,8 @@ $(function () {
                             method: 'PUT',
                             data: { lottery_id: lotteryId, quantity: quantity, member_id: memberId },
                             success: function (data) {
-                                console.log(data.mensagem);
-                                window.location.href = "/";
+                                console.log(data.numbers);
+                                window.location.href = `/numeros-selecionados?numbers=${data.numbers}&member_id=${memberId}`;
                             }
                             
                         });

@@ -10,6 +10,8 @@ Target::Application.routes.draw do
   get 'comprar-ticket/:id' => 'frontend/public#new', as: :new_ticket
   put 'comprar_public' => 'frontend/public#create', as: :lottery_tickets_public
   get '/meus-titulos' => 'frontend/public#meus_titulos'
+  get '/numeros-selecionados' => 'frontend/public#numbers'
+
 
   %w( 404 422 500 ).each do |code|
     get code, :to => "errors#show", :code => code
