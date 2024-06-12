@@ -254,6 +254,12 @@ GEM
     sassc (2.0.0)
       ffi (~> 1.9.6)
       rake
+    sassc-rails (2.1.2)
+      railties (>= 4.0.0)
+      sassc (>= 2.0)
+      sprockets (> 3.0)
+      sprockets-rails
+      tilt
     sendgrid (1.2.4)
       json
     simple_form (4.1.0)
@@ -343,7 +349,7 @@ DEPENDENCIES
   recaptcha (~> 5.7)
   responders
   rest-client
-  sass-rails
+  sassc-rails
   sendgrid
   simple_form
   slim

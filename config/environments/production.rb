@@ -20,11 +20,11 @@ Target::Application.configure do
   # config.action_dispatch.rack_cache = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this).
-  config.serve_static_assets = false
+  config.serve_static_assets = true
 
   # Compress JavaScripts and CSS.
-  config.assets.js_compressor = :uglifier
-  # config.assets.css_compressor = :sass
+  config.assets.js_compressor = Uglifier.new(harmony: true)
+  config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
   config.assets.compile = false
@@ -32,8 +32,16 @@ Target::Application.configure do
   # Generate digests for assets URLs.
   config.assets.digest = true
 
+  config.sass.cache = false
+
   # Version of your assets, change this if you want to expire all your assets.
   config.assets.version = '1.0'
+
+
+  config.public_file_server.headers = {
+    'Cache-Control' => "public, max-age=#{1.year.to_i}",
+    'Expires' => "#{1.year.from_now.to_formatted_s(:rfc822)}"
+  }
 
   # Specifies the header that your server uses for sending files.
   # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for apache

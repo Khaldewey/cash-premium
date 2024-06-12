@@ -48,8 +48,10 @@ RUN bundle exec rails db:environment:set RAILS_ENV=production
 # Execute as tarefas de setup do banco de dados
 RUN DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bundle exec rake db:setup RAILS_ENV=production
 
+RUN bundle exec rake assets:precompile RAILS_ENV=production
+
 # Exponha a porta 3000 para acessar o aplicativo Rails
 EXPOSE 3000
 
 # Comando para iniciar o servidor Rails quando o contêiner for iniciado
-CMD ["sh", "-c", "DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bundle exec rake db:migrate RAILS_ENV=production && bundle exec rake db:seed RAILS_ENV=production && rails server -b 0.0.0.0"]
+CMD ["sh", "-c", "DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bundle exec rake db:migrate RAILS_ENV=production && bundle exec rake db:seed RAILS_ENV=production && rails server -b 0.0.0.0 -p 3000"]
