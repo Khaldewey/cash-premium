@@ -3,7 +3,10 @@ input#quantity(type="hidden" value="#{@numbers_count}")
 input#lottery_id(type="hidden" value="#{@lottery.id}")
 input#member_id(type="hidden" value="#{@member.id}")
 
-.pix-container 
+.pix-container
+    p = @lottery.event
+    p = @member.name
+    p Quantidade de cotas: #{@numbers_count}
     img[src="data:image/jpeg;base64,#{@qr_code_base64}" width="200" height="200"]
     .pix-copia
         label for="copiar" Copiar Hash:

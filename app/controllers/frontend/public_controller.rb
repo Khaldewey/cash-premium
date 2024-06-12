@@ -220,7 +220,9 @@ class Frontend::PublicController < Frontend::ApplicationController
     response
   end
 
-  
+  def meus_titulos
+    
+  end
 
   helper_method :contar_numeros
 end

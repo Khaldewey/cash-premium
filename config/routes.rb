@@ -9,6 +9,7 @@ Target::Application.routes.draw do
   post '/pagamento' => 'frontend/public#pix', as: :validar_pagamento_publico
   get 'comprar-ticket/:id' => 'frontend/public#new', as: :new_ticket
   put 'comprar_public' => 'frontend/public#create', as: :lottery_tickets_public
+  get '/meus-titulos' => 'frontend/public#meus_titulos'
 
   %w( 404 422 500 ).each do |code|
     get code, :to => "errors#show", :code => code
