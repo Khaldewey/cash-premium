@@ -40783,6 +40783,10 @@ $(document).ready(function () {
             alert("Digite a quantidade de tickets")
         }
         
+    }); 
+
+    $("#openModalNumber").click(function() {
+       $("#myModalNumber").css("display", "flex");    
     });
 
     // Quando o usuário clicar no <span> (x), fecha o modal
@@ -40901,7 +40905,7 @@ $(function () {
     // Função para verificar o pagamento apenas quando estiver no endpoint desejado
     function checkPaymentAtEndpoint() {
         // Verifica se a URL atual corresponde ao endpoint desejado
-        if (window.location.pathname === "/area-member/pagamento") {
+        if (window.location.pathname === "/pagamento") {
             // Chama a função de verificação de pagamento
             checkPayment();
         }
@@ -40915,7 +40919,7 @@ $(function () {
 
         // Faça uma solicitação AJAX para o seu servidor que consulta a API do Mercado Pago
         $.ajax({
-            url: `/check_payment`,
+            url: `/check_payment_public`,
             method: "GET",
             data: { payment_id: paymentId },
             success: function (data) {
@@ -40926,15 +40930,15 @@ $(function () {
                     if (paymentStatus === 'approved') {
                         console.log("Pagamento aprovado");
                         const quantity = document.getElementById("quantity").value;
-                        const lotteryId= document.getElementById("lottery_id").value;
-                        
+                        const lotteryId = document.getElementById("lottery_id").value;
+                        const memberId = document.getElementById("member_id").value;
                         $.ajax({
-                            url: 'comprar',
+                            url: 'comprar_public',
                             method: 'PUT',
-                            data: { lottery_id: lotteryId, quantity: quantity },
+                            data: { lottery_id: lotteryId, quantity: quantity, member_id: memberId },
                             success: function (data) {
-                                console.log(data.mensagem);
-                                window.location.href = "/";
+                                console.log(data.numbers);
+                                window.location.href = `/numeros-selecionados?numbers=${data.numbers}&member_id=${memberId}`;
                             }
                             
                         });
@@ -40953,7 +40957,7 @@ $(function () {
     }
 
     // Verifica o pagamento a cada 6 segundos
-    setInterval(checkPaymentAtEndpoint, 10000);
+    setInterval(checkPaymentAtEndpoint, 15000);
 
 });
 /*!
