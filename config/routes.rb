@@ -4,6 +4,7 @@ Target::Application.routes.draw do
   
   get '/check_payment_public' => 'frontend/public#check_payment', as: :check_payment_public
   post 'check_phone', to: 'frontend/public#check_phone'
+  post 'check_phone_numbers', to: 'frontend/public#check_phone_numbers'
   get '/comprar-bilhete/:id' => 'frontend/public#purchase', as: :new_purchase
   get '/campanhas' => 'frontend/public#index'
   post '/pagamento' => 'frontend/public#pix', as: :validar_pagamento_publico
@@ -11,6 +12,7 @@ Target::Application.routes.draw do
   put 'comprar_public' => 'frontend/public#create', as: :lottery_tickets_public
   get '/meus-titulos' => 'frontend/public#meus_titulos'
   get '/numeros-selecionados' => 'frontend/public#numbers'
+  post '/meus-numeros' => 'frontend/public#search_numbers', as: :procurar_numeros
 
 
   %w( 404 422 500 ).each do |code|

@@ -1,0 +1,10 @@
+h1 Olá #{@member.name} ! 
+
+- if @member.tickets.present?
+  - @member.tickets.each do |lottery_id, numbers|
+    h2 Loteria #{lottery_id}
+    ul
+      - numbers.each do |number|
+        li = number
+- else
+  p Não há números de loteria cadastrados para este membro.

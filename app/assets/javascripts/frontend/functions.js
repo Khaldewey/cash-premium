@@ -103,6 +103,10 @@ $(document).ready(function () {
             alert("Digite a quantidade de tickets")
         }
         
+    }); 
+
+    $("#openModalNumber").click(function() {
+       $("#myModalNumber").css("display", "flex");    
     });
 
     // Quando o usuário clicar no <span> (x), fecha o modal

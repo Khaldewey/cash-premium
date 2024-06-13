@@ -21,6 +21,15 @@ class Frontend::PublicController < Frontend::ApplicationController
       else
           render json: { found: false }
       end
+  end  
+
+  def check_phone_numbers
+    @member = Member.find_by(phone: params[:phone])
+    if @member
+        render json: { found: true, name: @member.name, id: @member.id }
+    else
+        render json: { found: false }
+    end
   end 
 
 
@@ -142,7 +151,7 @@ class Frontend::PublicController < Frontend::ApplicationController
       @id = parsed_response.dig("id")
       
     else 
-      render :new
+      render :purchase
     end
     
   end 
@@ -221,14 +230,21 @@ class Frontend::PublicController < Frontend::ApplicationController
   end
 
   def meus_titulos
-    
   end 
 
   def numbers
     @numbers =  params[:numbers].split(',')
     @member = Member.find(params[:member_id])
+  end 
+
+  def search_numbers
+    @member = Member.find(params[:yek])
+    
     
   end
+
+  
+  
 
   helper_method :contar_numeros
 end

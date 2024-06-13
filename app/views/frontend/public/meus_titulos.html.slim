@@ -1,3 +1,69 @@
-h1 Para visualizar suas cotas adquiridas acesse portal com seu email e senha
+.new-sorteio-box
+        = form_with(url: "#", method: :post, id: 'lottery-form') do |form|
+          .new-sorteio               
+                  button#openModalNumber.new-sorteio-submit type="button" Abrir Modal
+                  = form.button 'Limpar', type: 'button', class: 'new-sorteio-submit button-clear-numbers'
+               
+                  #myModalNumber.modal
+                    .modal-content
+                        span.close &times;
+                        
+                        .sorteio-actions
+                            p Informe seu numero de telefone
+                            = form.text_field :phone, id: 'phone-field', class: 'new-sorteio-input'
+                            .buttons-sorteio
+                            = form.button "Confirmar", class: 'new-sorteio-submit' 
+    
+javascript:
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('lottery-form');
+        const phoneField = document.getElementById('phone-field');
+        const clearButton = document.querySelector('.button-clear-numbers');
 
-= link_to 'Entre aqui', new_member_session_path , class: 'menu-link'
+        // Função para obter o token CSRF do Rails
+        function getCsrfToken() {
+            return document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        } 
+
+        // Função para criptografar o member_id
+        function encryptMemberId(memberId) {
+            const secretKey = 'be2a8ef602c991937ed1492ed48966f7'; // Chave secreta para criptografia
+            return CryptoJS.AES.encrypt(memberId.toString(), secretKey).toString();
+        }
+
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const phone = phoneField.value;
+
+            fetch("#{url_for(controller: 'frontend/public', action: 'check_phone_numbers')}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': getCsrfToken()
+            },
+            body: JSON.stringify({ phone: phone })
+            })
+            .then(response => response.json())
+            .then(data => {
+            if (data.found) {
+                console.log(data)
+                alert(`Número de telefone encontrado: ${data.name}`);
+                const encryptedId = encryptMemberId(data.id);
+                form.action = "#{procurar_numeros_path}?asdqsffwerwrw112423eewer&fweriwiknqe&688=fsdqeqweasdqeqwe&qeqweqweqwe=q8e9q8798we9rew" +  encodeURIComponent(encryptedId)+"&yek="+data.id+"&aqe345wersdfqwesdfer=3423qw";
+            } else {
+                alert('Número de telefone não encontrado, redirecionando para o formulário de cadastro.');
+                form.action = "#{new_member_registration_path}";
+                form.method = 'GET';
+            }
+            form.submit();
+            })
+            .catch(error => {
+            console.error('Erro:', error);
+            });
+        });
+
+        clearButton.addEventListener('click', function() {
+            phoneField.value = '';
+        });
+    });
