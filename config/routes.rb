@@ -97,8 +97,8 @@ Target::Application.routes.draw do
     root to: 'dashboard#index'
   end 
 
-
-  devise_for :member, path: 'area-member', controllers: {registrations: 'member/registrations', sessions: 'member/sessions',  passwords: 'member/custom_passwords'}
+   
+  devise_for :member, path: 'area-member', controllers: {registrations: 'member/registrations', sessions: 'member/sessions', passwords: 'member/custom_passwords'}
   namespace :member, path: "area-member" do
     get '/editar-senha' => 'edit_password#new', as: :edit_password
     patch '/editar-senha/password' => 'edit_password#update_password', as: :update_password
