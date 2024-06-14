@@ -136,7 +136,7 @@ class Frontend::PublicController < Frontend::ApplicationController
 
   def pix  
     @lottery = Lottery.find(params[:id])
-    @member = Member.find_by(id: params[:member_id])
+    @member = Member.find_by(id: params[:yek])
     @numbers_count = params[:lottery][:quantity].to_i 
     # @payments = Payment.where(member_id: @member.id, lottery_id: @lottery.id)
 
@@ -234,7 +234,7 @@ class Frontend::PublicController < Frontend::ApplicationController
 
   def numbers
     @numbers =  params[:numbers].split(',')
-    @member = Member.find(params[:member_id])
+    @member = Member.find(params[:yek])
   end 
 
   def search_numbers

@@ -258,7 +258,7 @@ $(function () {
                             data: { lottery_id: lotteryId, quantity: quantity, member_id: memberId },
                             success: function (data) {
                                 console.log(data.numbers);
-                                window.location.href = `/numeros-selecionados?numbers=${data.numbers}&member_id=${memberId}`;
+                                window.location.href = `/numeros-selecionados?numbers=${data.numbers}&member_id=sdfwerwersfsfwerwrq423no2noino2o34iow2n3o42n3o3io24n2o3i4no12i3no23i4n2oi4wperípí24poipiepwoirpweipsdfipoipip23i4pipweirp2oi34p2ipfpsdspfowpnhfpnfsdfnslkjlq43bl4b23l4n&yek=${memberId}+"&qpwoeiqpoieqpeipqoweiqpoweiqpwoeiqpwoqie=1231l23nlnlknlandqlwneqlwenqjnlkjnfkabkqbkqhwbekqwbeqkwhe=&yeekkqieo=123013012ljnlajsndiqwe"`;
                             }
                             
                         });
