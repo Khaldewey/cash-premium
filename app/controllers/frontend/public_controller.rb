@@ -5,13 +5,8 @@ class Frontend::PublicController < Frontend::ApplicationController
       # @member = Member.find_by(phone: params[:phone]) 
   end  
 
-  def index
+  def events
       @lotteries = Lottery.where(status: true)
-      if member_signed_in?
-        redirect_to member_lotteries_path
-      else
-        render :public
-      end
   end
 
   def check_phone

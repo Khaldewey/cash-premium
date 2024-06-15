@@ -136,15 +136,7 @@ html lang="pt-BR"
                                 = nav_link_to admin_article_category_articles_path(category), {:class => 'menu_link link-active'}, {:wrapper => 'li', :wrapper_class => 'item_menu', :selected_class => 'active', :url_segment => 3 } do
                                     = icon('far', 'circle', class: 'text-success-lt')  
                                     span= category.name
-                      - if can? :read, Page
-                        = nav_link_to admin_pages_path, {:class => 'menu_link'}, {:wrapper => 'li', :wrapper_class => 'item_menu', :selected_class => 'active', :url_segment => 2 } do
-                          = icon('fas', 'book')
-                          span Páginas
-                      /- if can? :read, Newsletter
-                        = nav_link_to admin_newsletters_path, {:class => 'menu_link'}, {:wrapper => 'li', :wrapper_class => 'item_menu', :selected_class => 'active', :url_segment => 2 } do
-                          = icon('fas', 'rocket')
-                          
-                          span Newsletter
+                      
                           
                       - if can? :read, Tutorial
                         = nav_link_to admin_tutorials_path, {:class => 'menu_link'}, {:wrapper => 'li', :wrapper_class => 'item_menu', :selected_class => 'active', :url_segment => 2 } do

@@ -35,16 +35,20 @@ html lang="pt-BR"
                     .line1
                     .line2 
                     .line3 
-                .navbar-options    
+                /.navbar-options    
                     = icon('fas', 'sign-in-alt')
                     = link_to 'Entrar', new_member_session_path, class: 'btn-area-restrita', :method => :get
                     /= link_to 'Sair', destroy_member_session_path, class: 'btn-area-restrita', :method => :delete
+        
+        - if flash[:notice].present?
+            .flash-notice
+                = flash[:notice]
         aside.aside
             .nav-container
                 a.nav-item-box href="/"
                     =icon('fas', 'home')
                     span Inicio 
-                a.nav-item-box href=""
+                a.nav-item-box href="/campanhas"
                     =icon('fas', 'newspaper')
                     span Campanhas 
                 a.nav-item-box href=""
@@ -53,7 +57,7 @@ html lang="pt-BR"
                 a.nav-item-box href="/meus-titulos"
                     =icon('fas', 'wallet')
                     span Meus Titulos 
-                a.nav-item-box href=""
+                a.nav-item-box href="/criar-conta"
                     =icon('fas', 'address-card')
                     span Cadastro 
                 a.nav-item-box href=""
@@ -65,7 +69,7 @@ html lang="pt-BR"
                 a.nav-item-box
                     =icon('fas', 'envelope')
                     span Entrar em Contato  
-                .actions-user  
+                /.actions-user  
                     .actions-links 
                         - if member_signed_in?
                             = link_to 'Editar', member_edit_password_path, :method => :get
