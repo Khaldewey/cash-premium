@@ -1,0 +1,37 @@
+.form-container
+  = simple_form_for @member, as: :member, url: create_member_and_payment_path(lottery_id: @lottery.id, quantity: @numbers_count), method: :post, html: { class: 'form-horizontal' } do |f|
+    .login-container
+      .header-title
+        h3 CADASTRO
+        p Faça o cadastro para iniciar suas apostas!
+    
+      .input-container
+        .input-box
+          .text-i = icon('fas', 'envelope')
+          = f.input_field :email, placeholder: 'Digite seu E-mail', required: true, autofocus: true, class: 'login-input'
+          - if @member.errors.has_key?(:email)
+            p.text-danger = @member.errors[:email].first
+
+        .input-box
+          .text-i = icon('fas', 'id-card')
+          = f.input_field :name, placeholder: 'Digite seu Nome', required: true, class: 'login-input'
+          - if @member.errors.has_key?(:name)
+            p.text-danger = @member.errors[:name].first
+
+        .input-box
+          .text-i = icon('fas', 'mobile')
+          = f.input_field :phone, label: 'Telefone', placeholder: 'Digite seu Telefone', required: true, input_html: { id: 'phone_field' }, class: 'login-input', value: @phone
+          - if @member.errors.has_key?(:phone)
+            p.text-danger = @member.errors[:phone].first
+
+        .input-box
+          .text-i = icon('fas', 'id-card')
+          = f.input_field :cpf, label: 'CPF', placeholder: 'Digite seu CPF', required: true, class: 'login-input'
+          - if @member.errors.has_key?(:cpf)
+            p.text-danger = @member.errors[:cpf].first
+
+      br/
+
+      .button-container
+        = f.button :submit, "Enviar", class: 'button-register'
+        = link_to "Voltar", "/", class: 'button-register'

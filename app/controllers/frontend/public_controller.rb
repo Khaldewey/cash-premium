@@ -132,7 +132,29 @@ class Frontend::PublicController < Frontend::ApplicationController
   def pix  
     @lottery = Lottery.find(params[:id])
     @member = Member.find_by(id: params[:yek])
-    @numbers_count = params[:lottery][:quantity].to_i 
+    @numbers_count = params[:lottery][:quantity].to_i if params[:lottery][:quantity].present?
+    # @payments = Payment.where(member_id: @member.id, lottery_id: @lottery.id)
+
+    #Vou verificar se tem algum pagamento pendente aqui, se for encontrado vou renderizar o qrcode do pagamento pendente e colocar o cronometro do tempo que falta para pagar
+    # Método para iniciar pagamento pix
+    # payment_response = PaymentService.create_pix_payment(@member, params[:member][:quantity].to_i*@lottery.price)
+    payment_response = create_pix_payment(@member, 0.01)
+    if payment_response.code == 201
+      parsed_response = payment_response.parsed_response
+      @qr_code_base64 = parsed_response.dig("point_of_interaction", "transaction_data", "qr_code_base64")
+      @qr_code = parsed_response.dig("point_of_interaction", "transaction_data", "qr_code")
+      @id = parsed_response.dig("id")
+      
+    else 
+      render :purchase
+    end
+    
+  end
+  
+  def pix_member  
+    @lottery = Lottery.find(params[:id])
+    @member = Member.find_by(id: params[:yek])
+    @numbers_count =  params[:quantity] if params[:quantity].present?
     # @payments = Payment.where(member_id: @member.id, lottery_id: @lottery.id)
 
     #Vou verificar se tem algum pagamento pendente aqui, se for encontrado vou renderizar o qrcode do pagamento pendente e colocar o cronometro do tempo que falta para pagar

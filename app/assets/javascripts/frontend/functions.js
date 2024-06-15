@@ -225,7 +225,7 @@ $(function () {
     // Função para verificar o pagamento apenas quando estiver no endpoint desejado
     function checkPaymentAtEndpoint() {
         // Verifica se a URL atual corresponde ao endpoint desejado
-        if (window.location.pathname === "/pagamento") {
+        if (window.location.pathname === "/pagamento" || window.location.pathname === "/pagamento-membro") {
             // Chama a função de verificação de pagamento
             checkPayment();
         }

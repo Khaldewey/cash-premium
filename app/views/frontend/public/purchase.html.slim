@@ -1,4 +1,3 @@
-
     .container-fluid   
         .home-title 
             div
@@ -27,6 +26,7 @@
       
         .new-sorteio-box
           .new-sorteio
+              = form.hidden_field :lottery_id, value: @lottery.id
               = form.label :quantity, "Quantidade de Números"
               .sorteio-actions 
                   = form.button '-', type: 'button', class: 'action-buttons button-add-numbers', decrement: 1  
@@ -35,7 +35,7 @@
               .sorteio-actions                   
                   button#openModal.new-sorteio-submit type="button" Abrir Modal
                   = form.button 'Limpar', type: 'button', class: 'new-sorteio-submit button-clear-numbers'
-               
+                
                   #myModal.modal
                     .modal-content
                         span.close &times;
@@ -45,14 +45,14 @@
                             = form.text_field :phone, id: 'phone-field', class: 'new-sorteio-input'
                             .buttons-sorteio
                             = form.button "Confirmar", class: 'new-sorteio-submit'
-                            
+  
 
     javascript:
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('lottery-form');
             const phoneField = document.getElementById('phone-field');
             const clearButton = document.querySelector('.button-clear-numbers');
-
+            const lotteryId = document.getElementById('lottery_id');
             // Função para obter o token CSRF do Rails
             function getCsrfToken() {
                 return document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -78,8 +78,9 @@
                     form.action = "#{validar_pagamento_publico_path(id: @lottery.id)}&member_id=pqwoeipqpasdkpaoskdqp6a5s4da654da8sd7a79we87qw879a8s7dq8w7eq98e7q98ew798as7d9q7we7q9we7q97e98d9f79e7rw97er98t7r9t87q87qwe7qw8e7q98we7q9w7r98w7t98wr&opk=q8we7q98we7q98e7qw98e7q97eq987eq98w7eq98w7eq98w7eq98we7qw7e&yek=" + data.id+"&yeekk=q9q87e9q87we9q8e79qw7e9q8ewq6a54dq8e7qa6s54da65s4dq8ew7";
                 } else {
                     alert('Número de telefone não encontrado, redirecionando para o formulário de cadastro.');
-                    form.action = "#{new_member_path}";
+                    form.action = "#{new_member_payment_path}";
                     form.method = 'GET';
+                    
                 }
                 form.submit();
                 })
