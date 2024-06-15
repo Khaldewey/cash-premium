@@ -115,7 +115,11 @@ html lang="pt-BR"
                       - if can? :read, Member
                         = nav_link_to admin_members_path, {:class => 'menu_link'}, {:wrapper => 'li', :wrapper_class => 'item_menu', :selected_class => 'active', :url_segment => 2 } do
                           = icon('fas', 'users')
-                          span.font-bold Clientes  
+                          span.font-bold Clientes
+                      - if can? :read, Payment
+                        = nav_link_to admin_payments_path, {:class => 'menu_link'}, {:wrapper => 'li', :wrapper_class => 'item_menu', :selected_class => 'active', :url_segment => 2 } do
+                          = icon('fas', 'money-bill-wave')
+                          span.font-bold Pagamentos
                       - if can? :read, Lottery
                         = nav_link_to admin_lotteries_path, {:class => 'menu_link'}, {:wrapper => 'li', :wrapper_class => 'item_menu', :selected_class => 'active', :url_segment => 2 } do
                           = icon('fas', 'traffic-light')

@@ -1,0 +1,18 @@
+class Admin::PaymentsController < Admin::ResourceController
+  def search
+    @collection = Payment.all
+
+    if params[:search].present?
+      if params[:search][:lottery_id].present?
+        @collection = @collection.where(lottery_id: params[:search][:lottery_id])
+      end
+      if params[:search][:member_id].present?
+        @collection = @collection.where(member_id: params[:search][:member_id])
+      end
+    end
+
+    @collection = @collection.order(id: :desc).paginate(page: params[:page])
+    render :index
+  end
+
+end

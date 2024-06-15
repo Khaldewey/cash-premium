@@ -49,10 +49,17 @@ class Frontend::PublicController < Frontend::ApplicationController
   end
 
   def create
-      
     @lottery = Lottery.find(params[:lottery_id])
     @member = Member.find(params[:member_id])
-    # numbers_count = params[:member][:quantity].to_i
+    
+    @payment = Payment.new(
+    lottery_id: params[:lottery_id],
+    member_id: params[:member_id],
+    transaction_id: params[:transaction_id],
+    quantity: params[:quantity].to_i
+    ) 
+
+    @payment.save
     numbers_count = params[:quantity].to_i
     @all_numbers = []
     @all_numbers = verificar_numeros_participantes(Member.where("tickets @> ?", { @lottery.id.to_s => [] }.to_json), @lottery.id).flatten
