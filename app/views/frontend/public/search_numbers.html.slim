@@ -1,10 +1,34 @@
-h1 Olá #{@member.name} ! 
+.home-title 
+  div
+    = image_tag 'Cash.png'
+    h1 Meus Títulos
+  p Números adquiridos
+
+
 
 - if @member.tickets.present?
-  - @member.tickets.each do |lottery_id, numbers|
-    h2 Loteria #{lottery_id}
-    ul
-      - numbers.each do |number|
-        li = number
+  .lotteries-container
+    .member-info
+      div 
+        h3 Participante
+        p #{@member.name}
+      div 
+        h3 Telefone
+        p #{@member.phone}
+
+    .my-lotteries-container
+      - @member.tickets.each do |lottery_id, numbers|
+        .my-lotteries-box
+          h3 Loteria #{Lottery.find(lottery_id).event}
+          p  Data do Sorteio: #{Lottery.find(lottery_id).date_event.strftime("%d/%m/%Y")}
+          p  Status: #{Lottery.find(lottery_id).status == true ? 'Ativo' : 'Inativo'}
+          ul
+            - numbers.each do |number|
+              li 
+                p = number
+          = link_to 'Comprar Mais números', '/comprar-bilhete/' + lottery_id
+    
 - else
-  p Não há números de loteria cadastrados para este membro.
+  .not-numbers
+    p Não há números de loteria cadastrados para este membro.
+    = link_to 'Comprar Bilhetes', '/campanhas'

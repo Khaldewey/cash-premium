@@ -112,12 +112,19 @@ $(document).ready(function () {
     // Quando o usuário clicar no <span> (x), fecha o modal
     $(".close").click(function() {
         $("#myModal").css("display", "none");
+        $("#myModalNumber").css("display", "none");
     });
 
     // Quando o usuário clicar em qualquer lugar fora do modal, fecha o modal
     $(window).click(function(event) {
         if ($(event.target).is("#myModal")) {
             $("#myModal").css("display", "none");
+        }
+    });
+
+    $(window).click(function(event) {
+        if ($(event.target).is("#myModalNumber")) {
+            $("#myModalNumber").css("display", "none");
         }
     });
 })
