@@ -9,7 +9,7 @@
             p = 'Código do Sorteio: ' + @lottery.id.to_s
             p = 'Data do Sorteio: ' + @lottery.date_event.strftime('%d/%m/%Y')
   
-    = form_with(model: [@lottery], url: "#", method: :post, id: 'lottery-form') do |form|
+    = form_with(model: [@lottery], url: "#", method:'post', id: 'lottery-form') do |form|
         .container-sorteio
           .new-sorteio-column.col-xs-6.col-md-6.col-lg-4
               = form.button "+5", type: 'button', class: 'button-add-numbers', increment: 5

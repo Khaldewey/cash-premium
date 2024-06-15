@@ -78,7 +78,7 @@ html lang="pt-BR"
                             = link_to 'Entrar', new_member_session_path, :method => :get
 
         .new-sorteio-box
-            = form_with(url: "#", method: :post, id: 'lottery-form') do |form|
+            = form_with(url: "#", id: 'lottery-form-number') do |form|
                 .new-sorteio               
                     #myModalNumber.modal
                         .modal-content
@@ -86,7 +86,7 @@ html lang="pt-BR"
                             
                             .sorteio-actions
                                 p Informe seu numero de telefone
-                                = form.text_field :phone, id: 'phone-field', class: 'new-sorteio-input'
+                                = form.text_field :phone, id: 'phone-field-number', class: 'new-sorteio-input-number'
                                 .buttons-sorteio
                                 = form.button "Confirmar", class: 'new-sorteio-submit' 
 
@@ -102,13 +102,11 @@ html lang="pt-BR"
                         /= image_tag 'logo-cash-premios.png', class: 'img-footer'
                         p = "Copyright © 2024 - Todos os direitos reservados."
 
-            
 javascript:
     document.addEventListener('DOMContentLoaded', function() {
-        const form = document.getElementById('lottery-form');
-        const phoneField = document.getElementById('phone-field');
-        const clearButton = document.querySelector('.button-clear-numbers');
-
+        const form = document.getElementById('lottery-form-number');
+        const phoneFieldNumber = document.getElementById('phone-field-number');
+        
         // Função para obter o token CSRF do Rails
         function getCsrfToken() {
             return document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -120,10 +118,11 @@ javascript:
             return CryptoJS.AES.encrypt(memberId.toString(), secretKey).toString();
         }
 
+        
 
         form.addEventListener('submit', function(event) {
             event.preventDefault();
-            const phone = phoneField.value;
+            const phone = phoneFieldNumber.value;
 
             fetch("#{url_for(controller: 'frontend/public', action: 'check_phone_numbers')}", {
             method: 'POST',
@@ -152,7 +151,7 @@ javascript:
             });
         });
 
-        clearButton.addEventListener('click', function() {
-            phoneField.value = '';
-        });
+       
     });
+
+            
