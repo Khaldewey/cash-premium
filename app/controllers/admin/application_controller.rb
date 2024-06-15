@@ -14,8 +14,7 @@ class Admin::ApplicationController < ActionController::Base
   WillPaginate.per_page = 10
 
   def defaults
-    @article_categories_menu = ArticleCategory.active
-    @email_categories_menu = EmailCategory.all
+    
     @notice_categories_menu = NoticeCategory.all
   end
 end
