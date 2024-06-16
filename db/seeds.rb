@@ -1,20 +1,11 @@
 #encoding: utf-8
 
 models = {
-  'ArticleCategory' => 'Categoria de Conteúdo',
-  'Article' => 'Conteúdo',
   'Banner' => 'Banner',
   'BannerCategory' => 'Categoria de Banner',
   'Newsletter' => 'Newsletter',
-  'Page' => 'Página',
-  'PageImage' => 'Imagens para Página',
   'Image'  => 'Imagens para Conteúdo',
-  'Localization'  => 'Localização',
-  'Phone'  => 'Telefone',
-  'EmailCategory'  => 'Categoria de E-mail',
-  'EmailContact'  => 'E-mail de Contato',
   'SocialNetwork' => 'Redes Sociais',
-  'Video' => 'Vídeo',
   'Blog' => 'Blog',
   'Role' => 'Grupo',
   'User' => 'Usuário',
@@ -23,10 +14,6 @@ models = {
 }
 
 actions = { 'create' => 'adicionar', 'read' => 'visualizar', 'update' => 'editar', 'destroy' => 'remover' }
-
-pages = ['Quem Somos','Valores','Missão','Visão']
-
-article_categories = ['']
 
 banner_categories = [{ name: 'Banners', image_width: 1920, image_height: 400 }]
 
@@ -39,27 +26,12 @@ models.each do |object|
   end
 end
 
-pages.each do |page|
-  Page.find_or_create_by(title: page) do |p|
-    p.content = 'Falta Conteudo'
-  end
-end
-
-article_categories.each do |name|
-  ArticleCategory.find_or_create_by(name: name)
-end
-
 banner_categories.each do |banner|
   BannerCategory.find_or_create_by(banner)
 end
 
-
 %w(Admin Redação Cliente Atendimento).each do |role|
   Role.find_or_create_by(name: role)
-end
-
-['Contato'].each do |name|
-  EmailCategory.find_or_create_by(name: name)
 end
 
 User.find_or_create_by(email: 'redacao@corp.cash.com') do |u|

@@ -4,8 +4,6 @@
     h1 Meus Títulos
   p Números adquiridos
 
-
-
 - if @member.tickets.present?
   .lotteries-container
     .member-info
@@ -25,7 +23,7 @@
                 |  #{@member.email}
             li
                 strong Data e Hora:
-                |  15/06/2024 22:05:15
+                |  #{Time.current.strftime("%d/%m/%Y %H:%M:%S")}
         h3 Loterias Participantes
     .my-lotteries-container
       - @member.tickets.each do |lottery_id, numbers|

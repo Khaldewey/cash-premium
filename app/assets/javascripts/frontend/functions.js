@@ -127,6 +127,20 @@ $(document).ready(function () {
             $("#myModalNumber").css("display", "none");
         }
     });
+
+    $('#btn-copiar').click(function() {
+        var inputValue = $('#copiar').val();
+        copyToClipboard(inputValue);
+    });
+    
+    function copyToClipboard(value) {
+        var $temp = $("<input>");
+        $("body").append($temp);
+        $temp.val(value).select();
+        document.execCommand("copy");
+        $temp.remove();
+        alert('Pix copiado para a área de transferência');
+    }
 })
 
 
