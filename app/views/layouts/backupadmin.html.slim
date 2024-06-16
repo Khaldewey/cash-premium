@@ -1,0 +1,151 @@
+doctype html
+html lang="pt-BR"
+  head
+    meta charset="utf-8"
+    meta name="robots" content="noindex"
+    meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"
+    meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"
+    title= content_for?(:title) ? yield(:title) : "CRM - Cash Prêmio"
+
+    = stylesheet_link_tag "admin/application", media: "all"
+    = javascript_include_tag "admin/application"
+
+    = csrf_meta_tags
+    /[if lt IE 9]
+      = javascript_include_tag 'html5shiv-printshiv'
+
+  body
+    section.vbox
+      header.bg-white.header.header-md.navbar.navbar-fixed-top-xs.box-shadow
+        - flash.each do |name, msg|
+                
+        .navbar-header.aside-md.dk
+          a.btn.btn-link.visible-xs data-target="#nav,html" data-toggle="class:nav-off-screen,open"
+            = link_to admin_root_path, class: 'navbar-brand' do
+                = image_tag 'logo-cash-premios.png', class: 'logo-target'
+            /span.hidden-nav-xs Agência Acerte
+          a.btn.btn-link.visible-xs data-target=".user" data-toggle="dropdown"
+            i.fa.fa-cog
+        ul.nav.navbar-nav.navbar-right.m-n.hidden-xs.nav-user.user
+
+          li.dropdown
+            a.dropdown-toggle data-toggle="dropdown" href="#"
+
+              - if user_signed_in?
+                = current_user.email
+              b.caret
+            - if user_signed_in?
+              ul.dropdown-menu.animated.fadeInRight
+                li
+                  = link_to "Logout", destroy_user_session_path, :method => :delete, :data => { :toggle => "ajaxModal"}
+                - if current_user.role.name == "Cliente"
+                  li
+                    = link_to "Editar Senha", admin_edit_password_path
+      section
+        section.hbox.stretch
+          /! .aside
+          aside#nav.bg-black.aside-md.hidden-print.hidden-xs
+            section.vbox
+              section.w-f.scrollable
+                .slim-scroll data-disable-fade-out="true" data-distance="0" data-height="auto" data-railopacity="0.2" data-size="10px"
+                  nav.nav-primary.hidden-xs
+                    .text-muted.text-sm.hidden-nav-xs.padder.m-t-sm.m-b-sm Cash Prêmio
+                    ul.nav.nav-main data-ride="collapse"
+                      = nav_link_to admin_root_path, {:class => 'menu_link'}, {:wrapper => 'li', :wrapper_class => 'item_menu', :selected_class => 'active'} do
+                          = icon('fas', 'tachometer-alt')
+                          span.font-bold Dashboard
+                    
+                      - if (can?(:read, Notice) || can?(:read, NoticeCategory))
+                        li
+                          a.auto href="#"
+                            span.pull-right.text-muted
+                              .text
+                                = icon('fas', 'angle-down')
+                              .text-active
+                                = icon('fas', 'angle-up')
+                            = icon('fas', 'newspaper')
+                            span.font-bold Notícias
+                          ul.nav.dk
+                            - if can? :read, NoticeCategory
+                              = nav_link_to admin_notice_categories_path, {:class => 'menu_link link-active'}, {:wrapper => 'li', :wrapper_class => 'item_menu', :selected_class => 'active', :url_segment => 2 } do
+                                = icon('fas', 'cogs')
+                                span Categorias
+                            - if can? :read, Notice
+                              - @notice_categories_menu.each do |category|
+                                = nav_link_to admin_notice_category_notices_path(category), {:class => 'menu_link link-active'}, {:wrapper => 'li', :wrapper_class => 'item_menu', :selected_class => 'active', :url_segment => 3 } do
+                                    = icon('far', 'circle', class: 'text-success-lt')
+                                    span= category.name 
+
+                      - if can? :read, SocialNetwork
+                        = nav_link_to admin_social_networks_path, {:class => 'menu_link'}, {:wrapper => 'li', :wrapper_class => 'item_menu', :selected_class => 'active', :url_segment => 2 } do
+                          = icon('fas', 'at')
+                          span Redes Socias           
+                      - if can? :read, BannerCategory
+                        = nav_link_to admin_banner_categories_path, {:class => 'menu_link'}, {:wrapper => 'li', :wrapper_class => 'item_menu', :selected_class => 'active', :url_segment => 2 } do
+                            = icon('far', 'image')
+                            span.font-bold Banners
+
+                      - if can? :read, Analytic
+                        = nav_link_to admin_analytics_path, {:class => 'menu_link'}, {:wrapper => 'li', :wrapper_class => 'item_menu', :selected_class => 'active', :url_segment => 2 } do
+                          = icon('fab', 'google')
+                          span Analytics
+
+                      - if can? :read, User
+                        = nav_link_to admin_users_path, {:class => 'menu_link'}, {:wrapper => 'li', :wrapper_class => 'item_menu', :selected_class => 'active', :url_segment => 2 }
+                          = icon('far', 'user')
+                          span.font-bold Usuários
+
+                      - if can?(:read, Role) && can?(:read, Permission)
+                        li
+                          a.auto href="#"
+                            span.pull-right.text-muted
+                              .text
+                                = icon('fas', 'angle-down')
+                              .text-active
+                                = icon('fas', 'angle-up')
+                            = icon('fas', 'lock')    
+                            span.font-bold Permissão
+                          ul.nav.dk
+                            = nav_link_to admin_roles_path, {:class => 'menu_link'}, {:wrapper => 'li', :wrapper_class => 'item_menu', :selected_class => 'active', :url_segment => 2 } do
+                              = icon('far', 'circle', class: 'text-success-lt')  
+                              span.font-bold Grupos
+                            = nav_link_to admin_permissions_path, {:class => 'menu_link'}, {:wrapper => 'li', :wrapper_class => 'item_menu', :selected_class => 'active', :url_segment => 2 }
+                              = icon('far', 'circle', class: 'text-success-lt')
+                              span.font-bold Ações 
+                      - if can? :read, Member
+                        = nav_link_to admin_members_path, {:class => 'menu_link'}, {:wrapper => 'li', :wrapper_class => 'item_menu', :selected_class => 'active', :url_segment => 2 } do
+                          = icon('fas', 'users')
+                          span.font-bold Clientes
+                      - if can? :read, Payment
+                        = nav_link_to admin_payments_path, {:class => 'menu_link'}, {:wrapper => 'li', :wrapper_class => 'item_menu', :selected_class => 'active', :url_segment => 2 } do
+                          = icon('fas', 'money-bill-wave')
+                          span.font-bold Pagamentos
+                      - if can? :read, Lottery
+                        = nav_link_to admin_lotteries_path, {:class => 'menu_link'}, {:wrapper => 'li', :wrapper_class => 'item_menu', :selected_class => 'active', :url_segment => 2 } do
+                          = icon('fas', 'traffic-light')
+                          span.font-bold Loteria 
+                      /- if can? :read, Quota
+                        = nav_link_to admin_quota_path, {:class => 'menu_link'}, {:wrapper => 'li', :wrapper_class => 'item_menu', :selected_class => 'active', :url_segment => 2 } do
+                          = icon('fas', 'traffic-light')
+                          span.font-bold Cotas
+                footer.footer.hidden-xs.no-padder.text-center-nav-xs
+                  a.btn.btn-icon.icon-muted.btn-inactive.m-l-xs.m-r-xs data-toggle="class:nav-xs" href="#nav"
+                    .text
+                      = icon('fas', 'reply')
+                    .text-active
+                      = icon('fas', 'share')
+          section#content
+            section.hbox.stretch
+              section
+                section.vbox
+                  section.scrollable.padder
+                    section.row.m-b-md
+                      .col-md-12
+                        = yield
+            footer
+              .container
+                .col-sm-6.col-sm-offset-3
+                  .pull-left
+                    | &copy; #{Date.today.year} | Todos os direitos reservados.
+                  .pull-right
+                    | v #{Target::Application.config.version}

@@ -45,8 +45,8 @@ RUN bundle install
 
 RUN bundle exec rake db:environment:set RAILS_ENV=production
 
-# Execute as tarefas de setup do banco de dados
-RUN DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bundle exec rake db:setup RAILS_ENV=production
+# # Execute as tarefas de setup do banco de dados
+# RUN DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bundle exec rake db:setup RAILS_ENV=production
 
 RUN bundle exec rake assets:precompile RAILS_ENV=production
 

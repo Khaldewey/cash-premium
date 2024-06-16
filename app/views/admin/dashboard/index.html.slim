@@ -1,86 +1,86 @@
-.col-sm-12
-  h3.m-b-xs.text-black Dashboard
-.col-sm-12
-  .row
-    .col-sm-12
-      .panel.b-a
-        .row.m-n
-          .col-md-6.b-b.b-r
-            .block.padder-v.hover href="#" 
-              span.i-s.i-s-2x.pull-left.m-r-sm
-                .text-danger
-                  = icon('far', 'image')
-              span.clear
-                span.h3.block.m-t-xs.text-danger= @banners_count
-                small.text-muted.text-u-c Banners
-          .col-md-6.b-b
-            .block.padder-v.hover href="#" 
-              span.i-s.i-s-2x.pull-left.m-r-sm
-                .text-success
-                  = icon('fas', 'book')
-              span.clear
-                span.h3.block.m-t-xs.text-success= @lotteries_count
-                small.text-muted.text-u-c Campanhas
-          .col-md-6.b-b.b-r
-            .block.padder-v.hover href="#" 
-              span.i-s.i-s-2x.pull-left.m-r-sm
-                .text-info
-                  = icon('fas', 'sitemap')
-              span.clear
-                span.h3.block.m-t-xs.text-info= @members_count
-                small.text-muted.text-u-c Clientes
-          /.col-md-6.b-b
-            .block.padder-v.hover href="#" 
-              span.i-s.i-s-2x.pull-left.m-r-sm
-                .text-primary
-                  = icon('fas', 'cogs')
-              span.clear
-                span.h3.block.m-t-xs.text-primary= @articles_count
-                small.text-muted.text-u-c Conteúdo  
-  .row 
-    .col-md-4
-      section.panel.b-light
-        header.panel-heading
-          strong Calendário
-        #calendar.bg-light.dker.m-l-n-xxs.m-r-n-xxs
-    .col-sm-8
-      .panel.b-a
-        header.panel-heading.b-b
-          strong Suporte
-        .row.m-n
-          .col-md-6.b-b.b-r
-            .block.padder-v.hover href="#" 
-              span.i-s.i-s-2x.pull-left.m-r-sm
-                .text-danger
-                  = icon('far', 'envelope')
-              span.clear
-                span.h3.block.m-t-xs.text-danger E-mail
-                small.text-muted contato@cash.com
-          .col-md-6.b-b
-            .block.padder-v.hover href="#" 
-              span.i-s.i-s-2x.pull-left.m-r-sm
-                .text-danger
-                  = icon('fas', 'phone')
-              span.clear
-                span.h3.block.m-t-xs.text-danger Telefone
-                small.text-muted.text-u-c
-                  | (79) 99661-3823 
-          .col-md-6.b-b.b-r
-            .block.padder-v.hover href="#" 
-              span.i-s.i-s-2x.pull-left.m-r-sm
-                .text-danger
-                  = icon('fas', 'map-marker-alt')
-              span.clear
-                span.h3.block.m-t-xs.text-danger Endereço
-                small.text-muted indefinido
-          .col-md-6.b-r
-            .block.padder-v.hover href="#" 
-              span.i-s.i-s-2x.pull-left.m-r-sm
-                .text-danger
-                  = icon('fas', 'home')
-              span.clear
-                span.h3.block.m-t-xs.text-danger Site
-                = link_to 'cash.com', 'https://www.cash.com/', target: '_blank', class: 'small text-muted'
+
+h3.m-b-xs.text-black Dashboard
+
+.row
+  .col-sm-12
+    .panel.b-a
+      .row.m-n
+        .col-md-6.b-b.b-r
+          .block.padder-v.hover href="#" 
+            span.i-s.i-s-2x.pull-left.m-r-sm
+              .text-danger
+                = icon('far', 'image')
+            span.clear
+              span.h3.block.m-t-xs.text-danger= @banners_count
+              small.text-muted.text-u-c Banners
+        .col-md-6.b-b
+          .block.padder-v.hover href="#" 
+            span.i-s.i-s-2x.pull-left.m-r-sm
+              .text-success
+                = icon('fas', 'book')
+            span.clear
+              span.h3.block.m-t-xs.text-success= @lotteries_count
+              small.text-muted.text-u-c Campanhas
+        .col-md-6.b-b.b-r
+          .block.padder-v.hover href="#" 
+            span.i-s.i-s-2x.pull-left.m-r-sm
+              .text-info
+                = icon('fas', 'sitemap')
+            span.clear
+              span.h3.block.m-t-xs.text-info= @members_count
+              small.text-muted.text-u-c Clientes
+        /.col-md-6.b-b
+          .block.padder-v.hover href="#" 
+            span.i-s.i-s-2x.pull-left.m-r-sm
+              .text-primary
+                = icon('fas', 'cogs')
+            span.clear
+              span.h3.block.m-t-xs.text-primary= @articles_count
+              small.text-muted.text-u-c Conteúdo  
+.row 
+  .col-md-4
+    section.panel.b-light
+      header.panel-heading
+        strong Calendário
+      #calendar.bg-light.dker.m-l-n-xxs.m-r-n-xxs
+  .col-sm-8
+    .panel.b-a
+      header.panel-heading.b-b
+        strong Suporte
+      .row.m-n
+        .col-md-6.b-b.b-r
+          .block.padder-v.hover href="#" 
+            span.i-s.i-s-2x.pull-left.m-r-sm
+              .text-danger
+                = icon('far', 'envelope')
+            span.clear
+              span.h3.block.m-t-xs.text-danger E-mail
+              small.text-muted contato@cash.com
+        .col-md-6.b-b
+          .block.padder-v.hover href="#" 
+            span.i-s.i-s-2x.pull-left.m-r-sm
+              .text-danger
+                = icon('fas', 'phone')
+            span.clear
+              span.h3.block.m-t-xs.text-danger Telefone
+              small.text-muted.text-u-c
+                | (79) 99661-3823 
+        .col-md-6.b-b.b-r
+          .block.padder-v.hover href="#" 
+            span.i-s.i-s-2x.pull-left.m-r-sm
+              .text-danger
+                = icon('fas', 'map-marker-alt')
+            span.clear
+              span.h3.block.m-t-xs.text-danger Endereço
+              small.text-muted indefinido
+        .col-md-6.b-r
+          .block.padder-v.hover href="#" 
+            span.i-s.i-s-2x.pull-left.m-r-sm
+              .text-danger
+                = icon('fas', 'home')
+            span.clear
+              span.h3.block.m-t-xs.text-danger Site
+              = link_to 'cash.com', 'https://www.cash.com/', target: '_blank', class: 'small text-muted'
                  
         
 javascript:
