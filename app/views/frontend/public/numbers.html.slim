@@ -22,7 +22,7 @@
             |  #{@member.email}
         li
             strong Data e Hora:
-            |  15/06/2024 22:05:15
+            |  #{DateTime.parse(params[:timestamp]).strftime("%d/%m/%Y %H:%M:%S")}
 
     h3 Números adquiridos do sorteio
     .my-numbers-container  

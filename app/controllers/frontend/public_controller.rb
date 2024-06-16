@@ -110,7 +110,8 @@ class Frontend::PublicController < Frontend::ApplicationController
     
     if @member.save
       render json: {
-        "numbers": selected_numbers
+        "numbers": selected_numbers,
+        "timestamp": @payment.created_at
       }
       # redirect_to member_root_path, notice: "Números selecionados com sucesso!"
     else
@@ -257,6 +258,7 @@ class Frontend::PublicController < Frontend::ApplicationController
   end 
 
   def numbers
+    require 'date'
     @numbers =  params[:numbers].split(',')
     @member = Member.find(params[:yek])
   end 
