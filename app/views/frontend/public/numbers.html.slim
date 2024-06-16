@@ -1,6 +1,37 @@
-h1 Olá #{@member.name}
-h1 esses foram os seus números selecionados 
-h2 Boa Sorte !
-ul
-    - @numbers.each do |number|
-        li = number
+
+.home-title 
+  div
+    = image_tag 'Cash.png'
+    h1 Compra Concluida!
+  p Boa Sorte!
+
+.member-info
+    h3 Dados do Cliente
+    ul
+        li
+            strong Nome:
+            |  #{@member.name}
+        li
+            strong CPF:
+            |  #{@member.cpf}
+        li
+            strong Telefone:
+            |  #{@member.phone}
+        li
+            strong Email:
+            |  #{@member.email}
+        li
+            strong Data e Hora:
+            |  15/06/2024 22:05:15
+
+    h3 Números adquiridos do sorteio
+    .my-numbers-container  
+        .my-numbers-box
+            ul
+                - @numbers.each do |number|
+                    li 
+                        p = number
+
+
+
+

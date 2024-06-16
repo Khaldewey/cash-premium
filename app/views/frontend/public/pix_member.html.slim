@@ -7,6 +7,26 @@ input#member_id(type="hidden" value="#{@member.id}")
     p = @lottery.event
     p = @member.name
     p Quantidade de cotas: #{@numbers_count}
+
+    .member-info
+        h3 Dados do Cliente
+        ul
+            li
+                strong Nome:
+                |  #{@member.name}
+            li
+                strong CPF:
+                |  #{@member.cpf}
+            li
+                strong Telefone:
+                |  #{@member.phone}
+            li
+                strong Email:
+                |  #{@member.email}
+            li
+                strong Data e Hora:
+                |  #{Time.now.strftime("%d/%m/%Y %H:%M:%S")}
+
     img[src="data:image/jpeg;base64,#{@qr_code_base64}" width="200" height="200"]
     .pix-copia
         label for="copiar" Copiar Hash:

@@ -9,13 +9,24 @@
 - if @member.tickets.present?
   .lotteries-container
     .member-info
-      div 
-        h3 Participante
-        p #{@member.name}
-      div 
-        h3 Telefone
-        p #{@member.phone}
-
+        h3 Dados do Cliente
+        ul
+            li
+                strong Nome:
+                |  #{@member.name}
+            li
+                strong CPF:
+                |  #{@member.cpf}
+            li
+                strong Telefone:
+                |  #{@member.phone}
+            li
+                strong Email:
+                |  #{@member.email}
+            li
+                strong Data e Hora:
+                |  15/06/2024 22:05:15
+        h3 Loterias Participantes
     .my-lotteries-container
       - @member.tickets.each do |lottery_id, numbers|
         .my-lotteries-box
