@@ -11,7 +11,7 @@ class Admin::PaymentsController < Admin::ResourceController
       end
     end
 
-    @collection = @collection.order(id: :desc).paginate(page: params[:page])
+    @collection = @collection.order(created_at: :asc).paginate(page: params[:page])
     render :index
   end
 
