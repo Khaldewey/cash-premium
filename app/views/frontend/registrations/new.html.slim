@@ -9,6 +9,7 @@
         .input-box
           .text-i = icon('fas', 'envelope')
           = f.input_field :email, placeholder: 'Digite seu E-mail', required: true, autofocus: true, class: 'login-input'
+          span id="emailMessage"
           - if @member.errors.has_key?(:email)
             p.text-danger = @member.errors[:email].first
 
@@ -27,6 +28,7 @@
         .input-box
           .text-i = icon('fas', 'id-card')
           = f.input_field :cpf, label: 'CPF', placeholder: 'Digite seu CPF', required: true, class: 'login-input'
+          span id="cpfMessage"
           - if @member.errors.has_key?(:cpf)
             p.text-danger = @member.errors[:cpf].first
 

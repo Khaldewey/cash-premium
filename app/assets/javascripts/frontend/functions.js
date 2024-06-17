@@ -199,10 +199,39 @@ $(function () {
         $(".dropdown-menu").slideToggle();
     });
 
-    $("#phone_phone, #phone_field").inputmask("(99)[9]9999-9999").on("focusout", function () {
+    $("#phone_phone, #phone-field, #member_phone, #phone-field-number").inputmask("(99)[9]9999-9999").on("focusout", function () {
         var len = this.value.replace(/\D/g, '').length;
         $(this).inputmask(len > 10 ? "(99)[9]9999-9999" : "(99) 9999-9999");
+    }); 
+
+    $("#member_cpf").inputmask("999.999.999-99");
+
+    // Evento focusout para ajuste, se necessário
+    $("#member_cpf").on("focusout", function () {
+        var len = this.value.replace(/\D/g, '').length;
+        // Mantém a máscara padrão (999.999.999-99) independente do tamanho do CPF
+        $(this).inputmask(len >= 11 ? "999.999.999-99" : "999.999.999-99");
     });
+    
+   
+    
+
+    $("#member_email").on("input", function() {
+        let email = $(this).val();
+        let isValid = validateEmail(email);
+
+        if (isValid) {
+            $("#emailMessage").text("Email válido").css("color", "green");
+        } else {
+            $("#emailMessage").text("Email inválido").css("color", "red");
+        }
+    });
+
+    function validateEmail(email) {
+        // Expressão regular para validar email
+        let regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return regex.test(email);
+    }
 
     $('[data-toggle="tooltip"]').tooltip();
 
