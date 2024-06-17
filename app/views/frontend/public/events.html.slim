@@ -10,6 +10,23 @@ section#agreement
     .container-fluid
         .row 
             .sorteio-container
+                .icon-box
+                    = icon('fas', 'fire')
+                    h3 Em Destaque
+                .sorteio-column.col-xs-12.col-md-6.col-lg-6   
+                    = link_to new_purchase_path(id: 1), class: 'sorteio-box sorteio-destaque' do
+                        = image_tag 'moto.png', class: 'sorteio-img'
+                        .sorteio-content 
+                            h2 = Lottery.first.event 
+                            p Venha participar do sorteio dessa linda moto
+                    
+                            p = 'Cod: ' + Lottery.first.id.to_s
+                            .disponible
+                                p Disponível
+                
+                .icon-box
+                    =icon('fas', 'newspaper')
+                    h3 Todas as Campanhas
                 - @lotteries.each do |lottery|
                     .sorteio-column.col-xs-12.col-md-6.col-lg-6
                         - if Member.where("tickets->>:lottery_id IS NOT NULL", lottery_id: lottery.id.to_s).present?
@@ -21,9 +38,6 @@ section#agreement
                                         p Venha participar do sorteio dessa linda moto
                                
                                         p = 'Cod: ' + lottery.id.to_s
-                                        .icon-box
-                                            = icon('fas', 'calendar')
-                                            p = lottery.date_event.strftime('%d/%m/%Y')
                                         .not-disponible
                                             p Cotas esgotadas                         
                             - else
@@ -34,9 +48,7 @@ section#agreement
                                         p Venha participar do sorteio dessa linda moto
                                
                                         p = 'Cod: ' + lottery.id.to_s
-                                        .icon-box
-                                            = icon('fas', 'calendar')
-                                            p = lottery.date_event.strftime('%d/%m/%Y')
+
                                         .disponible
                                             p Disponível
                                                 
@@ -48,8 +60,5 @@ section#agreement
                                     p Venha participar do sorteio dessa linda moto
                                
                                     p = 'Cod: ' + lottery.id.to_s
-                                    .icon-box
-                                        = icon('fas', 'calendar')
-                                        p = lottery.date_event.strftime('%d/%m/%Y')
                                     .disponible
                                         p Disponível

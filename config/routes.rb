@@ -79,5 +79,5 @@ Target::Application.routes.draw do
   end 
 
    
-  root to: 'frontend/home#index'
+  root to: 'frontend/public#events'
 end
