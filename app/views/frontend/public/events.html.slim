@@ -17,10 +17,10 @@ section#agreement
                     = link_to new_purchase_path(id: 1), class: 'sorteio-box sorteio-destaque' do
                         = image_tag 'moto.png', class: 'sorteio-img'
                         .sorteio-content 
-                            h2 = Lottery.first.event 
+                            h2 = Lottery.last.event 
                             p Venha participar do sorteio dessa linda moto
                     
-                            p = 'Cod: ' + Lottery.first.id.to_s
+                            p = 'Cod: ' + Lottery.last.id.to_s
                             .disponible
                                 p Disponível
                 
