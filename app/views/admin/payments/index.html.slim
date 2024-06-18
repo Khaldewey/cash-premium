@@ -24,11 +24,12 @@ h2 Pagamentos
           th.text-center Cliente
           th.text-center Data e Horário
       tbody
-        - @collection.order(created_at: :asc).each do |r|
+        - collection.order(created_at: :asc).each do |r|
           tr
             td.text-center = r.transaction_id
             td.text-center = Lottery.find(r.lottery_id).event
             td.text-center = r.quantity
             td.text-center = Member.find(r.member_id).name
             td.text-center = r.created_at.strftime("%d/%m/%Y %H:%M")
-= link_to "Voltar", admin_payments_path, class: 'btn btn-s-md btn-danger mr-10'
+= render 'admin/shared/create'
+/= link_to "Voltar", admin_payments_path, class: 'btn btn-s-md btn-danger mr-10'

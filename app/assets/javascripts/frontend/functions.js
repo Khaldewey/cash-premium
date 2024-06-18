@@ -199,15 +199,15 @@ $(function () {
         $(".dropdown-menu").slideToggle();
     });
 
-    $("#phone_phone, #phone-field, #member_phone, #phone-field-number").inputmask("(99)[9]9999-9999").on("focusout", function () {
+    $("#phone_phone, #phone-field, #member_phone, #phone-field-number").inputmask("(99)[9]9999-9999").on("input", function () {
         var len = this.value.replace(/\D/g, '').length;
-        $(this).inputmask(len > 10 ? "(99)[9]9999-9999" : "(99) 9999-9999");
-    }); 
+        $(this).inputmask(len > 10 ? "(99)[9]9999-9999" : "(99) 99999-9999");
+    });
 
     $("#member_cpf").inputmask("999.999.999-99");
 
     // Evento focusout para ajuste, se necessário
-    $("#member_cpf").on("focusout", function () {
+    $("#member_cpf").on("input", function () {
         var len = this.value.replace(/\D/g, '').length;
         // Mantém a máscara padrão (999.999.999-99) independente do tamanho do CPF
         $(this).inputmask(len >= 11 ? "999.999.999-99" : "999.999.999-99");
