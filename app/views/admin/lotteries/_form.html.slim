@@ -1,18 +1,36 @@
 h2 Loterias
-= simple_form_for [:admin, resource], :html => { :class => 'form-horizontal' } do |f|
-  section.panel.panel-default
-    header.panel-heading.font-bold
-      /= resource.new_record? ? "Adicionar Telefone" : "Editar Telefone #{resource.phone}"
-    .panel-body
-      .col-md-6.col-sm-12.col-xs-12    
-        = f.input :event, :label => 'Evento'
-      .col-md-6.col-sm-12.col-xs-12
-        = f.input :ticket, :label => 'Quantidade de Tickets'
-      .col-md-6.col-sm-12.col-xs-12
-        = f.input :price, :label => 'Preço'
-      .col-md-6.col-sm-12.col-xs-12
-        label = 'Data do Evento'
-        = f.datetime_field :date_event, :as => :datetime
+.panel.panel-default
+  .panel-body
+      = simple_form_for :search, url: search_admin_payments_path, html: {class: 'search-form'}, method: :get do |f|
+        .row
+          .col-md-3
+            = f.label :title, label: 'Número Premiado', required: false
+            = f.input_field :ticket_number, class: 'col-md-3 form-control'
+          .col-md-1.mt-25
+            = f.button :button, 'Buscar Vencedor', id: 'search-member-btn', class: 'btn btn-primary'
+            = hidden_field_tag :lottery_id, params[:id], id: 'lottery_id'
+        .col-md-12.col-sm-12.col-xs-12
+          #member-info
+.panel.panel-default
+  .panel-body
+    = simple_form_for [:admin, resource], :html => { :class => 'form-horizontal' } do |f|
+      section.panel.panel-default
+        header.panel-heading.font-bold
+          /= resource.new_record? ? "Adicionar Telefone" : "Editar Telefone #{resource.phone}"
+        .panel-body
+          .col-md-6.col-sm-12.col-xs-12    
+            = f.input :event, :label => 'Evento'
+          .col-md-6.col-sm-12.col-xs-12
+            = f.input :ticket, :label => 'Quantidade de Tickets'
+          .col-md-6.col-sm-12.col-xs-12
+            = f.input :price, :label => 'Preço'
+          .col-md-6.col-sm-12.col-xs-12 
+            = f.input :winner, :label => 'Vencedor'
+          .col-md-6.col-sm-12.col-xs-12
+            label = 'Data do Evento'
+            = f.datetime_field :date_event, :as => :datetime
+      = render 'admin/shared/form_actions', f: f
 
 
-  = render 'admin/shared/form_actions', f: f
+
+  

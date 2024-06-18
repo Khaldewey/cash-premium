@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_06_15_200611) do
+ActiveRecord::Schema.define(version: 2024_06_18_184742) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -145,6 +145,8 @@ ActiveRecord::Schema.define(version: 2024_06_15_200611) do
     t.integer "ticket"
     t.integer "result"
     t.integer "price"
+    t.string "winner"
+    t.string "image"
   end
 
   create_table "members", force: :cascade do |t|

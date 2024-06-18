@@ -172,6 +172,42 @@ $(function() {
   }
 
   // Chama a função para animar o realce
-  animateHighlight();
+  animateHighlight(); 
+
+  $('#search-member-btn').on('click', function(e) {
+    e.preventDefault();
+    var ticketNumber = $('#search_ticket_number').val();
+    var lotteryId = $('#lottery_id').val();
+
+    $.ajax({
+      url: '/admin/members/search_by_ticket',
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify({ ticket_number: ticketNumber, lottery_id: lotteryId }),
+      headers: {
+        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+      },
+      success: function(data) {
+        if (data.success) {
+          $('#lottery_winner').val(data.member);
+          $('#member-info').html(`
+            <div class="member-info-card">
+              <h3>Informações do Membro</h3>
+              <p><strong>Nome:</strong> ${data.member}</p>
+              <p><strong>CPF:</strong> ${data.cpf ? data.cpf : 'N/A'}</p>
+              <p><strong>Telefone:</strong> ${data.phone}</p>
+              <p><strong>Email:</strong> ${data.email}</p>
+            </div>
+          `);
+        } else {
+          alert(data.message);
+        }
+      },
+      error: function() {
+        alert('Erro ao buscar o membro. Por favor, tente novamente.');
+      }
+    });
+  });
+ 
 
 });

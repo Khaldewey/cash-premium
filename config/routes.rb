@@ -57,6 +57,7 @@ Target::Application.routes.draw do
     resources :members do
       collection do
         get 'search' => 'members#search', as: :search
+        post 'search_by_ticket'
       end
     end  
 
