@@ -1,9 +1,4 @@
-class Admin::PaymentsController < Admin::ResourceController
-
-  # def index
-  #   @payments = Payment.order(created_at: :desc).paginate(page: params[:page], per_page: 5)
-  # end
-  
+class Admin::PaymentsController < Admin::ResourceController 
   def search
     @collection = Payment.all
 
