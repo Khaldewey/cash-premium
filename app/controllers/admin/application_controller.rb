@@ -11,7 +11,7 @@ class Admin::ApplicationController < ActionController::Base
   before_action :defaults, :authenticate_user!
   layout 'admin'
 
-  WillPaginate.per_page = 5
+  # WillPaginate.per_page = 5
 
   def defaults
     

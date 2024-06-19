@@ -2,4 +2,4 @@
 .clearfix
 
 .text-center
-  = will_paginate(collection, renderer: 'ApplicationHelper::LinkRenderer', class: 'pagination pagination-lg')
+  = will_paginate(collection, renderer: 'ApplicationHelper::LinkRenderer', class: 'pagination pagination-lg', per_page: 5) 

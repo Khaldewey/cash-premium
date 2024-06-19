@@ -28,10 +28,10 @@ input#member_id(type="hidden" value="#{@member.id}")
                 |  #{@member.name}
             li
                 strong CPF:
-                |  #{@member.cpf}
+                |  #{@member.cpf[0..2] + '.***.***-**'}
             li
                 strong Telefone:
-                |  #{@member.phone}
+                |  #{@member.phone[0..3] + '*****-' + @member.phone[10..13]}
             li
                 strong Email:
                 |  #{@member.email}

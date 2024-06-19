@@ -7,6 +7,7 @@ h2 Clientes
           th.text-center Nome
           th.text-center E-mail
           th.text-center Telefone
+          th.text-center CPF
           th.text-center(width=210) Ações
       tbody
         - collection.order(id: :desc).each do |r|
@@ -14,6 +15,7 @@ h2 Clientes
             td.text-center= r.name
             td.text-center= r.email
             td.text-center= r.phone
+            td.text-center= r.cpf
             td.text-center.links-actions
               = render 'admin/shared/actions', r: r
 = render 'admin/shared/create'

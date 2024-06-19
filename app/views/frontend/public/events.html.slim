@@ -14,8 +14,8 @@ section#agreement
                     = icon('fas', 'fire')
                     h3 Em Destaque
                 .sorteio-column.col-xs-12.col-md-6.col-lg-6   
-                    = link_to new_purchase_path(id: 1), class: 'sorteio-box sorteio-destaque' do
-                        = image_tag 'moto.png', class: 'sorteio-img'
+                    = link_to new_purchase_path(id: Lottery.where(status: true).last.id), class: 'sorteio-box sorteio-destaque' do
+                        = image_tag Lottery.where(status: true).last.image_url, class: 'sorteio-img'
                         .sorteio-content 
                             h2 = Lottery.where(status: true).last.event
                             p Venha participar do sorteio dessa linda moto
@@ -32,7 +32,7 @@ section#agreement
                         - if Member.where("tickets->>:lottery_id IS NOT NULL", lottery_id: lottery.id.to_s).present?
                             - if contar_numeros(Member.where("tickets->>:lottery_id IS NOT NULL", lottery_id: lottery.id.to_s), lottery.id) == lottery.ticket
                                 .sorteio-box
-                                    = image_tag 'moto.png', class: 'sorteio-img'
+                                    = image_tag lottery.image_url, class: 'sorteio-img'
                                     .sorteio-content 
                                         h2 = lottery.event
                                         p Venha participar do sorteio dessa linda moto
@@ -42,7 +42,7 @@ section#agreement
                                             p Cotas esgotadas                         
                             - else
                                 = link_to new_purchase_path(id: lottery.id), class: 'sorteio-box' do
-                                    = image_tag 'moto.png', class: 'sorteio-img'
+                                    = image_tag lottery.image_url, class: 'sorteio-img'
                                     .sorteio-content 
                                         h2 = lottery.event 
                                         p Venha participar do sorteio dessa linda moto
@@ -54,7 +54,7 @@ section#agreement
                                                 
                         - else
                             = link_to new_purchase_path(id: lottery.id), class: 'sorteio-box' do
-                                = image_tag 'moto.png', class: 'sorteio-img'
+                                = image_tag lottery.image_url, class: 'sorteio-img'
                                 .sorteio-content 
                                     h2 = lottery.event 
                                     p Venha participar do sorteio dessa linda moto

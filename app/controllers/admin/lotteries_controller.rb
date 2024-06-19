@@ -9,4 +9,8 @@ class Admin::LotteriesController < Admin::ResourceController
     redirect_to admin_lotteries_path
   end  
 
+  def new 
+    @lottery = Lottery.new
+    render :new
+  end
 end

@@ -191,13 +191,13 @@ $(function() {
         if (data.success) {
           $('#lottery_winner').val(data.member);
           $('#member-info').html(`
-            <div class="member-info-card">
-              <h3>Informações do Membro</h3>
-              <p><strong>Nome:</strong> ${data.member}</p>
-              <p><strong>CPF:</strong> ${data.cpf ? data.cpf : 'N/A'}</p>
-              <p><strong>Telefone:</strong> ${data.phone}</p>
-              <p><strong>Email:</strong> ${data.email}</p>
-            </div>
+          <div class="member-info-card">
+            <h3>Informações do Membro</h3>
+            <p><strong>Nome:</strong> ${data.member}</p>
+            <p><strong>CPF:</strong> <span data-full-cpf="${data.cpf}" class="masked" id="cpf">'***.***.***-**'</span> <i class="olhoCpf fas fa-eye"></i></p>
+            <p><strong>Telefone:</strong> <span data-full-phone="${data.phone}" class="masked" id="phone">'(**)*****-****'</span> <i class="olhoPhone fas fa-eye"></i></p>
+            <p><strong>Email:</strong> <span data-full-email="${data.email}" class="masked" id="email">'***********@****.****'</span> <i class="olhoEmail fas fa-eye"></i></p>
+          </div>
           `);
         } else {
           alert(data.message);
@@ -209,5 +209,51 @@ $(function() {
     });
   });
  
+  $('#member-info').on('click', '.olhoCpf', function() {
+    var cpfElement = $('#cpf');
+    if (cpfElement.hasClass('masked')) {
+      // Se o CPF está mascarado, mostra o CPF completo
+      cpfElement.text(cpfElement.data('full-cpf'));
+      cpfElement.removeClass('masked');
+      $(this).removeClass('fa-eye-slash').addClass('fa-eye');
+    } else {
+      // Se o CPF está visível, mascara o CPF
+      cpfElement.data('full-cpf', cpfElement.text());
+      cpfElement.text('***.***.***-**');
+      cpfElement.addClass('masked');
+      $(this).removeClass('fa-eye').addClass('fa-eye-slash');
+    }
+  });
 
+  $('#member-info').on('click', '.olhoPhone', function() {
+    var phoneElement = $('#phone');
+    if (phoneElement.hasClass('masked')) {
+      // Se o CPF está mascarado, mostra o CPF completo
+      phoneElement.text(phoneElement.data('full-phone'));
+      phoneElement.removeClass('masked');
+      $(this).removeClass('fa-eye-slash').addClass('fa-eye');
+    } else {
+      // Se o CPF está visível, mascara o CPF
+      phoneElement.data('full-phone', phoneElement.text());
+      phoneElement.text('(**)*****-****');
+      phoneElement.addClass('masked');
+      $(this).removeClass('fa-eye').addClass('fa-eye-slash');
+    }
+  });
+
+  $('#member-info').on('click', '.olhoEmail', function() {
+    var emailElement = $('#email');
+    if (emailElement.hasClass('masked')) {
+      // Se o CPF está mascarado, mostra o CPF completo
+      emailElement.text(emailElement.data('full-email'));
+      emailElement.removeClass('masked');
+      $(this).removeClass('fa-eye-slash').addClass('fa-eye');
+    } else {
+      // Se o CPF está visível, mascara o CPF
+      emailElement.data('full-email', emailElement.text());
+      emailElement.text('***********@****.****');
+      emailElement.addClass('masked');
+      $(this).removeClass('fa-eye').addClass('fa-eye-slash');
+    }
+  });
 });
