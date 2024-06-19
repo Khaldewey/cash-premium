@@ -9,6 +9,8 @@ RUN apt-get update && apt-get install -y \
     git \
     libssl-dev \
     libreadline-dev \
+    imagemagick \
+    libmagickwand-dev \
     zlib1g-dev \
     libpq-dev \
     nodejs \

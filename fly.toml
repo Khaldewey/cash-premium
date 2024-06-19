@@ -1,4 +1,4 @@
-# fly.toml app configuration file generated for cash-premios on 2024-06-16T03:12:17-03:00
+# fly.toml app configuration file generated for cash-premios on 2024-06-19T01:59:36-03:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
@@ -8,6 +8,10 @@ primary_region = 'gru'
 console_command = '/rails/bin/rails console'
 
 [build]
+
+[[mounts]]
+  source = 'uploads'
+  destination = '/public/uploads'
 
 [http_service]
   internal_port = 3000

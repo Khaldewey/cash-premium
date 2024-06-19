@@ -88,6 +88,5 @@ Target::Application.configure do
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
 
-  
   APP_CONFIG = YAML.load_file("#{Rails.root}/config/config.yml")
 end

@@ -1,6 +1,11 @@
-# encoding: utf-8
 class DefaultUploader < BaseUploader
   include CarrierWave::MiniMagick
+
+  storage :file # Configuração para armazenamento local
+
+  def store_dir
+    '/public/uploads'
+  end
 
   version :preview do
     process :resize_to_fill => [200, 140]
