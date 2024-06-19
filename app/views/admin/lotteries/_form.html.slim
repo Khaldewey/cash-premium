@@ -30,6 +30,8 @@ h2 Loterias
             label = 'Data do Evento'
             = f.datetime_field :date_event, :as => :datetime
           .col-md-6.col-sm-12.col-xs-12
+            = f.input :content, :label => 'Conteúdo'
+          .col-md-6.col-sm-12.col-xs-12
            = f.input :image, :label => 'Imagem da Loteria', as: :image_preview, input_html: { preview_version: :preview}
       = render 'admin/shared/form_actions', f: f
 

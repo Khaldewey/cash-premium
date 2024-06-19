@@ -18,6 +18,8 @@ Target::Application.routes.draw do
   get '/meus-titulos' => 'frontend/public#meus_titulos'
   get '/numeros-selecionados' => 'frontend/public#numbers'
   post '/meus-numeros' => 'frontend/public#search_numbers', as: :procurar_numeros
+  get '/comunicados' => 'frontend/public#comunications'
+  get '/ganhadores' => 'frontend/public#winners'
 
 
   %w( 404 422 500 ).each do |code|
@@ -67,14 +69,13 @@ Target::Application.routes.draw do
       end
     end 
 
-
-    resources :notice_categories do
-      resources :notices do
-        collection do
-          get 'search' => 'notices#search', as: :search
-        end
+    resources :messages do
+      collection do
+        get 'search' => 'messages#search', as: :search
       end
-    end
+    end 
+
+    
 
     root to: 'dashboard#index'
   end 

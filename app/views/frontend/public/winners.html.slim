@@ -1,0 +1,26 @@
+section#agreement
+  .container-fluid
+    
+    .home-title 
+        div
+            = image_tag 'Cash.png'
+            h1 Vencedores
+
+    .container-fluid
+        .row 
+            - if @winners.present?
+                .sorteio-container
+                    /.icon-box
+                        = icon('fas', 'fire')
+                    .sorteio-column.col-xs-12.col-md-6.col-lg-6   
+                        - @winners.each do |winner|
+                            - if winner.image.present?
+                                = image_tag winner.image_url, class: 'sorteio-img'
+                            .sorteio-content 
+                                h2 = winner.event 
+                                p = 'Cod: ' + winner.id.to_s
+                                .disponible
+                                    p = 'Vencedor: ' + winner.winner
+            - else 
+                p Por enquanto não há vencedores"        
+             

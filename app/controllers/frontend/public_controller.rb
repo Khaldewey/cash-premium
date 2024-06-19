@@ -265,8 +265,14 @@ class Frontend::PublicController < Frontend::ApplicationController
 
   def search_numbers
     @member = Member.find(params[:yek])
-    
-    
+  end 
+
+  def comunications
+    @comunications = Message.all
+  end 
+
+  def winners
+    @winners = Lottery.where.not(winner: nil)
   end
 
   

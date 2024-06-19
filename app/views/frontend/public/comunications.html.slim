@@ -1,0 +1,16 @@
+    
+.container-fluid
+    .row 
+
+        - if @comunications.present? 
+            - @comunications.each do |comunication|
+                .sorteio-container
+                    
+                    .sorteio-column.col-xs-12.col-md-6.col-lg-6 
+                        .sorteio-content   
+                            h2 = comunication.title + comunication.created_at.strftime("%d/%m/%Y")
+                            p = raw comunication.content
+        - else 
+            .sorteio-content 
+                h2 Nenhum comunicado cadastrado
+        

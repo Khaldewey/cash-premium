@@ -87,7 +87,7 @@ $(document).ready(function () {
         if (elapsedTime <= maxTime) {
             clearInterval(timerInterval);
             window.location.href = "/";
-            alert("Tempo para efetuar pagamento esgotado.")
+            
         }
     }
 

@@ -15,6 +15,6 @@ class Admin::ApplicationController < ActionController::Base
 
   def defaults
     
-    @notice_categories_menu = NoticeCategory.all
+    
   end
 end

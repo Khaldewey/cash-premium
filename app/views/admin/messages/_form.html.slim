@@ -1,0 +1,11 @@
+h2 Comunicados
+= simple_form_for [:admin, resource], :html => { :class => 'form-horizontal' } do |f|
+  section.panel.panel-default
+    header.panel-heading.font-bold
+      /= resource.new_record? ? "Adicionar Telefone" : "Editar Telefone #{resource.phone}"
+    .panel-body
+      = f.input :title, :label => 'Título'
+      = f.input :content, :label => 'Conteúdo', :as => :ckeditor, :input_html => { :ckeditor => { :toolbar => 'Pure' } }
+  
+
+  = render 'admin/shared/form_actions', f: f

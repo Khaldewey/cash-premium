@@ -1,0 +1,18 @@
+h2 Comunicados
+.panel.panel-default
+  .table-responsive
+    table.table.table-striped.b-t.b-light
+      thead
+        tr
+          th.text-center Título
+          th.text-center Conteúdo
+          th.text-center(width=210) Ações
+      tbody
+        - collection.order(id: :desc).each do |r|
+          tr
+            td.text-center= r.title
+            td.text-center= raw r.content
+            
+            td.text-center.links-actions
+              = render 'admin/shared/actions', r: r
+= render 'admin/shared/create'
