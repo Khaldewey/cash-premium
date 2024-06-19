@@ -1,5 +1,2 @@
 = link_to 'Adicionar', new_resource_path, class: "btn btn-primary btn-lg" if can? :create, resource_class
 .clearfix
-
-.text-center
-  = will_paginate(collection, renderer: 'ApplicationHelper::LinkRenderer', class: 'pagination pagination-lg', per_page: 5) 

@@ -11,7 +11,7 @@ h2 Loterias
           th.text-center Resultado
           th.text-center(width=210) Ações
       tbody
-        - collection.order(id: :desc).each do |r|
+        - @lottery.order(id: :desc).each do |r|
           tr
             td.text-center = r.event
             td.text-center = r.date_event
@@ -28,5 +28,8 @@ h2 Loterias
                 = r.result
             td.text-center.links-actions
               = render 'admin/shared/actions_lottery', r: r
+
+.text-center
+  = will_paginate @lottery, renderer: ApplicationHelper::LinkRenderer, class: 'pagination pagination-lg'
 
 = render 'admin/shared/create'

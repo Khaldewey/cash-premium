@@ -1,16 +1,20 @@
-    
+.home-title 
+    div
+        = image_tag 'Cash.png'
+        h1 Comunicados
+    p Informações para o cliente
+
+
 .container-fluid
     .row 
 
         - if @comunications.present? 
             - @comunications.each do |comunication|
-                .sorteio-container
-                    
-                    .sorteio-column.col-xs-12.col-md-6.col-lg-6 
-                        .sorteio-content   
-                            h2 = comunication.title + comunication.created_at.strftime("%d/%m/%Y")
-                            p = raw comunication.content
+                .messages-container
+                    .messages-box  
+                        h4 = comunication.title + ' - ' + comunication.created_at.strftime("%d/%m/%Y")
+                        = raw comunication.content
         - else 
-            .sorteio-content 
-                h2 Nenhum comunicado cadastrado
+            .messages-container 
+                h4 Não há nenhum comunicado no momento!
         

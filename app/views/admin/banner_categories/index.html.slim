@@ -12,7 +12,7 @@ h2 Banner - Categorias
           th.text-center Está Ativa?
           th.text-center (width=310) Ações
       tbody    
-        - collection.order(id: :desc).each do |r|
+        - @banners.order(id: :desc).each do |r|
           tr
             td.text-center= r.name
             td.text-center= r.image_width
@@ -21,4 +21,7 @@ h2 Banner - Categorias
             td.text-center.links-actions
               = render 'admin/shared/actions', r: r
               = render 'admin/shared/action_images', r: r
+.text-center
+  = will_paginate @banners, renderer: ApplicationHelper::LinkRenderer, class: 'pagination pagination-lg'
+
 = render 'admin/shared/create'

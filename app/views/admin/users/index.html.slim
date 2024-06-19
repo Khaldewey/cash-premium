@@ -9,7 +9,7 @@ h2 Usuários
           th.text-center Último Login
           th.text-center(width=210) Ações
       tbody    
-        - collection.each do |r|
+        -  @users.each do |r|
           tr
             td.text-center= r.email
             td.text-center
@@ -17,6 +17,10 @@ h2 Usuários
             td.text-center= r.last_sign_in_at.strftime('%d/%m/%Y %H:%M:%S') if r.last_sign_in_at.present?
             td.text-center.links-actions
               = render 'admin/shared/actions', r: r
+.text-center
+  = will_paginate @users, renderer: ApplicationHelper::LinkRenderer, class: 'pagination pagination-lg'
+
+
 = render 'admin/shared/create'
 
 

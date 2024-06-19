@@ -2,9 +2,11 @@ class DefaultUploader < BaseUploader
   include CarrierWave::MiniMagick
 
   storage :file # Configuração para armazenamento local
-
-  def store_dir
-    '/public/uploads'
+  
+  if Rails.env.production?
+    def store_dir
+        '/public/uploads'
+    end
   end
 
   version :preview do

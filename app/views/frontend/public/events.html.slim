@@ -64,3 +64,6 @@ section#agreement
                                     p = 'Cod: ' + lottery.id.to_s
                                     .disponible
                                         p Disponível
+
+.text-center
+  = will_paginate @lotteries, renderer: ApplicationHelper::LinkRenderer, class: 'pagination pagination-lg'

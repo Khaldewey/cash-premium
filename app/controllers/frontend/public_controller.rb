@@ -6,7 +6,7 @@ class Frontend::PublicController < Frontend::ApplicationController
   end  
 
   def events
-      @lotteries = Lottery.where(status: true)
+      @lotteries = Lottery.where(status: true).paginate(page: params[:page], per_page: 5)
   end
 
   def check_phone

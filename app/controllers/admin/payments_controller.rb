@@ -15,4 +15,7 @@ class Admin::PaymentsController < Admin::ResourceController
     render :index
   end
 
+  def index
+    @payments = Payment.paginate(page: params[:page], per_page: 5)
+  end
 end

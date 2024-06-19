@@ -10,7 +10,7 @@ h2 Clientes
           th.text-center CPF
           th.text-center(width=210) Ações
       tbody
-        - collection.order(id: :desc).each do |r|
+        - @members.order(id: :desc).each do |r|
           tr
             td.text-center= r.name
             td.text-center= r.email
@@ -18,4 +18,8 @@ h2 Clientes
             td.text-center= r.cpf
             td.text-center.links-actions
               = render 'admin/shared/actions', r: r
+
+.text-center
+  = will_paginate @members, renderer: ApplicationHelper::LinkRenderer, class: 'pagination pagination-lg'
+
 = render 'admin/shared/create'

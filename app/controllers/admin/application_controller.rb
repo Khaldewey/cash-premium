@@ -13,6 +13,7 @@ class Admin::ApplicationController < ActionController::Base
 
   # WillPaginate.per_page = 5
 
+
   def defaults
     
     

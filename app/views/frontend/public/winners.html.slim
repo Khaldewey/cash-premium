@@ -5,22 +5,23 @@ section#agreement
         div
             = image_tag 'Cash.png'
             h1 Vencedores
+        p Lista de todos os vencedores
 
     .container-fluid
         .row 
-            - if @winners.present?
-                .sorteio-container
-                    /.icon-box
-                        = icon('fas', 'fire')
-                    .sorteio-column.col-xs-12.col-md-6.col-lg-6   
+            
+                - if @winners.present?
+                    .sorteio-container   
                         - @winners.each do |winner|
-                            - if winner.image.present?
-                                = image_tag winner.image_url, class: 'sorteio-img'
-                            .sorteio-content 
-                                h2 = winner.event 
-                                p = 'Cod: ' + winner.id.to_s
-                                .disponible
-                                    p = 'Vencedor: ' + winner.winner
-            - else 
-                p Por enquanto não há vencedores"        
+                            .sorteio-column   
+                                .sorteio-box
+                                    - if winner.image.present?
+                                        = image_tag winner.image_url, class: 'sorteio-img'
+                                    .sorteio-content-winner
+                                        h2 = winner.winner
+                                        p = 'Número da Sorte: ' + winner.id.to_s
+                                        p = 'Prêmio: ' + winner.event 
+                                    
+                - else 
+                    p Por enquanto não há vencedores"        
              

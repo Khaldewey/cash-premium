@@ -5,9 +5,11 @@
                 h1 Comprar Tickets
             p Escolha a quantidade
         .lottery-selected 
+            = image_tag @lottery.image_url
             h2 = @lottery.event 
             p = 'Código do Sorteio: ' + @lottery.id.to_s
             p = 'Data do Sorteio: ' + @lottery.date_event.strftime('%d/%m/%Y')
+            
   
     = form_with(model: [@lottery], url: "#", method:'post', id: 'lottery-form') do |form|
         .container-sorteio
@@ -33,7 +35,7 @@
                   = form.number_field :quantity, min: 1, max: @lottery.ticket - contar_numeros(Member.where("tickets->>:lottery_id IS NOT NULL", lottery_id: @lottery.id.to_s), @lottery.id), step: 1, class: 'new-sorteio-input', id: 'quantity-sorteio', value: 0, readonly: true       
                   = form.button '+', type: 'button', class: 'action-buttons button-add-numbers', increment: 1
               .sorteio-actions                   
-                  button#openModal.new-sorteio-submit type="button" Abrir Modal
+                  button#openModal.new-sorteio-submit type="button" Confirmar
                   = form.button 'Limpar', type: 'button', class: 'new-sorteio-submit button-clear-numbers'
                 
                   #myModal.modal

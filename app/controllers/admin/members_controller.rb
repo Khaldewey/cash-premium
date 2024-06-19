@@ -10,4 +10,8 @@ class Admin::MembersController < Admin::ResourceController
             render json: { success: false, message: 'Membro não encontrado' }
         end
     end
+
+    def index
+        @members = Member.paginate(page: params[:page], per_page: 5)
+    end
 end

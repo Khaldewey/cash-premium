@@ -1,4 +1,8 @@
 class Admin::UsersController < Admin::ResourceController
+  def index
+    @users = User.paginate(page: params[:page], per_page: 5)
+  end
+
   def update
     if params[:user][:password].blank?
       params[:user].delete(:password)
@@ -54,5 +58,6 @@ class Admin::UsersController < Admin::ResourceController
   def user_params
     params.require(:user).permit(:password, :password_confirmation)
   end
+
 
 end
