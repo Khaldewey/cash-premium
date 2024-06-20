@@ -272,7 +272,7 @@ class Frontend::PublicController < Frontend::ApplicationController
   end 
 
   def winners
-    @winners = Lottery.where.not(winner: nil)
+    @winners = Lottery.where.not(winner: [nil, ""])
   end
 
   

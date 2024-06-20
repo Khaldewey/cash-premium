@@ -4,8 +4,9 @@
                 = image_tag 'Cash.png'
                 h1 Comprar Tickets
             p Escolha a quantidade
-        .lottery-selected 
-            = image_tag @lottery.image_url
+        .lottery-selected
+            -if  @lottery.image_url.present?
+                = image_tag @lottery.image_url
             h2 = @lottery.event 
             p = 'Código do Sorteio: ' + @lottery.id.to_s
             p = 'Data do Sorteio: ' + @lottery.date_event.strftime('%d/%m/%Y')

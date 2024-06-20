@@ -20,7 +20,7 @@ Target::Application.routes.draw do
   post '/meus-numeros' => 'frontend/public#search_numbers', as: :procurar_numeros
   get '/comunicados' => 'frontend/public#comunications'
   get '/ganhadores' => 'frontend/public#winners'
-
+  get '/termo' => 'frontend/public#term'
 
   %w( 404 422 500 ).each do |code|
     get code, :to => "errors#show", :code => code

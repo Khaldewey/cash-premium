@@ -3,14 +3,14 @@ section#agreement
     
     .home-title 
         div
-            = image_tag 'Cash.png'
+            /= image_tag 'Cash.png'
             h1 Vencedores
         p Lista de todos os vencedores
 
     .container-fluid
         .row 
             
-                - if @winners.present?
+                - unless @winners.empty?
                     .sorteio-container   
                         - @winners.each do |winner|
                             .sorteio-column   
@@ -23,5 +23,9 @@ section#agreement
                                         p = 'Prêmio: ' + winner.event 
                                     
                 - else 
-                    p Por enquanto não há vencedores"        
-             
+                    .sorteio-container
+                        .sorteio-column 
+                            .sorteio-box 
+                                .sorteio-content-winner
+                                    p Por enquanto não há vencedores !       
+                
