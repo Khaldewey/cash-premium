@@ -254,7 +254,7 @@ class Frontend::PublicController < Frontend::ApplicationController
     response
   end
 
-  def meus_titulos
+  def term
   end 
 
   def numbers
