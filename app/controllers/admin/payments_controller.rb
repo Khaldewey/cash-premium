@@ -16,6 +16,6 @@ class Admin::PaymentsController < Admin::ResourceController
   end
 
   def index
-    @payments = Payment.paginate(page: params[:page], per_page: 5)
+    @collection  = Payment.paginate(page: params[:page], per_page: 5)
   end
 end

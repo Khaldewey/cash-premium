@@ -23,9 +23,7 @@ h2 Loterias
                 = link_to admin_active_lottery_path(r), method: :put, class: "btn btn-danger" do
                   = icon('fas fa', 'ban')
             td.text-center = r.ticket
-            td.text-center 
-              - if r.result.present? 
-                = r.result
+            td.text-center = r.winner
             td.text-center.links-actions
               = render 'admin/shared/actions_lottery', r: r
 

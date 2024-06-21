@@ -28,7 +28,7 @@ section#agreement
                 .icon-box
                     =icon('fas', 'newspaper')
                     h3 Todas as Campanhas
-                - @lotteries.each do |lottery|
+                - (@lotteries.to_a - [Lottery.where(status: true).last]).each do |lottery|
                     .sorteio-column.col-xs-12.col-md-6.col-lg-6
                         - if Member.where("tickets->>:lottery_id IS NOT NULL", lottery_id: lottery.id.to_s).present?
                             - if contar_numeros(Member.where("tickets->>:lottery_id IS NOT NULL", lottery_id: lottery.id.to_s), lottery.id) == lottery.ticket

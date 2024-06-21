@@ -181,6 +181,35 @@ ActiveRecord::Schema.define(version: 2024_06_19_174620) do
     t.index ["name"], name: "index_newsletters_on_name"
   end
 
+  create_table "notice_categories", force: :cascade do |t|
+    t.string "name"
+    t.string "slug"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "notices", force: :cascade do |t|
+    t.string "title"
+    t.string "slug"
+    t.string "abstract"
+    t.text "content"
+    t.datetime "published_at"
+    t.string "cover_image"
+    t.boolean "cover_image_body"
+    t.string "content_audio"
+    t.string "audio"
+    t.string "subtitle_cover_image"
+    t.boolean "is_highlight"
+    t.boolean "is_active", default: false
+    t.string "video_url"
+    t.string "youtube_video_id"
+    t.bigint "notice_category_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "link"
+    t.index ["notice_category_id"], name: "index_notices_on_notice_category_id"
+  end
+
   create_table "page_images", force: :cascade do |t|
     t.string "image"
     t.string "title"
@@ -307,6 +336,7 @@ ActiveRecord::Schema.define(version: 2024_06_19_174620) do
   add_foreign_key "banners", "banner_categories"
   add_foreign_key "email_contacts", "email_categories"
   add_foreign_key "members", "lotteries"
+  add_foreign_key "notices", "notice_categories"
   add_foreign_key "page_images", "pages"
   add_foreign_key "payments", "lotteries"
   add_foreign_key "payments", "members"
