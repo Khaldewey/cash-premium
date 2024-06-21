@@ -3,11 +3,11 @@ class DefaultUploader < BaseUploader
 
   storage :file # Configuração para armazenamento local
   
-  if Rails.env.production?
-    def store_dir
-        '/public/uploads'
-    end
+
+  def store_dir
+    '/public/uploads'
   end
+
 
   version :preview do
     process :resize_to_fill => [200, 140]

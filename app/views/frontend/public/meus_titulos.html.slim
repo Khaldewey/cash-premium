@@ -10,6 +10,7 @@
                         
                         .sorteio-actions
                             p Informe seu numero de telefone
+                            <div class="alert alert-success" role="alert">Informe um número de telefone válido para continuar</div>
                             = form.text_field :phone, id: 'phone-field', class: 'new-sorteio-input'
                             .buttons-sorteio
                             = form.button "Confirmar", class: 'new-sorteio-submit' 

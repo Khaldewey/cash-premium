@@ -44,10 +44,12 @@
                         span.close &times;
                         
                         .sorteio-actions
-                            p Informe seu numero de telefone
-                            = form.text_field :phone, id: 'phone-field', class: 'new-sorteio-input'
+                            .alert-warning role="alert"
+                                p = icon('fas', 'exclamation-circle') + ' Informe seu número de telefone para continuar'
+                            = form.label :phone, "Número de Telefone: "
+                            = form.text_field :phone, id: 'phone-field-number', class: 'new-sorteio-input-number'
                             .buttons-sorteio
-                            = form.button "Confirmar", class: 'new-sorteio-submit'
+                            = form.button "Confirmar", class: 'new-sorteio-submit' 
   
 
     javascript:
