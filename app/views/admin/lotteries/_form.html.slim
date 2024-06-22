@@ -27,6 +27,8 @@ h2 Loterias
           .col-md-6.col-sm-12.col-xs-12 
             = f.input :winner, :label => 'Vencedor'
           .col-md-6.col-sm-12.col-xs-12
+            = f.input :number_winner, :label => 'Número Vencedor'
+          .col-md-6.col-sm-12.col-xs-12
             label = 'Data do Evento'
             = f.datetime_field :date_event, :as => :datetime
           .col-md-6.col-sm-12.col-xs-12

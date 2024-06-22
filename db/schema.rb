@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_06_19_174620) do
+ActiveRecord::Schema.define(version: 2024_06_22_054131) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -141,13 +141,14 @@ ActiveRecord::Schema.define(version: 2024_06_19_174620) do
     t.datetime "date_event"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "status"
     t.integer "ticket"
+    t.boolean "status"
     t.integer "result"
     t.integer "price"
     t.string "winner"
     t.string "image"
     t.string "content"
+    t.integer "number_winner"
   end
 
   create_table "members", force: :cascade do |t|
@@ -156,8 +157,8 @@ ActiveRecord::Schema.define(version: 2024_06_19_174620) do
     t.string "phone"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "lottery_id"
     t.jsonb "tickets", default: {}
+    t.bigint "lottery_id"
     t.string "cpf"
     t.index ["cpf"], name: "index_members_on_cpf", unique: true
     t.index ["email"], name: "index_members_on_email", unique: true
@@ -208,27 +209,6 @@ ActiveRecord::Schema.define(version: 2024_06_19_174620) do
     t.datetime "updated_at", null: false
     t.string "link"
     t.index ["notice_category_id"], name: "index_notices_on_notice_category_id"
-  end
-
-  create_table "page_images", force: :cascade do |t|
-    t.string "image"
-    t.string "title"
-    t.integer "position"
-    t.bigint "page_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["page_id"], name: "index_page_images_on_page_id"
-  end
-
-  create_table "pages", force: :cascade do |t|
-    t.string "title"
-    t.string "abstract"
-    t.text "content"
-    t.string "slug"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["slug"], name: "index_pages_on_slug", unique: true
-    t.index ["title"], name: "index_pages_on_title", unique: true
   end
 
   create_table "paragraphs", force: :cascade do |t|
@@ -337,7 +317,6 @@ ActiveRecord::Schema.define(version: 2024_06_19_174620) do
   add_foreign_key "email_contacts", "email_categories"
   add_foreign_key "members", "lotteries"
   add_foreign_key "notices", "notice_categories"
-  add_foreign_key "page_images", "pages"
   add_foreign_key "payments", "lotteries"
   add_foreign_key "payments", "members"
   add_foreign_key "permissions_roles", "permissions"
