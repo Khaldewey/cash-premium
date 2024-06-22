@@ -21,6 +21,7 @@ Target::Application.routes.draw do
   get '/comunicados' => 'frontend/public#comunications'
   get '/ganhadores' => 'frontend/public#winners'
   get '/termo' => 'frontend/public#term'
+  get '/erro-servidor-pagamento' => 'frontend/public#error', as: :error
 
   %w( 404 422 500 ).each do |code|
     get code, :to => "errors#show", :code => code

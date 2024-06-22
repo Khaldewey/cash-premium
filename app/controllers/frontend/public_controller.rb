@@ -154,9 +154,13 @@ class Frontend::PublicController < Frontend::ApplicationController
       @id = parsed_response.dig("id")
       
     else 
-      render :purchase
+      logger.error "Payment response error: #{payment_response.inspect}"
+      redirect_to error_path
     end
     
+  end 
+
+  def error
   end
   
   def pix_member  
@@ -175,7 +179,8 @@ class Frontend::PublicController < Frontend::ApplicationController
       @qr_code = parsed_response.dig("point_of_interaction", "transaction_data", "qr_code")
       @id = parsed_response.dig("id")
       
-    else 
+    else
+      logger.error "Payment response error: #{payment_response.inspect}"
       render :purchase
     end
     
