@@ -19,8 +19,10 @@ section#agreement
                                         = image_tag winner.image_url, class: 'sorteio-img'
                                     .sorteio-content-winner
                                         h2 = winner.winner
-                                        p = 'Números adquiridos: ' + Member.find_by(name: winner.winner).tickets[winner.id.to_s].to_s
+                                        p = 'Código do Sorteio: ' + Member.find_by(name: winner.winner).tickets[winner.id.to_s].to_s
                                         p = 'Prêmio: ' + winner.event 
+                                        p = 'Numéro da Sorte: '
+                                    
                                     
                 - else 
                     .sorteio-container

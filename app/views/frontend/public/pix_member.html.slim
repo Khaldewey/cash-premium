@@ -34,7 +34,12 @@ input#member_id(type="hidden" value="#{@member.id}")
                 |  #{@member.phone[0..3] + '*****-' + @member.phone[10..13]}
             li
                 strong Email:
-                |  #{@member.email}
+                - if @member.email.include?("@")
+                    - atIndex = @member.email.index("@")
+                    - primaryLetters = @member.email[0..2]
+                    - lastLetters = @member.email[(atIndex - 2)..(atIndex - 1)]
+                    - rest = @member.email[(atIndex + 1)..-1]
+                    = " #{primaryLetters}*****#{lastLetters}@#{rest}"
             li
                 strong Data e Hora:
                 |  #{Time.now.strftime("%d/%m/%Y %H:%M:%S")}

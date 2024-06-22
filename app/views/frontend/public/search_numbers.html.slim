@@ -20,10 +20,13 @@
                 |  #{@member.phone[0..3] + '*****-' + @member.phone[10..13]}
             li
                 strong Email:
-                |  #{@member.email}
-            li
-                strong Data e Hora:
-                |  #{Time.current.strftime("%d/%m/%Y %H:%M:%S")}
+                - if @member.email.include?("@")
+                    - atIndex = @member.email.index("@")
+                    - primaryLetters = @member.email[0..2]
+                    - lastLetters = @member.email[(atIndex - 2)..(atIndex - 1)]
+                    - rest = @member.email[(atIndex + 1)..-1]
+                    = " #{primaryLetters}*****#{lastLetters}@#{rest}"
+
         h3 Loterias Participantes
     .my-lotteries-container
       - @member.tickets.each do |lottery_id, numbers|

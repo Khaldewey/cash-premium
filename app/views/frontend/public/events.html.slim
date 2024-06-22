@@ -19,7 +19,7 @@ section#agreement
                             = image_tag Lottery.where(status: true).last.image_url, class: 'sorteio-img'
                         .sorteio-content 
                             h2 = Lottery.where(status: true).last.event
-                            p Venha participar do sorteio dessa linda moto
+                            p = Lottery.where(status: true).last.content
                     
                             p = 'Cod: ' + Lottery.where(status: true).last.id.to_s
                             .disponible
@@ -36,7 +36,7 @@ section#agreement
                                     = image_tag lottery.image_url, class: 'sorteio-img'
                                     .sorteio-content 
                                         h2 = lottery.event
-                                        p Venha participar do sorteio dessa linda moto
+                                        p = lottery.content
                                
                                         p = 'Cod: ' + lottery.id.to_s
                                         .not-disponible
@@ -47,7 +47,7 @@ section#agreement
                                         = image_tag lottery.image_url, class: 'sorteio-img'
                                     .sorteio-content 
                                         h2 = lottery.event 
-                                        p Venha participar do sorteio dessa linda moto
+                                        p = lottery.content
                                
                                         p = 'Cod: ' + lottery.id.to_s
 
@@ -59,7 +59,7 @@ section#agreement
                                 = image_tag lottery.image_url, class: 'sorteio-img'
                                 .sorteio-content 
                                     h2 = lottery.event 
-                                    p Venha participar do sorteio dessa linda moto
+                                    p = lottery.content
                                
                                     p = 'Cod: ' + lottery.id.to_s
                                     .disponible
