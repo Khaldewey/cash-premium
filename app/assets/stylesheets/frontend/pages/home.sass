@@ -1,3 +1,5 @@
+
+
 .modal 
     display: none
     justify-content: center
@@ -128,8 +130,12 @@
     justify-content: center
     align-items: center
     flex-wrap: wrap
+    flex-direction: column
     gap: 10px
     margin: 20px
+    i
+        font-size: 14pt
+        color: $letterColor
     div
         display: flex
         justify-content: center
@@ -139,7 +145,7 @@
         width: 40px
     h1 
         font-size: 20pt
-        color: black
+        color: $letterColor
         margin: 0
         font-weight: bold
     p
@@ -158,6 +164,7 @@
     gap: 20px
     p
         margin: 0
+        color: $letterColor
 
 .img-footer
     width: 50px
@@ -218,7 +225,7 @@
         i
             font-size: 18pt
     h3
-        color: black
+        color: $letterColor
         font-size: 12pt
         margin: 10px
     
@@ -245,7 +252,7 @@
     background-color: rgba(6, 159, 1, 0.103)
 
 .sorteio-box 
-    background-color: white
+    background-color: black
     box-shadow: 0 0 2px
     border-radius: 10px
     width: 320px
@@ -261,12 +268,12 @@
         p
             margin: 0
     h2
-        color: black
+        color: $letterColor
         font-size: 12pt
         text-align: center
         margin: 0
     p 
-        color: black
+        color: $letterColor
         text-align: center
         margin: 5px
     a
@@ -283,10 +290,10 @@
     align-items: center
     gap: 5px
     i
-        color: black
+        color: $letterColor
     h3
         font-weight: bold
-        color: black
+        color: $letterColor
         margin: 0
 
 .nav-container
@@ -341,7 +348,7 @@
     margin-bottom: 50px
     label 
         font-size: 14pt
-        color: black
+        color: $letterColor
 
 .user-info
     display: flex
@@ -410,6 +417,8 @@
         height: 30px
         color: white
         border-radius: 50%
+    label
+        color: black
         
 @keyframes blink 
     0% 
@@ -427,11 +436,12 @@
     margin-bottom: 10px
     h2
         font-weight: bold
-        color: black
+        color: $letterColor
         font-size: 18pt
         margin: 0
     p
         margin: 0
+        color: $letterColor
     img
         width: 100%
         border-radius: 10px

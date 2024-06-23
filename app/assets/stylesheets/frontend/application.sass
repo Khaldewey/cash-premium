@@ -15,24 +15,54 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap')
 
 
+$letterColor: #ffffff
+
+
 //Pages
-
-
-@import "./pages/pix"
 @import "./pages/login"
 @import "./layout"
 @import "./pages/home"
+@import "./pages/pix"
+
+.container-purchase
+    display: flex
+    justify-content: center
+    align-items: center
+    flex-direction: column
+    form
+        display: flex
+        flex-direction: column
+
+.purchase
+    max-width: 500px
+
+.purchase-sorteio
+    display: flex
+    justify-content: center
+    align-items: center
+    width: 100%
+    flex-direction: column
+    gap: 10px
+    margin: 30px 0
+    label
+        color: $letterColor
+    input
+        width: 150px
+        border: none
+        border-radius: 10px
+        padding: 0 10px
 
 .termo 
     margin: 30px
-    color: black
+    color: $letterColor
     h3
         font-size: 14pt
         text-align: center
+
+body 
+    background-color: $letterColor
         
 
-
-        
 .alert-warning
     padding: 10px
     border-radius: 10px
@@ -48,10 +78,9 @@
     align-items: start
     flex-direction: column
     p
-        margin: 0
         text-align: start
         width: 100%
-
+        margin: 0
 
 .messages-container
     display: flex
@@ -70,7 +99,7 @@
         padding: 10px
         box-shadow: 0 0 5px
     h4
-        color: black
+        color: $letterColor
         font-size: 12pt
         margin: 10px
 
@@ -81,6 +110,7 @@
 .pagination > .active > .active  
     background-color: #17a700
     border-color: #17a700
+
 
 .sorteio-column
     display: flex
@@ -101,12 +131,13 @@
         padding: 20px
         width: 350px
         margin-bottom: 30px
-        box-shadow: 0 0 2px
+        background-color: black
         p
             margin: 0
+            color: $letterColor
         h3
             font-weight: bold
-            color: black
+            color: $letterColor
 
         ul
             display: flex
@@ -121,7 +152,7 @@
             align-items: start
         li
             background: #17a700
-            color: white
+            color: $letterColor
             padding: 5px
             border-radius: 50%
             display: flex
@@ -137,7 +168,7 @@
                 display: flex
                 justify-content: center
                 align-items: center
-                color: white
+                color: $letterColor
                 font-weight: bold
                 font-size: 13pt
 
@@ -167,25 +198,25 @@
     gap: 10px
     flex-direction: column
     > ul
-        background-color: #dddddd
+        background-color: black
         border-radius: 10px
         padding: 5px
         list-style-type: none
-        box-shadow: 0 0 3px
-
         li
-            color: black
-            color: black
+            color: $letterColor
             padding: 2px
             font-size: 13pt
     h3
         margin: 0
         font-size: 14pt
-        color: black
+        color: $letterColor
         font-weight: bold
     p
         margin: 0
         font-size: 14pt
+        color: $letterColor
+    span
+        color: $letterColor
 
 .not-numbers
     display: flex
@@ -217,6 +248,7 @@
         align-items: center
         border-radius: 10px
         width: 350px
+        
         p
             margin: 0
         h3
@@ -234,6 +266,7 @@
             justify-content: center
             flex-wrap: wrap
             padding: 10px
+            align-items: center
         li
             background: #17a700 
             padding: 5px    

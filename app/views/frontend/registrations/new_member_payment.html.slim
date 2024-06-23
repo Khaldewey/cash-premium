@@ -1,9 +1,11 @@
 .form-container
   = simple_form_for @member, as: :member, url: create_member_and_payment_path(lottery_id: @lottery.id, quantity: @numbers_count), method: :post, html: { class: 'form-horizontal' } do |f|
     .login-container
-      .header-title
-        h3 CADASTRO
-        p Faça o cadastro para iniciar suas apostas!
+      .home-title 
+          div
+              = icon('fas', 'address-card')
+              h1 Cadastro
+          p Realize aqui o seu cadastro!
     
       .input-container
         .input-box
@@ -31,9 +33,7 @@
           - if @member.errors.has_key?(:cpf)
             p.text-danger = @member.errors[:cpf].first
 
-      br/
-
-      .button-container
-        /.recaptcha = recaptcha_tags
-        = f.button :submit, "Enviar", class: 'button-register'
-        = link_to "Voltar", "/", class: 'button-register'
+        .button-container
+          /.recaptcha = recaptcha_tags
+          = f.button :submit, "Enviar", class: 'button-register'
+          = link_to "Voltar", "/", class: 'button-register'
