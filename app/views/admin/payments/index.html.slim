@@ -23,6 +23,8 @@ h2 Pagamentos
           th.text-center Campanha
           th.text-center Quantidade
           th.text-center Cliente
+          th.text-center Telefone
+          th.text-center Números
           th.text-center Data e Horário
       tbody
         - @collection.order(created_at: :asc).each do |r|
@@ -31,6 +33,8 @@ h2 Pagamentos
             td.text-center = Lottery.find(r.lottery_id).event
             td.text-center = r.quantity
             td.text-center = Member.find(r.member_id).name
+            td.text-center = Member.find(r.member_id).phone
+            td.text-center = Member.find(r.member_id).tickets[r.lottery_id.to_s].to_s
             td.text-center = r.created_at.strftime("%d/%m/%Y %H:%M")
 
 .text-center
