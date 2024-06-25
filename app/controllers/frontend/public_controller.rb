@@ -115,11 +115,12 @@ class Frontend::PublicController < Frontend::ApplicationController
       }
       # redirect_to member_root_path, notice: "Números selecionados com sucesso!"
     else
-      redirect_to member_new_ticket_path, notice: "Números esgotados sua compra será reembolsada!"
+      redirect_to error_path
       # render json: {
       #   "mensagem": "Números esgotados sua compra será reembolsada"
       # }
     end
+   
     # else 
     #   redirect_to member_new_ticket_path, notice: "Números esgotados sua compra será reembolsada imediatamente pelo administrador !"
     # end
@@ -195,7 +196,7 @@ class Frontend::PublicController < Frontend::ApplicationController
     # Headers da requisição
     headers = {
       'Content-Type' => 'application/json',
-      'Authorization' => "Bearer APP_USR-191553553627645-052119-4e39a47a786002999f0f2bd945244922-472243321"
+      'Authorization' => "Bearer APP_USR-7566194155648643-062420-1d483b50a9f63af77d98a4b0548d8006-576411779"
     }
 
     # Realizar a requisição GET para consultar o pagamento
@@ -245,10 +246,13 @@ class Frontend::PublicController < Frontend::ApplicationController
     url = 'https://api.mercadopago.com/v1/payments'
     # TEST-191553553627645-052119-e02f16e5c678bc716b9d93cfcdba8d03-472243321 teste 
     # APP_USR-191553553627645-052119-4e39a47a786002999f0f2bd945244922-472243321 produção
+
+    # TEST-7566194155648643-062420-491e0d66fe9706fad2c3f65286367516-576411779 teste Matheus
+    # APP_USR-7566194155648643-062420-1d483b50a9f63af77d98a4b0548d8006-576411779 produção Matheus
     # Headers da requisição
     headers = {
       'Content-Type' => 'application/json',
-      'Authorization' => "Bearer APP_USR-191553553627645-052119-4e39a47a786002999f0f2bd945244922-472243321",
+      'Authorization' => "Bearer APP_USR-7566194155648643-062420-1d483b50a9f63af77d98a4b0548d8006-576411779",
       'X-Idempotency-Key' => idempotency_key
     }
 
