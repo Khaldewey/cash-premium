@@ -22,6 +22,8 @@ Target::Application.routes.draw do
   get '/ganhadores' => 'frontend/public#winners'
   get '/termo' => 'frontend/public#term'
   get '/erro-servidor-pagamento' => 'frontend/public#error', as: :error
+  put '/numeros-esgotados' => 'frontend/public#finished'
+  get '/numeros-esgotados' => 'frontend/public#finished' , as: :finished_numbers
 
   %w( 404 422 500 ).each do |code|
     get code, :to => "errors#show", :code => code
@@ -67,6 +69,12 @@ Target::Application.routes.draw do
     resources :payments do
       collection do
         get 'search' => 'payments#search', as: :search
+      end
+    end 
+
+    resources :failures do
+      collection do
+        get 'search' => 'failures#search', as: :search
       end
     end 
 

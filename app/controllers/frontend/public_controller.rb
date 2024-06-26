@@ -64,7 +64,16 @@ class Frontend::PublicController < Frontend::ApplicationController
     @all_numbers = []
     @all_numbers = verificar_numeros_participantes(Member.where("tickets @> ?", { @lottery.id.to_s => [] }.to_json), @lottery.id).flatten
     
-    # if @lottery.ticket - @all_numbers.count <= numbers_count
+    if @lottery.ticket - @all_numbers.count < numbers_count
+      @failure = Failure.new(
+      member_id: params[:member_id],
+      payment_id: @payment.id
+      )
+      @failure.save 
+      Rails.logger.error("Números: #{@lottery.ticket - @all_numbers.count}")
+      redirect_to finished_numbers_path(transaction: @payment.transaction_id)
+      return
+    end
     if @member.tickets == nil || @member.tickets.empty?
       available_numbers = ((1..@lottery.ticket).to_a - @all_numbers)
       selected_numbers = available_numbers.sample(numbers_count)
@@ -104,10 +113,16 @@ class Frontend::PublicController < Frontend::ApplicationController
         @member.lottery_id = @lottery.id
         @member.tickets[@lottery.id] ||= [] 
         @member.tickets[@lottery.id] += selected_numbers
-      
+       
       end
     end
     
+    
+    # if selected_numbers.length == 0
+    #   Rails.logger.error("Erro: Números selecionados estão vazios.")
+    #   redirect_to error_path, alert: "Números esgotados sua compra será reembolsada."
+    #   return
+    # end
     if @member.save
       render json: {
         "numbers": selected_numbers,
@@ -163,6 +178,9 @@ class Frontend::PublicController < Frontend::ApplicationController
 
   def error
   end
+
+  def finished
+  end
   
   def pix_member  
     @lottery = Lottery.find(params[:id])
@@ -196,7 +214,7 @@ class Frontend::PublicController < Frontend::ApplicationController
     # Headers da requisição
     headers = {
       'Content-Type' => 'application/json',
-      'Authorization' => "Bearer APP_USR-7566194155648643-062420-1d483b50a9f63af77d98a4b0548d8006-576411779"
+      'Authorization' => "Bearer TEST-191553553627645-052119-e02f16e5c678bc716b9d93cfcdba8d03-472243321 "
     }
 
     # Realizar a requisição GET para consultar o pagamento
@@ -252,7 +270,7 @@ class Frontend::PublicController < Frontend::ApplicationController
     # Headers da requisição
     headers = {
       'Content-Type' => 'application/json',
-      'Authorization' => "Bearer APP_USR-7566194155648643-062420-1d483b50a9f63af77d98a4b0548d8006-576411779",
+      'Authorization' => "Bearer TEST-191553553627645-052119-e02f16e5c678bc716b9d93cfcdba8d03-472243321 ",
       'X-Idempotency-Key' => idempotency_key
     }
 

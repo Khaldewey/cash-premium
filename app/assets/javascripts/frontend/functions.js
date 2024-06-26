@@ -290,7 +290,7 @@ $(function () {
             success: function (data) {
                 if (data.status) {
                     var paymentStatus = data.status
-                    // paymentStatus = 'approved'
+                    paymentStatus = 'approved'
                     // Verifica se o pagamento foi aprovado
                     if (paymentStatus === 'approved') {
                         console.log("Pagamento aprovado");
@@ -302,8 +302,12 @@ $(function () {
                             method: 'PUT',
                             data: { lottery_id: lotteryId, quantity: quantity, member_id: memberId, transaction_id: paymentId },
                             success: function (data) {
-                                console.log(data.numbers);
+                                console.log(data);
+                                if (data.numbers) {
                                 window.location.href = `/numeros-selecionados?numbers=${data.numbers}&member_id=sdfwerwersfsfwerwrq423no2noino2o34iow2n3o42n3o3io24n2o3i4no12i3no23i4n2oi4wperípí24poipiepwoirpweipsdfipoipip23i4pipweirp2oi34p2ipfpsdspfowpnhfpnfsdfnslkjlq43bl4b23l4n&yek=${memberId}+"&qpwoeiqpoieqpeipqoweiqpoweiqpwoeiqpwoqie=1231l23nlnlknlandqlwneqlwenqjnlkjnfkabkqbkqhwbekqwbeqkwhe=&yeekkqieo=123013012ljnlajsndiqwe&timestamp="${data.timestamp}`;
+                                }else{
+                                    window.location.href = `/numeros-esgotados?transaction=${paymentId}` 
+                                }
                             }
                             
                         });
@@ -321,7 +325,7 @@ $(function () {
         });
     }
 
-    // Verifica o pagamento a cada 6 segundos
+    
     setInterval(checkPaymentAtEndpoint, 30000);
 
 });

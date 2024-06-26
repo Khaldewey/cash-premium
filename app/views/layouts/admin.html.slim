@@ -77,6 +77,10 @@ html lang="pt-BR"
               = nav_link_to admin_payments_path, {:class => 'menu_link'}, {:wrapper => 'li', :wrapper_class => 'nav-item-box', :selected_class => 'active', :url_segment => 2 } do
                 = icon('fas', 'money-bill-wave')
                 span Pagamentos
+            - if can? :read, Failure
+              = nav_link_to admin_failures_path, {:class => 'menu_link'}, {:wrapper => 'li', :wrapper_class => 'nav-item-box', :selected_class => 'active', :url_segment => 2 } do
+                = icon('fas', 'money-bill-wave')
+                span Falhas
             - if can? :read, Lottery
               = nav_link_to admin_lotteries_path, {:class => 'menu_link'}, {:wrapper => 'li', :wrapper_class => 'nav-item-box', :selected_class => 'active', :url_segment => 2 } do
                 = icon('fas', 'dollar-sign')

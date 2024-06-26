@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_06_22_054131) do
+ActiveRecord::Schema.define(version: 2024_06_26_020647) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -102,6 +102,15 @@ ActiveRecord::Schema.define(version: 2024_06_22_054131) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email_category_id"], name: "index_email_contacts_on_email_category_id"
+  end
+
+  create_table "failures", force: :cascade do |t|
+    t.bigint "payment_id"
+    t.bigint "member_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["member_id"], name: "index_failures_on_member_id"
+    t.index ["payment_id"], name: "index_failures_on_payment_id"
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -336,6 +345,8 @@ ActiveRecord::Schema.define(version: 2024_06_22_054131) do
   add_foreign_key "articles", "article_categories"
   add_foreign_key "banners", "banner_categories"
   add_foreign_key "email_contacts", "email_categories"
+  add_foreign_key "failures", "members"
+  add_foreign_key "failures", "payments"
   add_foreign_key "members", "lotteries"
   add_foreign_key "notices", "notice_categories"
   add_foreign_key "page_images", "pages"
