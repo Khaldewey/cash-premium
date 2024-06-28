@@ -31,15 +31,18 @@
     .my-lotteries-container
       - @member.tickets.each do |lottery_id, numbers|
         .my-lotteries-box
-          h3 Loteria #{Lottery.find(lottery_id).event}
-          p  Data do Sorteio: #{Lottery.find(lottery_id).date_event.strftime("%d/%m/%Y")}
-          p  Status: #{Lottery.find(lottery_id).status == true ? 'Ativo' : 'Inativo'}
+          - lottery = Lottery.find(lottery_id)
+          h3 Loteria #{lottery.event}
+          p  Data do Sorteio: #{lottery.date_event.strftime("%d/%m/%Y")}
+          p  Status: #{lottery.status == true ? 'Ativo' : 'Inativo'}
           ul
             - numbers.each do |number|
               li 
-                p = number
-          = link_to 'Comprar Mais números', '/comprar-bilhete/' + lottery_id
-    
+                p = number  
+          - unless contar_numeros(Member.where("tickets->>:lottery_id IS NOT NULL", lottery_id: lottery.id.to_s), lottery.id) == lottery.ticket
+            = link_to 'Comprar Mais números', '/comprar-bilhete/' + lottery_id
+          - else 
+            p Os números dessa loteria se esgostaram para compra!
 - else
   .not-numbers
     p Não há números de loteria cadastrados para este membro.
