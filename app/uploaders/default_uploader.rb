@@ -4,9 +4,9 @@ class DefaultUploader < BaseUploader
   storage :file # Configuração para armazenamento local
   
 
-  # def store_dir
-  #   '/public/uploads'
-  # end
+  def store_dir
+    '/public/uploads'
+  end
 
 
   version :preview do
