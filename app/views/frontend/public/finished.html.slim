@@ -1,9 +1,23 @@
-.error  
-    h1 Poxa! 
-    p Os números foram esgotados enquanto você efetuava o pagamento.
-    .meme 
-        p Não se preocupe a equipe de suporte devolverá o seu dinheiro agora.
-        p Apenas informe o seu número de transação que é esse aqui: #{params[:transaction]}
-        a href="https://wa.me/5579996613823"  target="_blank"
-         h2 Clica aqui
-        
+.container-purchase
+    .purchase
+        .container-fluid   
+            .sorteio-container
+                .numbers-finished  
+                    h1 Poxa! :(
+                    p Os números foram esgotados enquanto você efetuava o pagamento.    
+                    p Não se preocupe a equipe de suporte devolverá o seu dinheiro agora.
+                    p Apenas informe o seu número de transação e o comprovante de pagamento. 
+                    
+                    .transaction-number
+                        p = 'Número da transação'
+                        strong #{params[:transaction]} 
+                    
+                    .contact-link
+                        p Entre em contato por aqui: 
+                        = link_to 'https://wa.me/5579996613823', target: '_blank' do    
+                            = icon('fab', 'whatsapp') 
+                            = 'Clique aqui'
+                        
+                            
+                           
+                        
