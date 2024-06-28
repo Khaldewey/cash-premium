@@ -9,9 +9,12 @@ h2 Loterias
           th.text-center Status
           th.text-center Tickets
           th.text-center Resultado
+          th.text-center Porcentagem
           th.text-center(width=210) Ações
       tbody
         - @lottery.order(id: :desc).each do |r|
+          - total_tickets_sold = Member.all.sum { |m| m.tickets[r.id.to_s].size rescue 0 }
+          - percentage_sold = (total_tickets_sold.to_f / r.ticket * 100).round(2)
           tr
             td.text-center = r.event
             td.text-center = r.date_event
@@ -24,6 +27,7 @@ h2 Loterias
                   = icon('fas fa', 'ban')
             td.text-center = r.ticket
             td.text-center = r.winner
+            td.text-center = "#{percentage_sold}%"
             td.text-center.links-actions
               = render 'admin/shared/actions_lottery', r: r
 

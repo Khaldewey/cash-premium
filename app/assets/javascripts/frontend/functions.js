@@ -290,7 +290,7 @@ $(function () {
             success: function (data) {
                 if (data.status) {
                     var paymentStatus = data.status
-                    paymentStatus = 'approved'
+                    // paymentStatus = 'approved'
                     // Verifica se o pagamento foi aprovado
                     if (paymentStatus === 'approved') {
                         console.log("Pagamento aprovado");
@@ -326,6 +326,6 @@ $(function () {
     }
 
     
-    setInterval(checkPaymentAtEndpoint, 30000);
+    setInterval(checkPaymentAtEndpoint, 10000);
 
 });
