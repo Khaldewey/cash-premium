@@ -1,24 +1,26 @@
-.container-purchase
-    .purchase
+section#winners
+    .container-purchase
         .container-fluid   
-            .sorteio-container
-                .home-title 
-                    div
-                        = icon('fas', 'trophy')
-                        h1 Vencedores
-                    p Lista de todos os vencedores
-                - unless @winners.empty?
-                    - @winners.each do |winner|
-                        .sorteio-column.col-xs-12.col-md-6.col-lg-6  
-                            .sorteio-box
-                                - if winner.image.present?
-                                    = image_tag winner.image_url, class: 'sorteio-img'
-                                .sorteio-content-winner
-                                    h2 = winner.winner
-                                    p = 'Código do Sorteio: ' + winner.id.to_s
-                                    p = 'Prêmio: ' + winner.event 
-                                    p = 'Numéro da Sorte: '+ winner.number_winner.to_s
-                                                        
-                - else 
-                    h3 Por enquanto não há vencedores ! 
+            .row
+                .purchase
+                    .sorteio-container
+                        .home-title 
+                            div
+                                = icon('fas', 'trophy')
+                                h1 Vencedores
+                            p Lista de todos os vencedores
+                        - unless @winners.empty?
+                            - @winners.each do |winner|
+                                .sorteio-column.col-xs-12.col-md-6.col-lg-6  
+                                    .sorteio-box
+                                        - if winner.image.present?
+                                            = image_tag winner.image_url, class: 'sorteio-img'
+                                        .sorteio-content-winner
+                                            h2 = winner.winner
+                                            p = 'Código do Sorteio: ' + winner.id.to_s
+                                            p = 'Prêmio: ' + winner.event 
+                                            p = 'Numéro da Sorte: '+ winner.number_winner.to_s
+                                                                
+                        - else 
+                            h3 Por enquanto não há vencedores ! 
 
