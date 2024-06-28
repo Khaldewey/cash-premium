@@ -1,19 +1,19 @@
 section#events
-    - if @lotteris.present?
-        .container-purchase 
-            .container-fluid
-                .row
-                    .purchase
-                        .sorteio-container
-                            .home-title 
-                                div
-                                    = icon('fas', 'money-bill-alt')
-                                    h1 Campanhas
-                                p Escolha sua campanha
-
-                                .icon-box
-                                    = icon('fas', 'fire')
-                                    h3 Em Destaque
+    .container-purchase 
+        .container-fluid
+            .row
+                .purchase
+                    .sorteio-container
+                        .home-title 
+                            div
+                                = icon('fas', 'money-bill-alt')
+                                h1 Campanhas
+                            p Escolha sua campanha
+                        - if @lotteries.present?
+                            .icon-box
+                                = icon('fas', 'fire')
+                                h3 Em Destaque
+                        
                             .sorteio-column.col-xs-12.col-md-6.col-lg-6           
                                 - lottery = Lottery.where(status: true).last
                                 - if Member.where("tickets->>:lottery_id IS NOT NULL", lottery_id: lottery.id.to_s).present?
@@ -111,13 +111,8 @@ section#events
                                                 .disponible
                                                     p Disponível
 
-        .text-center
-        = will_paginate @lotteries, renderer: ApplicationHelper::LinkRenderer, class: 'pagination pagination-lg'
-    - else
-        .container-purchase 
-                .container-fluid
-                    .row
-                        .purchase
-                            .sorteio-container
-                                .home-title  
-                                   h1 Não há campanhas cadastradas no momento!
+                            .text-center
+                                = will_paginate @lotteries, renderer: ApplicationHelper::LinkRenderer, class: 'pagination pagination-lg'
+                        - else
+                            .not-lotteries
+                                p Não há campanhas cadastradas no momento!
