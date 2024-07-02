@@ -30,7 +30,7 @@ input#member_id(type="hidden" value="#{@member.id}")
                 |  #{number_to_currency(@lottery.price, unit: 'R$', precision: 2)}
             li 
                 strong Valor Total: 
-                |  #{number_to_currency(@lottery.price.to_i * @numbers_count.to_i, unit: 'R$', precision: 2)}
+                |  #{number_to_currency(@lottery.price * @numbers_count, unit: 'R$', precision: 2)}
    
     .member-info
         h3 Dados do Cliente
