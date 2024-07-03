@@ -11,5 +11,6 @@ class Frontend::HomeController < Frontend::ApplicationController
     # @podcast = Video.last(1)
     # @cliente = Client.order(title: :asc).all
     # @servico = ServiceCategory.order(title: :asc).all
+   
   end
 end

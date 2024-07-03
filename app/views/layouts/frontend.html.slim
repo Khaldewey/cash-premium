@@ -66,10 +66,15 @@ html lang="pt-BR"
                     span Ganhadores 
                 a.nav-item-box href="/termo"
                     =icon('fas', 'vote-yea')
-                    span Termos de Uso 
-                a.nav-item-box href="https://wa.me/5579996613823" target="_blank"
-                    =icon('fas', 'envelope')
-                    span Entrar em Contato  
+                    span Termos de Uso
+                - if @phone.present?
+                    a.nav-item-box href="https://wa.me/#{@phone.url}" target="_blank"
+                        =icon('fas', 'envelope')
+                        span Entrar em Contato
+                - else 
+                    a.nav-item-box href="#" target="_blank"
+                        =icon('fas', 'envelope')
+                        span Entrar em Contato
                 /.actions-user  
                     .actions-links 
                         - if member_signed_in?
