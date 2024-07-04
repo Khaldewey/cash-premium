@@ -110,10 +110,15 @@ $(document).ready(function () {
        $("#myModalNumber").css("display", "flex");    
     });
 
+    $("#openModalContact").click(function() {
+        $("#myModalContact").css("display", "flex");    
+     });
+
     // Quando o usuário clicar no <span> (x), fecha o modal
     $(".close").click(function() {
         $("#myModal").css("display", "none");
         $("#myModalNumber").css("display", "none");
+        $("#myModalContact").css("display", "none");
     });
 
     // Quando o usuário clicar em qualquer lugar fora do modal, fecha o modal
@@ -126,6 +131,12 @@ $(document).ready(function () {
     $(window).click(function(event) {
         if ($(event.target).is("#myModalNumber")) {
             $("#myModalNumber").css("display", "none");
+        }
+    });
+
+    $(window).click(function(event) {
+        if ($(event.target).is("#myModalContact")) {
+            $("#myModalContact").css("display", "none");
         }
     });
 

@@ -52,7 +52,7 @@ html lang="pt-BR"
             - if can? :read, SocialNetwork
               = nav_link_to admin_social_networks_path, {:class => 'menu_link'}, {:wrapper => 'li', :wrapper_class => 'nav-item-box', :selected_class => 'active', :url_segment => 2 } do
                 = icon('fas', 'at')
-                span Redes Socias
+                span Redes Sociais
             - if can? :read, BannerCategory
               = nav_link_to admin_banner_categories_path, {:class => 'menu_link'}, {:wrapper => 'li', :wrapper_class => 'nav-item-box', :selected_class => 'active', :url_segment => 2 } do
                   = icon('far', 'image')
@@ -79,7 +79,7 @@ html lang="pt-BR"
                 span Pagamentos
             - if can? :read, Failure
               = nav_link_to admin_failures_path, {:class => 'menu_link'}, {:wrapper => 'li', :wrapper_class => 'nav-item-box', :selected_class => 'active', :url_segment => 2 } do
-                = icon('fas', 'money-bill-wave')
+                = icon('fas', 'exclamation-triangle')
                 span Falhas
             - if can? :read, Lottery
               = nav_link_to admin_lotteries_path, {:class => 'menu_link'}, {:wrapper => 'li', :wrapper_class => 'nav-item-box', :selected_class => 'active', :url_segment => 2 } do

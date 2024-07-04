@@ -67,14 +67,9 @@ html lang="pt-BR"
                 a.nav-item-box href="/termo"
                     =icon('fas', 'vote-yea')
                     span Termos de Uso
-                - if @phone.present?
-                    a.nav-item-box href="https://wa.me/#{@phone.url}" target="_blank"
-                        =icon('fas', 'envelope')
-                        span Entrar em Contato
-                - else 
-                    a.nav-item-box href="#" target="_blank"
-                        =icon('fas', 'envelope')
-                        span Entrar em Contato
+                button#openModalContact.nav-item-box type="button"
+                    =icon('fas', 'envelope')
+                    span Entrar em Contato 
                 /.actions-user  
                     .actions-links 
                         - if member_signed_in?
@@ -96,6 +91,40 @@ html lang="pt-BR"
                                 = form.label :phone, "Número de Telefone: "
                                 = form.text_field :phone, id: 'phone-field-number', class: 'new-sorteio-input-number'
                                 = form.button "Confirmar", class: 'new-sorteio-submit' 
+
+        .new-sorteio-box
+            .new-sorteio               
+                #myModalContact.modal
+                    .modal-content
+                        span.close &times; 
+                        .social-container
+                            h4 Selecione uma das opções
+                            .social-box 
+                                - if @phone.present?
+                                    a.social-link href="https://wa.me/#{@phone.url}" target="_blank"
+                                        =icon('fab', 'whatsapp')
+                                        span Whatsapp
+                                - else 
+                                    .social-link
+                                        =icon('fab', 'whatsapp')
+                                        span Não Cadastrado
+                                - if @email.present?
+                                    a.social-link href="mailto:#{@email.url}" target="_blank"
+                                        =icon('far', 'envelope')
+                                        span Email
+                                - else
+                                    .social-link
+                                        =icon('far', 'envelope')
+                                        span Não Cadastrado
+                                - if @instagram.present?
+                                    a.social-link href="https://www.instagram.com/#{@instagram.url}"  target="_blank"
+                                        =icon('fab', 'instagram')
+                                        span Instagram
+                                - else 
+                                    .social-link
+                                        =icon('fab', 'instagram')
+                                        span Não Cadastrado
+            
 
         main.main
             = yield
