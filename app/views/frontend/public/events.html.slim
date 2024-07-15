@@ -9,11 +9,11 @@ section#events
                                 = icon('fas', 'money-bill-alt')
                                 h1 Campanhas
                             p Escolha sua campanha
-                        - if @lotteries.present?
                             .icon-box
                                 = icon('fas', 'fire')
                                 h3 Em Destaque
-                        
+
+                        - if @lotteries.present?
                             .sorteio-column.col-xs-12.col-md-6.col-lg-6           
                                 - lottery = Lottery.where(status: true).last
                                 - if Member.where("tickets->>:lottery_id IS NOT NULL", lottery_id: lottery.id.to_s).present?
@@ -66,24 +66,39 @@ section#events
                                     /         .disponible
                                     /             p Disponível
                             
-                            .icon-box
-                                =icon('fas', 'newspaper')
-                                h3 Todas as Campanhas
-                            - (@lotteries.to_a - [Lottery.where(status: true).last]).each do |lottery|
-                                .sorteio-column.col-xs-12.col-md-6.col-lg-6
-                                    - if Member.where("tickets->>:lottery_id IS NOT NULL", lottery_id: lottery.id.to_s).present?
-                                        - if contar_numeros(Member.where("tickets->>:lottery_id IS NOT NULL", lottery_id: lottery.id.to_s), lottery.id) == lottery.ticket
-                                            .sorteio-box
-                                                - if lottery.image_url.present?
-                                                    = image_tag lottery.image_url, class: 'sorteio-img'
-                                                .sorteio-content 
-                                                    h2 = lottery.event
-                                                    - if lottery.content
-                                                        p = lottery.content[0, 40] + (lottery.content.length > 40 ? '...' : '')
-                                        
-                                                    p = 'Cod: ' + lottery.id.to_s
-                                                    .not-disponible
-                                                        p Esgotadas                         
+                            - if (@lotteries.to_a - [Lottery.where(status: true).last]).present?
+                                .icon-box
+                                    =icon('fas', 'newspaper')
+                                    h3 Todas as Campanhas
+                                - (@lotteries.to_a - [Lottery.where(status: true).last]).each do |lottery|
+                                    .sorteio-column.col-xs-12.col-md-6.col-lg-6
+                                        - if Member.where("tickets->>:lottery_id IS NOT NULL", lottery_id: lottery.id.to_s).present?
+                                            - if contar_numeros(Member.where("tickets->>:lottery_id IS NOT NULL", lottery_id: lottery.id.to_s), lottery.id) == lottery.ticket
+                                                .sorteio-box
+                                                    - if lottery.image_url.present?
+                                                        = image_tag lottery.image_url, class: 'sorteio-img'
+                                                    .sorteio-content 
+                                                        h2 = lottery.event
+                                                        - if lottery.content
+                                                            p = lottery.content[0, 40] + (lottery.content.length > 40 ? '...' : '')
+                                            
+                                                        p = 'Cod: ' + lottery.id.to_s
+                                                        .not-disponible
+                                                            p Esgotadas                         
+                                            - else
+                                                = link_to new_purchase_path(id: lottery.id), class: 'sorteio-box' do
+                                                    - if lottery.image_url.present?
+                                                        = image_tag lottery.image_url, class: 'sorteio-img'
+                                                    .sorteio-content 
+                                                        h2 = lottery.event 
+                                                        - if lottery.content
+                                                            p = lottery.content[0, 40] + (lottery.content.length > 40 ? '...' : '')
+                                            
+                                                        p = 'Cod: ' + lottery.id.to_s
+
+                                                        .disponible
+                                                            p Disponível
+                                                                
                                         - else
                                             = link_to new_purchase_path(id: lottery.id), class: 'sorteio-box' do
                                                 - if lottery.image_url.present?
@@ -92,24 +107,10 @@ section#events
                                                     h2 = lottery.event 
                                                     - if lottery.content
                                                         p = lottery.content[0, 40] + (lottery.content.length > 40 ? '...' : '')
-                                        
+                                            
                                                     p = 'Cod: ' + lottery.id.to_s
-
                                                     .disponible
                                                         p Disponível
-                                                            
-                                    - else
-                                        = link_to new_purchase_path(id: lottery.id), class: 'sorteio-box' do
-                                            - if lottery.image_url.present?
-                                                = image_tag lottery.image_url, class: 'sorteio-img'
-                                            .sorteio-content 
-                                                h2 = lottery.event 
-                                                - if lottery.content
-                                                    p = lottery.content[0, 40] + (lottery.content.length > 40 ? '...' : '')
-                                        
-                                                p = 'Cod: ' + lottery.id.to_s
-                                                .disponible
-                                                    p Disponível
 
                             .text-center
                                 = will_paginate @lotteries, renderer: ApplicationHelper::LinkRenderer, class: 'pagination pagination-lg'
