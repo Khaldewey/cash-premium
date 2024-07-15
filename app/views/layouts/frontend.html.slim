@@ -41,9 +41,9 @@ html lang="pt-BR"
                     = link_to 'Entrar', new_member_session_path, class: 'btn-area-restrita', :method => :get
                     /= link_to 'Sair', destroy_member_session_path, class: 'btn-area-restrita', :method => :delete
         
-        - if flash[:notice].present?
-            .flash-notice
-                = flash[:notice]
+        - if flash[:alert].present?
+            .alert
+                = flash[:alert]
         aside.aside
             .nav-container
                 / a.nav-item-box href="/"

@@ -14,14 +14,20 @@ class Frontend::RegistrationsController < Frontend::ApplicationController
   def create_member_and_payment
     @member = Member.new(member_params)
     @lottery = Lottery.find(params[:lottery_id])
-    respond_to do |format|
-      if @member.save
-        format.html { redirect_to validar_pagamento_path(id: @lottery.id, yek: @member.id, quantity: params[:quantity]), notice: 'Cadastro realizado com sucesso!' }
-      else
-        format.html { render :new }
-        format.json { render json: { errors: @member.errors.full_messages }, status: :unprocessable_entity }
+
+    if @member && params['g-recaptcha-response'].present?
+      respond_to do |format|
+        if @member.save
+          format.html { redirect_to validar_pagamento_path(id: @lottery.id, yek: @member.id, quantity: params[:quantity]), notice: 'Cadastro realizado com sucesso!' }
+        else
+          format.html { render :new }
+          format.json { render json: { errors: @member.errors.full_messages }, status: :unprocessable_entity }
+        end
       end
+    else
+      redirect_to new_member_payment_path(lottery: { lottery_id: @lottery.id, quantity: params[:quantity].to_i, phone: @member.phone }), alert: 'Falha do recaptcha!'
     end
+
   rescue ActiveRecord::RecordNotUnique => e
     handle_unique_error(e)
     render :new
@@ -29,14 +35,20 @@ class Frontend::RegistrationsController < Frontend::ApplicationController
 
   def create
     @member = Member.new(member_params)
-    respond_to do |format|
-      if @member.save
-        format.html { redirect_to root_path, notice: 'Cadastro realizado com sucesso!' }
-      else
-        format.html { render :new }
-        format.json { render json: { errors: @member.errors.full_messages }, status: :unprocessable_entity }
+    
+    if @member && params['g-recaptcha-response'].present?
+      respond_to do |format|
+        if @member.save
+          format.html { redirect_to root_path, notice: 'Cadastro realizado com sucesso!' }
+        else
+          format.html { render :new }
+          format.json { render json: { errors: @member.errors.full_messages }, status: :unprocessable_entity }
+        end
       end
+    else
+      redirect_to new_member_path, alert: 'Falha do recaptcha!'
     end
+
   rescue ActiveRecord::RecordNotUnique => e
     handle_unique_error(e)
     render :new
@@ -50,11 +62,11 @@ class Frontend::RegistrationsController < Frontend::ApplicationController
 
   def handle_unique_error(exception)
     if exception.message.include?('index_members_on_email')
-      @member.errors.add(:email, 'já está cadastrado. Por favor, escolha outro.')
+      @member.errors.add(:email, 'Já está cadastrado. Por favor, escolha outro.')
     elsif exception.message.include?('index_members_on_cpf')
-      @member.errors.add(:cpf, 'já está cadastrado. Por favor, escolha outro.')
+      @member.errors.add(:cpf, 'Já está cadastrado. Por favor, escolha outro.')
     elsif exception.message.include?('index_members_on_phone')
-      @member.errors.add(:phone, 'já está cadastrado. Por favor, escolha outro.')
+      @member.errors.add(:phone, 'Já está cadastrado. Por favor, escolha outro.')
     end
   end
 end

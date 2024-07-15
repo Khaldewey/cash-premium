@@ -162,7 +162,7 @@ class Frontend::PublicController < Frontend::ApplicationController
     #Vou verificar se tem algum pagamento pendente aqui, se for encontrado vou renderizar o qrcode do pagamento pendente e colocar o cronometro do tempo que falta para pagar
     # Método para iniciar pagamento pix
     # payment_response = PaymentService.create_pix_payment(@member, params[:member][:quantity].to_i*@lottery.price)
-    payment_response = create_pix_payment(@member, params[:lottery][:quantity].to_i*@lottery.price)
+    payment_response = create_pix_payment(@member, params[:lottery][:quantity].to_f*@lottery.price)
     if payment_response.code == 201
       parsed_response = payment_response.parsed_response
       @qr_code_base64 = parsed_response.dig("point_of_interaction", "transaction_data", "qr_code_base64")
@@ -191,7 +191,9 @@ class Frontend::PublicController < Frontend::ApplicationController
     #Vou verificar se tem algum pagamento pendente aqui, se for encontrado vou renderizar o qrcode do pagamento pendente e colocar o cronometro do tempo que falta para pagar
     # Método para iniciar pagamento pix
     # payment_response = PaymentService.create_pix_payment(@member, params[:member][:quantity].to_i*@lottery.price)
-    payment_response = create_pix_payment(@member, params[:member][:quantity].to_i*@lottery.price)
+
+    payment_response = create_pix_payment(@member, params[:quantity].to_f*@lottery.price)
+
     if payment_response.code == 201
       parsed_response = payment_response.parsed_response
       @qr_code_base64 = parsed_response.dig("point_of_interaction", "transaction_data", "qr_code_base64")
