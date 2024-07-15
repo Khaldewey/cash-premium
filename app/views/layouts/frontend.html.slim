@@ -100,8 +100,8 @@ html lang="pt-BR"
                         .social-container
                             h4 Selecione uma das opções
                             .social-box 
-                                - if @phone.present?
-                                    a.social-link href="https://wa.me/#{@phone.url}" target="_blank"
+                                - if @whatsapp.present?
+                                    a.social-link href="https://wa.me/#{@whatsapp.url}" target="_blank"
                                         =icon('fab', 'whatsapp')
                                         span Whatsapp
                                 - else 

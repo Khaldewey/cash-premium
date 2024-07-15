@@ -11,7 +11,7 @@ class Frontend::ApplicationController < ActionController::Base
     # @localization = Localization.first if present?
     # @whatsapp = SocialNetwork.find_by_name('Whatsapp')
     # @servico = ServiceCategory.order(created_at: :asc).all
-    @phone = SocialNetwork.find_by(slug: "whatsapp")
+    @whatsapp = SocialNetwork.find_by(slug: "whatsapp")
     @instagram = SocialNetwork.find_by(slug: "instagram")
     @email = SocialNetwork.find_by(slug: "email")
   end

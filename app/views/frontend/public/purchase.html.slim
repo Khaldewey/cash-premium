@@ -12,7 +12,7 @@
                         = image_tag @lottery.image_url
                     h2 = @lottery.event 
                     p = 'Código do Sorteio: ' + @lottery.id.to_s
-                    p = 'Data do Sorteio: ' + @lottery.date_event.strftime('%d/%m/%Y')
+                    /p = 'Data do Sorteio: ' + @lottery.date_event.strftime('%d/%m/%Y')
                     
         
             = form_with(model: [@lottery], url: "#", method:'post', id: 'lottery-form') do |form|
