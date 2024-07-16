@@ -232,18 +232,96 @@ $(function () {
         let email = $(this).val();
         let isValid = validateEmail(email);
 
+        if (email.trim() === '') {
+            $('#emailMessage').text('').css('color', ''); // Limpa o texto e a cor se estiver vazio
+            return; // Sai da função sem fazer mais nada
+        }
+
         if (isValid) {
             $("#emailMessage").text("E-mail válido").css("color", "#17A700");
         } else {
             $("#emailMessage").text("E-mail inválido").css("color", "#e33244");
         }
+    });   
+
+    $('#member_cpf').on('input keyup', function() {
+        var cpf = $(this).val().trim();
+        var isValid = validateCPF(cpf);
+
+        if (cpf.trim() === '') {
+            $('#cpfMessage').text('').css('color', ''); // Limpa o texto e a cor se estiver vazio
+            return; // Sai da função sem fazer mais nada
+        }
+        
+        if (isValid) {
+            $('#cpfMessage').text('CPF válido').css('color', '#17A700');
+        } else {
+            $('#cpfMessage').text('CPF inválido').css('color', '#e33244');
+        }
     });
 
+    $('#member_phone').on('input keyup', function() {
+        let telefone = $(this).val();
+
+        if (telefone.trim() === '') {
+            $('#phoneMessage').text('').css('color', ''); // Limpa o texto e a cor se estiver vazio
+            return; // Sai da função sem fazer mais nada
+        }
+
+        let isValid = validatePhone(telefone);
+        
+        if (isValid) {
+            $('#phoneMessage').text('Telefone válido').css('color', '#17A700');
+        } else {
+            $('#phoneMessage').text('Telefone inválido').css('color', '#e33244');
+        }
+    });
+
+    function validatePhone(telefone) {
+        // Remove todos os caracteres não numéricos, exceto o sinal de mais (+) que pode indicar um código internacional
+        telefone = telefone.replace(/[^\d+]/g, '');
+
+        // Verifica se o telefone possui 10 ou 11 dígitos
+        if (telefone.length === 11) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function validateCPF(cpf) {
+        cpf = cpf.replace(/[^\d]+/g, ''); // Remove caracteres não numéricos
+
+        if (cpf.length !== 11) return false;
+
+        // Validação do primeiro dígito verificador
+        var add = 0;
+        for (var i = 0; i < 9; i++) {
+            add += parseInt(cpf.charAt(i)) * (10 - i);
+        }
+        var rev = 11 - (add % 11);
+        if (rev === 10 || rev === 11) rev = 0;
+        if (rev !== parseInt(cpf.charAt(9))) return false;
+
+        // Validação do segundo dígito verificador
+        add = 0;
+        for (var i = 0; i < 10; i++) {
+            add += parseInt(cpf.charAt(i)) * (11 - i);
+        }
+        rev = 11 - (add % 11);
+        if (rev === 10 || rev === 11) rev = 0;
+        if (rev !== parseInt(cpf.charAt(10))) return false;
+
+        return true;
+    }
+    
     function validateEmail(email) {
         // Expressão regular para validar email
         let regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         return regex.test(email);
     }
+
+
 
     $('[data-toggle="tooltip"]').tooltip();
 
@@ -301,7 +379,7 @@ $(function () {
             success: function (data) {
                 if (data.status) {
                     var paymentStatus = data.status
-                    paymentStatus = 'approved'
+                    // paymentStatus = 'approved'
                     // Verifica se o pagamento foi aprovado
                     if (paymentStatus === 'approved') {
                         console.log("Pagamento aprovado");
