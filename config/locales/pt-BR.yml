@@ -6,7 +6,7 @@ pt-BR:
 
   errors:
     messages:
-      blank: "* Campo obrigatório"
+      blank: "Campo com preenchimento obrigatório"
 
   time:
     formats:

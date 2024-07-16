@@ -233,9 +233,9 @@ $(function () {
         let isValid = validateEmail(email);
 
         if (isValid) {
-            $("#emailMessage").text("Email válido").css("color", "green");
+            $("#emailMessage").text("E-mail válido").css("color", "#17A700");
         } else {
-            $("#emailMessage").text("Email inválido").css("color", "red");
+            $("#emailMessage").text("E-mail inválido").css("color", "#e33244");
         }
     });
 

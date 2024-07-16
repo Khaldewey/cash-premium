@@ -12,9 +12,9 @@
           div
             .text-i = icon('fas', 'envelope')
             = f.input_field :email, placeholder: 'Digite seu E-mail', required: true, autofocus: true, class: 'login-input'
-            span id="emailMessage"
           - if @member.errors.has_key?(:email)
             p.text-danger = @member.errors[:email].first
+          span id="emailMessage"
 
         .input-box
           div
