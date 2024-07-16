@@ -9,30 +9,34 @@
     
       .input-container
         .input-box
-          .text-i = icon('fas', 'envelope')
-          = f.input_field :email, placeholder: 'Digite seu E-mail', required: true, autofocus: true, class: 'login-input'
-          span id="emailMessage"
+          div
+            .text-i = icon('fas', 'envelope')
+            = f.input_field :email, placeholder: 'Digite seu E-mail', required: true, autofocus: true, class: 'login-input'
+            span id="emailMessage"
           - if @member.errors.has_key?(:email)
-            p.text-danger = @member.errors[:email].first
+            span.text-danger = @member.errors[:email].first
 
         .input-box
-          .text-i = icon('fas', 'id-card')
-          = f.input_field :name, placeholder: 'Digite seu Nome', required: true, class: 'login-input'
+          div
+            .text-i = icon('fas', 'id-card')
+            = f.input_field :name, placeholder: 'Digite seu Nome', required: true, class: 'login-input'
           - if @member.errors.has_key?(:name)
-            p.text-danger = @member.errors[:name].first
+            span.text-danger = @member.errors[:name].first
 
         .input-box
-          .text-i = icon('fas', 'mobile')
-          = f.input_field :phone, label: 'Telefone', placeholder: 'Digite seu Telefone', required: true, input_html: { id: 'phone_field' }, class: 'login-input'
+          div
+            .text-i = icon('fas', 'mobile')
+            = f.input_field :phone, label: 'Telefone', placeholder: 'Digite seu Telefone', required: true, input_html: { id: 'phone_field' }, class: 'login-input'
           - if @member.errors.has_key?(:phone)
-            p.text-danger = @member.errors[:phone].first
+            span.text-danger = @member.errors[:phone].first
 
         .input-box
-          .text-i = icon('fas', 'id-card')
-          = f.input_field :cpf, label: 'CPF', placeholder: 'Digite seu CPF', required: true, class: 'login-input'
-          span id="cpfMessage"
+          div
+            .text-i = icon('fas', 'id-card')
+            = f.input_field :cpf, label: 'CPF', placeholder: 'Digite seu CPF', required: true, class: 'login-input'
+            span id="cpfMessage"
           - if @member.errors.has_key?(:cpf)
-            p.text-danger = @member.errors[:cpf].first
+            span.text-danger = @member.errors[:cpf].first
 
 
         .button-container
