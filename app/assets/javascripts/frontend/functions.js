@@ -276,6 +276,8 @@ $(function () {
     });
 
     function validatePhone(telefone) {
+        if (!telefone) return false;
+
         // Remove todos os caracteres não numéricos, exceto o sinal de mais (+) que pode indicar um código internacional
         telefone = telefone.replace(/[^\d+]/g, '');
 
@@ -288,6 +290,8 @@ $(function () {
     }
 
     function validateCPF(cpf) {
+        if (!cpf) return false;
+
         cpf = cpf.replace(/[^\d]+/g, ''); // Remove caracteres não numéricos
 
         if (cpf.length !== 11) return false;
@@ -399,7 +403,9 @@ $(function () {
             success: function (data) {
                 if (data.status) {
                     var paymentStatus = data.status
-                    // paymentStatus = 'approved'
+                    
+                    //paymentStatus = 'approved'
+                    
                     // Verifica se o pagamento foi aprovado
                     if (paymentStatus === 'approved') {
                         console.log("Pagamento aprovado");

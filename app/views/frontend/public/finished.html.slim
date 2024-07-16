@@ -15,7 +15,7 @@
                     - if @whatsapp.present?
                         .contact-link
                             p Entre em contato por aqui: 
-                            = link_to `https://wa.me/#{@whatsapp.url}`, target: '_blank' do    
+                            = link_to "https://wa.me/#{@whatsapp.url}", target: '_blank' do    
                                 = icon('fab', 'whatsapp') 
                                 = 'Clique aqui'
                         
