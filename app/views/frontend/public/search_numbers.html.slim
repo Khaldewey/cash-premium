@@ -33,7 +33,7 @@
         .my-lotteries-box
           - lottery = Lottery.find(lottery_id)
           h3 Loteria #{lottery.event}
-          p  Data do Sorteio: #{lottery.date_event.strftime("%d/%m/%Y")}
+          /p  Data do Sorteio: #{lottery.date_event.strftime("%d/%m/%Y")}
           p  Status: #{lottery.status == true ? 'Ativo' : 'Inativo'}
           ul
             - numbers.each do |number|

@@ -11,6 +11,6 @@
                         p ERRO INTERNO STATUS: 500
                     .contact-link
                         p Para mais informações: 
-                        = link_to 'https://wa.me/5579996613823', target: '_blank' do    
+                        = link_to `https://wa.me/#{@whatsapp.url}`, target: '_blank' do    
                             = icon('fab', 'whatsapp') 
                             = 'Clique aqui'
