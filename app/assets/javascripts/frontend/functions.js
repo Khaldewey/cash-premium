@@ -238,7 +238,7 @@ $(function () {
         }
 
         if (isValid) {
-            $("#emailMessage").text("E-mail válido").css("color", "#17A700");
+            $('#emailMessage').text('').css('color', '');
         } else {
             $("#emailMessage").text("E-mail inválido").css("color", "#e33244");
         }
@@ -254,7 +254,7 @@ $(function () {
         }
         
         if (isValid) {
-            $('#cpfMessage').text('CPF válido').css('color', '#17A700');
+            $('#cpfMessage').text('').css('color', '');
         } else {
             $('#cpfMessage').text('CPF inválido').css('color', '#e33244');
         }
@@ -271,7 +271,7 @@ $(function () {
         let isValid = validatePhone(telefone);
         
         if (isValid) {
-            $('#phoneMessage').text('Telefone válido').css('color', '#17A700');
+            $('#phoneMessage').text('').css('color', '');
         } else {
             $('#phoneMessage').text('Telefone inválido').css('color', '#e33244');
         }
