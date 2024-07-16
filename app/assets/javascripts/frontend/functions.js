@@ -225,9 +225,6 @@ $(function () {
         $(this).inputmask(len >= 11 ? "999.999.999-99" : "999.999.999-99");
     });
     
-   
-    
-
     $("#member_email").on("input", function() {
         let email = $(this).val();
         let isValid = validateEmail(email);
@@ -272,6 +269,7 @@ $(function () {
         
         if (isValid) {
             $('#phoneMessage').text('').css('color', '');
+
         } else {
             $('#phoneMessage').text('Telefone inválido').css('color', '#e33244');
         }
@@ -321,7 +319,29 @@ $(function () {
         return regex.test(email);
     }
 
+    function checkFieldsValidity() {
+        let telefone = $('#member_phone').val();
+        let email = $('#member_email').val();
+        let cpf = $('#member_cpf').val();
 
+        let isValidPhone = validatePhone(telefone);
+        let isValidEmail = validateEmail(email);
+        let isValidCPF = validateCPF(cpf);
+
+        // Verifica se todos os campos estão válidos
+        if (isValidPhone && isValidEmail && isValidCPF) {
+            $('#button-submit').prop('disabled', false); 
+        } else {
+            $('#button-submit').prop('disabled', true); 
+        }
+    }
+
+        // Eventos de entrada para os campos
+    $('#member_phone, #member_email, #member_cpf').on('input keyup', function() {
+        checkFieldsValidity();
+    });
+
+    checkFieldsValidity();
 
     $('[data-toggle="tooltip"]').tooltip();
 

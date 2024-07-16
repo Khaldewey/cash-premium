@@ -12,11 +12,12 @@
                         p = 'Número da transação'
                         strong #{params[:transaction]} 
                     
-                    .contact-link
-                        p Entre em contato por aqui: 
-                        = link_to `https://wa.me/#{@whatsapp.url}`, target: '_blank' do    
-                            = icon('fab', 'whatsapp') 
-                            = 'Clique aqui'
+                    - if @whatsapp.present?
+                        .contact-link
+                            p Entre em contato por aqui: 
+                            = link_to `https://wa.me/#{@whatsapp.url}`, target: '_blank' do    
+                                = icon('fab', 'whatsapp') 
+                                = 'Clique aqui'
                         
                             
                            
