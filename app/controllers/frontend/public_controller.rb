@@ -162,7 +162,8 @@ class Frontend::PublicController < Frontend::ApplicationController
     #Vou verificar se tem algum pagamento pendente aqui, se for encontrado vou renderizar o qrcode do pagamento pendente e colocar o cronometro do tempo que falta para pagar
     # Método para iniciar pagamento pix
     # payment_response = PaymentService.create_pix_payment(@member, params[:member][:quantity].to_i*@lottery.price)
-    payment_response = create_pix_payment(@member, params[:lottery][:quantity].to_f*@lottery.price)
+    payment_response = create_pix_payment(@member, (params[:lottery][:quantity].to_f * @lottery.price.to_f).round(2))
+
     if payment_response.code == 201
       parsed_response = payment_response.parsed_response
       @qr_code_base64 = parsed_response.dig("point_of_interaction", "transaction_data", "qr_code_base64")
@@ -182,7 +183,8 @@ class Frontend::PublicController < Frontend::ApplicationController
   def finished
   end
   
-  def pix_member  
+  def pix_member 
+    -raise 
     @lottery = Lottery.find(params[:id])
     @member = Member.find_by(id: params[:yek])
     @numbers_count =  params[:quantity] if params[:quantity].present?
@@ -191,9 +193,9 @@ class Frontend::PublicController < Frontend::ApplicationController
     #Vou verificar se tem algum pagamento pendente aqui, se for encontrado vou renderizar o qrcode do pagamento pendente e colocar o cronometro do tempo que falta para pagar
     # Método para iniciar pagamento pix
     # payment_response = PaymentService.create_pix_payment(@member, params[:member][:quantity].to_i*@lottery.price)
-
-    payment_response = create_pix_payment(@member, params[:quantity].to_f*@lottery.price)
-
+    
+    payment_response = create_pix_payment(@member, (params[:quantity].to_i * @lottery.price.to_f).round(2))
+    
     if payment_response.code == 201
       parsed_response = payment_response.parsed_response
       @qr_code_base64 = parsed_response.dig("point_of_interaction", "transaction_data", "qr_code_base64")
@@ -216,7 +218,7 @@ class Frontend::PublicController < Frontend::ApplicationController
     # Headers da requisição
     headers = {
       'Content-Type' => 'application/json',
-      'Authorization' => "Bearer APP_USR-7566194155648643-062420-1d483b50a9f63af77d98a4b0548d8006-576411779"
+      'Authorization' => "Bearer APP_USR-191553553627645-052119-4e39a47a786002999f0f2bd945244922-472243321"
     }
 
     # Realizar a requisição GET para consultar o pagamento
@@ -272,7 +274,7 @@ class Frontend::PublicController < Frontend::ApplicationController
     # Headers da requisição
     headers = {
       'Content-Type' => 'application/json',
-      'Authorization' => "Bearer APP_USR-7566194155648643-062420-1d483b50a9f63af77d98a4b0548d8006-576411779",
+      'Authorization' => "Bearer APP_USR-191553553627645-052119-4e39a47a786002999f0f2bd945244922-472243321",
       'X-Idempotency-Key' => idempotency_key
     }
 
