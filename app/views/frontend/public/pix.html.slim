@@ -28,7 +28,7 @@ input#member_id(type="hidden" value="#{@member.id}")
                 |  #{@member.name}
             li
                 strong CPF:
-                |  #{@member.cpf[0..2] + '.***.***-**'}
+                |  #{@member.cpf[0..2] + '.***.***-' + @member.cpf[12..13]}
             li
                 strong Telefone:
                 |  #{@member.phone[0..3] + '*****-' + @member.phone[10..13]}

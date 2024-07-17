@@ -184,7 +184,6 @@ class Frontend::PublicController < Frontend::ApplicationController
   end
   
   def pix_member 
-    -raise 
     @lottery = Lottery.find(params[:id])
     @member = Member.find_by(id: params[:yek])
     @numbers_count =  params[:quantity] if params[:quantity].present?
