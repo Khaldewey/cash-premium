@@ -295,6 +295,7 @@ class Frontend::PublicController < Frontend::ApplicationController
 
   def search_numbers
     @member = Member.find(params[:yek])
+    @whatsapp = SocialNetwork.find_by(slug: "whatsapp")
   end 
 
   def comunications
