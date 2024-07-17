@@ -51,7 +51,13 @@
                                     = form.label :phone, "Número de Telefone: "
                                     = form.text_field :phone, id: 'phone-field', class: 'new-sorteio-input-number'
                                     = form.button "Confirmar", class: 'new-sorteio-submit' 
-    
+
+    .not-numbers
+        .alert-warning role="alert"
+            p = icon('fas', 'exclamation-circle')
+            p Após finalizar a compra verificar na opção "Meus Títulos" os números adiquiridos 
+
+
 
     javascript:
         document.addEventListener('DOMContentLoaded', function() {

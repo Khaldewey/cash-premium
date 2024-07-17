@@ -48,8 +48,9 @@
     p Não há números de loteria cadastrados para este membro.
     = link_to 'Comprar Bilhetes', '/campanhas'
 .not-numbers
-  p = icon('fas', 'exclamation-circle')
-  p Caso tenha adiquirido números e conste aqui, por favor entre em contato.
+  .alert-warning role="alert"
+    p = icon('fas', 'exclamation-circle')
+    p Caso tenha adiquirido números e não conste aqui, por favor entre em contato, que resolveremos o problema.
   - if @whatsapp.present?
   .contact-link
       = link_to "https://wa.me/#{@whatsapp.url}", target: '_blank' do    
