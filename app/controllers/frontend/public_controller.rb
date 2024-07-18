@@ -1,12 +1,18 @@
 class Frontend::PublicController < Frontend::ApplicationController
 
   def purchase
+      if cookies[:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7].present?
+        cookies.delete(:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7)
+      end
       @lottery = Lottery.find(params[:id])
       # @member = Member.find_by(phone: params[:phone]) 
   end  
 
   def events
-      @lotteries = Lottery.where(status: true).paginate(page: params[:page], per_page: 5)
+    if cookies[:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7]
+      cookies.delete(:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7)
+    end
+    @lotteries = Lottery.where(status: true).paginate(page: params[:page], per_page: 5)
   end
 
   def check_phone
@@ -162,25 +168,87 @@ class Frontend::PublicController < Frontend::ApplicationController
     #Vou verificar se tem algum pagamento pendente aqui, se for encontrado vou renderizar o qrcode do pagamento pendente e colocar o cronometro do tempo que falta para pagar
     # Método para iniciar pagamento pix
     # payment_response = PaymentService.create_pix_payment(@member, params[:member][:quantity].to_i*@lottery.price)
-    payment_response = create_pix_payment(@member, (params[:lottery][:quantity].to_f * @lottery.price.to_f).round(2))
+    if cookies[:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7]
+      # Requisição ao Mercado Pago para obter os detalhes do pagamento
+      payment_details = fetch_payment_details(cookies[:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7])
 
+      if payment_details
+          @qr_code_base64 = payment_details.dig("point_of_interaction", "transaction_data", "qr_code_base64")
+          @qr_code = payment_details.dig("point_of_interaction", "transaction_data", "qr_code")
+          @id = payment_details["id"]
+      else
+          cookies.delete(:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7)
+          create_and_store_payment
+      end
+    else
+        create_and_store_payment
+    end
+    # Antigamento pagamento pix
+    # payment_response = create_pix_payment(@member, (params[:lottery][:quantity].to_f * @lottery.price.to_f).round(2))
+
+    # if payment_response.code == 201
+    #   parsed_response = payment_response.parsed_response
+    #   @qr_code_base64 = parsed_response.dig("point_of_interaction", "transaction_data", "qr_code_base64")
+    #   @qr_code = parsed_response.dig("point_of_interaction", "transaction_data", "qr_code")
+    #   @id = parsed_response.dig("id")
+      
+    # else 
+    #   logger.error "Payment response error: #{payment_response.inspect}"
+    #   redirect_to error_path
+    # end
+    
+  end 
+  
+  def fetch_payment_details(payment_id)
+    # Exemplo de como fazer a requisição ao Mercado Pago
+    # response = MercadoPago::Client.get("/v1/payments/#{payment_id}") 
+    url = "https://api.mercadopago.com/v1/payments/#{payment_id}"
+    
+    # Headers da requisição
+    headers = {
+      'Content-Type' => 'application/json',
+      'Authorization' => "Bearer TEST-191553553627645-052119-e02f16e5c678bc716b9d93cfcdba8d03-472243321"
+    }
+
+    # Realizar a requisição GET para consultar o pagamento
+    response = HTTParty.get(url, headers: headers)
+    if response.code == 200
+        return response.parsed_response
+    else
+        logger.error "Erro ao buscar detalhes do pagamento: #{response.inspect}"
+        return nil
+    end
+  end 
+
+  def create_and_store_payment
+    payment_response = create_pix_payment(@member, (@numbers_count * @lottery.price).round(2))
     if payment_response.code == 201
       parsed_response = payment_response.parsed_response
+      payment_id = parsed_response.dig("id")
+      if payment_id
+        expires_at = 10.minutes.from_now
+        cookies[:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7] = { value: payment_id, expires: 10.minutes.from_now, secure: Rails.env.production?, httponly: true }
+        # cookies[:payment_expires_at] = { value: expires_at.to_i, expires: expires_at, secure: Rails.env.production?, httponly: true }
+      end
       @qr_code_base64 = parsed_response.dig("point_of_interaction", "transaction_data", "qr_code_base64")
       @qr_code = parsed_response.dig("point_of_interaction", "transaction_data", "qr_code")
       @id = parsed_response.dig("id")
-      
-    else 
+    else
       logger.error "Payment response error: #{payment_response.inspect}"
       redirect_to error_path
     end
-    
-  end 
+  end
 
   def error
+    if cookies[:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7]
+      cookies.delete(:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7)
+    end
   end
 
   def finished
+    if cookies[:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7]
+      cookies.delete(:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7)
+    end
   end
   
   def pix_member 
@@ -192,21 +260,55 @@ class Frontend::PublicController < Frontend::ApplicationController
     #Vou verificar se tem algum pagamento pendente aqui, se for encontrado vou renderizar o qrcode do pagamento pendente e colocar o cronometro do tempo que falta para pagar
     # Método para iniciar pagamento pix
     # payment_response = PaymentService.create_pix_payment(@member, params[:member][:quantity].to_i*@lottery.price)
+    if cookies[:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7]
+      # Requisição ao Mercado Pago para obter os detalhes do pagamento
+      payment_details = fetch_payment_details(cookies[:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7])
+
+      if payment_details
+          @qr_code_base64 = payment_details.dig("point_of_interaction", "transaction_data", "qr_code_base64")
+          @qr_code = payment_details.dig("point_of_interaction", "transaction_data", "qr_code")
+          @id = payment_details["id"]
+      else
+          cookies.delete(:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7)
+          create_and_store_payment_member
+      end
+    else
+        create_and_store_payment_member
+    end
+    # Antigo pagamento pix
+    # payment_response = create_pix_payment(@member, (params[:quantity].to_i * @lottery.price.to_f).round(2))
     
+    # if payment_response.code == 201
+    #   parsed_response = payment_response.parsed_response
+    #   @qr_code_base64 = parsed_response.dig("point_of_interaction", "transaction_data", "qr_code_base64")
+    #   @qr_code = parsed_response.dig("point_of_interaction", "transaction_data", "qr_code")
+    #   @id = parsed_response.dig("id")
+      
+    # else
+    #   logger.error "Payment response error: #{payment_response.inspect}"
+    #   render :purchase
+    # end
+    
+  end 
+
+  def create_and_store_payment_member
     payment_response = create_pix_payment(@member, (params[:quantity].to_i * @lottery.price.to_f).round(2))
-    
     if payment_response.code == 201
       parsed_response = payment_response.parsed_response
+      payment_id = parsed_response.dig("id")
+      if payment_id
+        expires_at = 10.minutes.from_now
+        cookies[:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7] = { value: payment_id, expires: 10.minutes.from_now, secure: Rails.env.production?, httponly: true }
+        # cookies[:payment_expires_at] = { value: expires_at.to_i, expires: expires_at, secure: Rails.env.production?, httponly: true }
+      end
       @qr_code_base64 = parsed_response.dig("point_of_interaction", "transaction_data", "qr_code_base64")
       @qr_code = parsed_response.dig("point_of_interaction", "transaction_data", "qr_code")
       @id = parsed_response.dig("id")
-      
     else
       logger.error "Payment response error: #{payment_response.inspect}"
-      render :purchase
+      redirect_to error_path
     end
-    
-  end 
+  end
 
   def check_payment
     payment_id = params[:payment_id]
@@ -217,7 +319,7 @@ class Frontend::PublicController < Frontend::ApplicationController
     # Headers da requisição
     headers = {
       'Content-Type' => 'application/json',
-      'Authorization' => "Bearer APP_USR-7566194155648643-062420-1d483b50a9f63af77d98a4b0548d8006-576411779"
+      'Authorization' => "Bearer TEST-191553553627645-052119-e02f16e5c678bc716b9d93cfcdba8d03-472243321"
     }
 
     # Realizar a requisição GET para consultar o pagamento
@@ -273,7 +375,7 @@ class Frontend::PublicController < Frontend::ApplicationController
     # Headers da requisição
     headers = {
       'Content-Type' => 'application/json',
-      'Authorization' => "Bearer APP_USR-7566194155648643-062420-1d483b50a9f63af77d98a4b0548d8006-576411779",
+      'Authorization' => "Bearer TEST-191553553627645-052119-e02f16e5c678bc716b9d93cfcdba8d03-472243321",
       'X-Idempotency-Key' => idempotency_key
     }
 
@@ -285,24 +387,37 @@ class Frontend::PublicController < Frontend::ApplicationController
   end
 
   def term
+    if cookies[:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7]
+      cookies.delete(:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7)
+    end
   end 
 
   def numbers
     require 'date'
+    cookies.delete(:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7)
     @numbers =  params[:numbers].split(',')
     @member = Member.find(params[:yek])
   end 
 
   def search_numbers
+    if cookies[:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7].present?
+      cookies.delete(:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7)
+    end
     @member = Member.find(params[:yek])
     @whatsapp = SocialNetwork.find_by(slug: "whatsapp")
   end 
 
   def comunications
+    if cookies[:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7]
+      cookies.delete(:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7)
+    end
     @comunications = Message.all
   end 
 
   def winners
+    if cookies[:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7]
+      cookies.delete(:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7)
+    end
     @winners = Lottery.where.not(winner: [nil, ""])
   end
 

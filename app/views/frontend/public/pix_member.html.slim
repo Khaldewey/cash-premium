@@ -44,6 +44,10 @@ input#member_id(type="hidden" value="#{@member.id}")
                 strong Data e Hora:
                 |  #{Time.now.strftime("%d/%m/%Y %H:%M:%S")}
 
+    .not-numbers
+                .alert-warning role="alert"
+                    p = icon('fas', 'exclamation-circle')
+                    p Não saia do seu navegador até concluir todo processo de pagamento.
     .member-info
         span O pagamento expira em 10 min
         #timer 10:00  

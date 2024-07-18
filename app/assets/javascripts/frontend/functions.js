@@ -405,7 +405,7 @@ $(function () {
                 if (data.status) {
                     var paymentStatus = data.status
                     
-                    //paymentStatus = 'approved'
+                    // paymentStatus = 'approved'
                     
                     // Verifica se o pagamento foi aprovado
                     if (paymentStatus === 'approved') {

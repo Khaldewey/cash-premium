@@ -44,18 +44,22 @@ input#member_id(type="hidden" value="#{@member.id}")
                 strong Data e Hora:
                 |  #{Time.now.strftime("%d/%m/%Y %H:%M:%S")}
 
-        .member-info
-            span O pagamento expira em 10 min
-            #timer 10:00  
-            h3 QR Code
-            span Escanei o QR Code abaixo para efetuar o pagamento
-            img[src="data:image/jpeg;base64,#{@qr_code_base64}" width="200" height="200"]
-            h3 Pix Copia e Cola
-            span Copie o codigo do pix abaixo e realize o pagamento
-        .member-info
-            .pix-copia
-                button type="button" id="btn-copiar" Copiar
-                input type="text" id="copiar" value=@qr_code readonly=true
+    .not-numbers
+            .alert-warning role="alert"
+                p = icon('fas', 'exclamation-circle')
+                p Não saia do seu navegador até concluir todo processo de pagamento.
+    .member-info
+        span O pagamento expira em 10 min
+        #timer 10:00  
+        h3 QR Code
+        span Escanei o QR Code abaixo para efetuar o pagamento
+        img[src="data:image/jpeg;base64,#{@qr_code_base64}" width="200" height="200"]
+        h3 Pix Copia e Cola
+        span Copie o codigo do pix abaixo e realize o pagamento
+    .member-info
+        .pix-copia
+            button type="button" id="btn-copiar" Copiar
+            input type="text" id="copiar" value=@qr_code readonly=true
 
     
         
