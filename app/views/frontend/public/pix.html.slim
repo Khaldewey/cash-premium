@@ -45,9 +45,13 @@ input#member_id(type="hidden" value="#{@member.id}")
                 |  #{Time.now.strftime("%d/%m/%Y %H:%M:%S")}
 
     .not-numbers
-            .alert-warning role="alert"
-                p = icon('fas', 'exclamation-circle')
-                p Não saia do seu navegador até concluir todo processo de pagamento.
+        .alert-warning role="alert"
+            p = icon('fas', 'exclamation-circle')
+            p Não feche o seu navegador até concluir todo processo de pagamento.
+
+        .alert-warning role="alert"
+            p = icon('fas', 'exclamation-circle')
+            p Acesse o seu aplicativo bancário realize o pagamento e retorne para esta página.
     .member-info
         span O pagamento expira em 10 min
         #timer 10:00  

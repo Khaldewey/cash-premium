@@ -21,28 +21,6 @@ ActiveRecord::Schema.define(version: 2024_07_02_211756) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "article_categories", force: :cascade do |t|
-    t.string "name"
-    t.boolean "is_active", default: true
-    t.string "slug"
-    t.index ["is_active"], name: "index_article_categories_on_is_active"
-    t.index ["name"], name: "index_article_categories_on_name", unique: true
-    t.index ["slug"], name: "index_article_categories_on_slug", unique: true
-  end
-
-  create_table "articles", force: :cascade do |t|
-    t.string "title"
-    t.string "abstract"
-    t.text "content"
-    t.datetime "published_at"
-    t.bigint "article_category_id"
-    t.string "slug"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["article_category_id"], name: "index_articles_on_article_category_id"
-    t.index ["slug"], name: "index_articles_on_slug", unique: true
-  end
-
   create_table "banner_categories", force: :cascade do |t|
     t.string "name"
     t.boolean "is_active", default: true
@@ -65,16 +43,6 @@ ActiveRecord::Schema.define(version: 2024_07_02_211756) do
     t.index ["expires_at"], name: "index_banners_on_expires_at"
   end
 
-  create_table "blogs", force: :cascade do |t|
-    t.string "title"
-    t.string "abstract"
-    t.text "content"
-    t.string "image"
-    t.datetime "published_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "ckeditor_assets", force: :cascade do |t|
     t.string "data_file_name", null: false
     t.string "data_content_type"
@@ -88,20 +56,6 @@ ActiveRecord::Schema.define(version: 2024_07_02_211756) do
     t.datetime "updated_at", null: false
     t.index ["assetable_type", "assetable_id"], name: "idx_ckeditor_assetable"
     t.index ["assetable_type", "type", "assetable_id"], name: "idx_ckeditor_assetable_type"
-  end
-
-  create_table "email_categories", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "email_contacts", force: :cascade do |t|
-    t.string "email"
-    t.bigint "email_category_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["email_category_id"], name: "index_email_contacts_on_email_category_id"
   end
 
   create_table "failures", force: :cascade do |t|
@@ -123,26 +77,6 @@ ActiveRecord::Schema.define(version: 2024_07_02_211756) do
     t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
     t.index ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id"
     t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
-  end
-
-  create_table "images", force: :cascade do |t|
-    t.string "image"
-    t.string "title"
-    t.string "imageable_type"
-    t.bigint "imageable_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "position"
-    t.index ["imageable_id", "imageable_type"], name: "index_images_on_imageable_id_and_imageable_type"
-    t.index ["imageable_type", "imageable_id"], name: "index_images_on_imageable_type_and_imageable_id"
-  end
-
-  create_table "localizations", force: :cascade do |t|
-    t.string "link"
-    t.text "address"
-    t.string "image"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "lotteries", force: :cascade do |t|
@@ -180,44 +114,6 @@ ActiveRecord::Schema.define(version: 2024_07_02_211756) do
     t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "newsletters", force: :cascade do |t|
-    t.string "name", default: ""
-    t.string "email", default: ""
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["email"], name: "index_newsletters_on_email", unique: true
-    t.index ["name"], name: "index_newsletters_on_name"
-  end
-
-  create_table "notice_categories", force: :cascade do |t|
-    t.string "name"
-    t.string "slug"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "notices", force: :cascade do |t|
-    t.string "title"
-    t.string "slug"
-    t.string "abstract"
-    t.text "content"
-    t.datetime "published_at"
-    t.string "cover_image"
-    t.boolean "cover_image_body"
-    t.string "content_audio"
-    t.string "audio"
-    t.string "subtitle_cover_image"
-    t.boolean "is_highlight"
-    t.boolean "is_active", default: false
-    t.string "video_url"
-    t.string "youtube_video_id"
-    t.bigint "notice_category_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "link"
-    t.index ["notice_category_id"], name: "index_notices_on_notice_category_id"
   end
 
   create_table "paragraphs", force: :cascade do |t|
@@ -261,12 +157,6 @@ ActiveRecord::Schema.define(version: 2024_07_02_211756) do
     t.index ["role_id"], name: "index_permissions_roles_on_role_id"
   end
 
-  create_table "phones", force: :cascade do |t|
-    t.string "phone"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "roles", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -278,13 +168,6 @@ ActiveRecord::Schema.define(version: 2024_07_02_211756) do
     t.string "name"
     t.string "slug"
     t.string "url"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "tutorials", force: :cascade do |t|
-    t.string "title"
-    t.string "file"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -312,22 +195,10 @@ ActiveRecord::Schema.define(version: 2024_07_02_211756) do
     t.index ["role_id"], name: "index_users_on_role_id"
   end
 
-  create_table "videos", force: :cascade do |t|
-    t.string "title"
-    t.string "link"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "slug"
-    t.string "youtube_video_id"
-  end
-
-  add_foreign_key "articles", "article_categories"
   add_foreign_key "banners", "banner_categories"
-  add_foreign_key "email_contacts", "email_categories"
   add_foreign_key "failures", "members"
   add_foreign_key "failures", "payments"
   add_foreign_key "members", "lotteries"
-  add_foreign_key "notices", "notice_categories"
   add_foreign_key "payments", "lotteries"
   add_foreign_key "payments", "members"
   add_foreign_key "permissions_roles", "permissions"

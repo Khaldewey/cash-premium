@@ -51,7 +51,7 @@
 .not-numbers
   .alert-warning role="alert"
     p = icon('fas', 'exclamation-circle')
-    p Caso tenha adiquirido números e não conste aqui, por favor entre em contato, que resolveremos o problema.
+    p Caso tenha adquirido números e não conste aqui, por favor entre em contato, que resolveremos o problema.
   - if @whatsapp.present?
     .contact-link
         = link_to "https://wa.me/#{@whatsapp.url}", target: '_blank' do    

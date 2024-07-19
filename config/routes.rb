@@ -25,6 +25,9 @@ Target::Application.routes.draw do
   put '/numeros-esgotados' => 'frontend/public#finished'
   get '/numeros-esgotados' => 'frontend/public#finished' , as: :finished_numbers
 
+  get '/meus-pagamentos' => 'frontend/public#meus_titulos' , as: :my_payments
+  get '/meus-pagamentos/:id' => 'frontend/public#pix' , as: :my_payment
+
   %w( 404 422 500 ).each do |code|
     get code, :to => "errors#show", :code => code
   end

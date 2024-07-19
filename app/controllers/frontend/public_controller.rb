@@ -207,7 +207,7 @@ class Frontend::PublicController < Frontend::ApplicationController
     # Headers da requisição
     headers = {
       'Content-Type' => 'application/json',
-      'Authorization' => "Bearer TEST-191553553627645-052119-e02f16e5c678bc716b9d93cfcdba8d03-472243321"
+      'Authorization' => "Bearer APP_USR-7566194155648643-062420-1d483b50a9f63af77d98a4b0548d8006-576411779"
     }
 
     # Realizar a requisição GET para consultar o pagamento
@@ -319,7 +319,7 @@ class Frontend::PublicController < Frontend::ApplicationController
     # Headers da requisição
     headers = {
       'Content-Type' => 'application/json',
-      'Authorization' => "Bearer TEST-191553553627645-052119-e02f16e5c678bc716b9d93cfcdba8d03-472243321"
+      'Authorization' => "Bearer APP_USR-7566194155648643-062420-1d483b50a9f63af77d98a4b0548d8006-576411779"
     }
 
     # Realizar a requisição GET para consultar o pagamento
@@ -375,7 +375,7 @@ class Frontend::PublicController < Frontend::ApplicationController
     # Headers da requisição
     headers = {
       'Content-Type' => 'application/json',
-      'Authorization' => "Bearer TEST-191553553627645-052119-e02f16e5c678bc716b9d93cfcdba8d03-472243321",
+      'Authorization' => "Bearer APP_USR-7566194155648643-062420-1d483b50a9f63af77d98a4b0548d8006-576411779",
       'X-Idempotency-Key' => idempotency_key
     }
 
@@ -405,6 +405,8 @@ class Frontend::PublicController < Frontend::ApplicationController
     end
     @member = Member.find(params[:yek])
     @whatsapp = SocialNetwork.find_by(slug: "whatsapp")
+    @payments = Payment.where(member_id: @member.id)
+    @lotteries = Lottery.all
   end 
 
   def comunications
