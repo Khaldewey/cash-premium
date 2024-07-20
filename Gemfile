@@ -92,6 +92,7 @@ group :development do
   gem 'meta_request'
   gem 'dedent'
   gem 'bullet'
+  gem 'rspec-rails', '~> 5.0'
 end
 #
 gem 'bootstrap-sass'

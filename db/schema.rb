@@ -37,8 +37,6 @@ ActiveRecord::Schema.define(version: 2024_07_02_211756) do
     t.datetime "expires_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "position"
-    t.datetime "published_at"
     t.index ["banner_category_id"], name: "index_banners_on_banner_category_id"
     t.index ["expires_at"], name: "index_banners_on_expires_at"
   end
@@ -84,8 +82,8 @@ ActiveRecord::Schema.define(version: 2024_07_02_211756) do
     t.datetime "date_event"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "ticket"
     t.boolean "status"
+    t.integer "ticket"
     t.integer "result"
     t.float "price"
     t.string "winner"
@@ -100,8 +98,8 @@ ActiveRecord::Schema.define(version: 2024_07_02_211756) do
     t.string "phone"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.jsonb "tickets", default: {}
     t.bigint "lottery_id"
+    t.jsonb "tickets", default: {}
     t.string "cpf"
     t.index ["cpf"], name: "index_members_on_cpf", unique: true
     t.index ["email"], name: "index_members_on_email", unique: true
@@ -114,6 +112,35 @@ ActiveRecord::Schema.define(version: 2024_07_02_211756) do
     t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "notice_categories", force: :cascade do |t|
+    t.string "name"
+    t.string "slug"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "notices", force: :cascade do |t|
+    t.string "title"
+    t.string "slug"
+    t.string "abstract"
+    t.text "content"
+    t.datetime "published_at"
+    t.string "cover_image"
+    t.boolean "cover_image_body"
+    t.string "content_audio"
+    t.string "audio"
+    t.string "subtitle_cover_image"
+    t.boolean "is_highlight"
+    t.boolean "is_active", default: false
+    t.string "video_url"
+    t.string "youtube_video_id"
+    t.bigint "notice_category_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "link"
+    t.index ["notice_category_id"], name: "index_notices_on_notice_category_id"
   end
 
   create_table "paragraphs", force: :cascade do |t|
@@ -199,6 +226,7 @@ ActiveRecord::Schema.define(version: 2024_07_02_211756) do
   add_foreign_key "failures", "members"
   add_foreign_key "failures", "payments"
   add_foreign_key "members", "lotteries"
+  add_foreign_key "notices", "notice_categories"
   add_foreign_key "payments", "lotteries"
   add_foreign_key "payments", "members"
   add_foreign_key "permissions_roles", "permissions"
