@@ -171,7 +171,7 @@ class Frontend::PublicController < Frontend::ApplicationController
     if cookies[:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7]
       # Requisição ao Mercado Pago para obter os detalhes do pagamento
       payment_details = fetch_payment_details(cookies[:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7])
-
+    
       if payment_details
           @qr_code_base64 = payment_details.dig("point_of_interaction", "transaction_data", "qr_code_base64")
           @qr_code = payment_details.dig("point_of_interaction", "transaction_data", "qr_code")

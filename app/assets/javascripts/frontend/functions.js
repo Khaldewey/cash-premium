@@ -2,6 +2,10 @@ $(document).ready(function () {
     var larguraViewport = $(window).width();
     let active = false
 
+    if(!(window.location.pathname === '/pagamento')) {
+        localStorage.removeItem("compra")
+    }
+
     function atualizarLarguraViewport() {
         larguraViewport = $(window).width();
 
@@ -389,45 +393,70 @@ $(function () {
             checkPayment();
         }
     }
-    
+
     function checkPayment() {
         console.log("Verificando Pagamento");
 
         // Substitua 'payment_id' pelo ID real do pagamento que você deseja verificar
         const paymentId = document.getElementById("payment_id").value;
 
-        // Faça uma solicitação AJAX para o seu servidor que consulta a API do Mercado Pago
         $.ajax({
             url: `/check_payment_public`,
             method: "GET",
             data: { payment_id: paymentId },
             success: function (data) {
                 if (data.status) {
-                    var paymentStatus = data.status
-                    
-                    //paymentStatus = 'approved'
-                    
+                    var paymentStatus = data.status;
+        
+                    //paymentStatus = 'approved';
+        
                     // Verifica se o pagamento foi aprovado
                     if (paymentStatus === 'approved') {
                         console.log("Pagamento aprovado");
-                        const quantity = document.getElementById("quantity").value;
-                        const lotteryId = document.getElementById("lottery_id").value;
-                        const memberId = document.getElementById("member_id").value;
-                        $.ajax({
-                            url: 'comprar_public',
-                            method: 'PUT',
-                            data: { lottery_id: lotteryId, quantity: quantity, member_id: memberId, transaction_id: paymentId },
-                            success: function (data) {
-                                console.log(data);
-                                if (data.numbers) {
-                                    window.location.replace(`/numeros-selecionados?numbers=${data.numbers}&member_id=sdfwerwersfsfwerwrq423no2noino2o34iow2n3o42n3o3io24n2o3i4no12i3no23i4n2oi4wperípí24poipiepwoirpweipsdfipoipip23i4pipweirp2oi34p2ipfpsdspfowpnhfpnfsdfnslkjlq43bl4b23l4n&yek=${memberId}+"&qpwoeiqpoieqpeipqoweiqpoweiqpwoeiqpwoqie=1231l23nlnlknlandqlwneqlwenqjnlkjnfkabkqbkqhwbekqwbeqkwhe=&yeekkqieo=123013012ljnlajsndiqwe&timestamp="${data.timestamp}`);
-                                }else{
-                                    window.location.replace(`/numeros-esgotados?transaction=${paymentId}`) 
-                                }
-                            }
-                            
-                        });
                         
+                        // Verifica se a compra já foi realizada antes de fazer outra requisição
+                        if (!localStorage.getItem('compra')) {
+                            const quantity = document.getElementById("quantity").value;
+                            const lotteryId = document.getElementById("lottery_id").value;
+                            const memberId = document.getElementById("member_id").value;
+        
+                            // Marca que a compra foi realizada
+
+                            $.ajax({
+                                url: 'comprar_public',
+                                method: 'PUT',
+                                data: { lottery_id: lotteryId, quantity: quantity, member_id: memberId, transaction_id: paymentId },
+                                success: function (data) {
+                                    //console.log(data);
+                                    if (data.numbers) {
+                                        localStorage.setItem('compra', JSON.stringify({
+                                            memberId: memberId,
+                                            numbers: data.numbers,
+                                            paymentId: paymentId,
+                                            timestamp: data.timestamp
+                                        }));
+                                        //window.location.replace(`/numeros-selecionados?numbers=${data.numbers}&member_id=sdfwerwersfsfwerwrq423no2noino2o34iow2n3o42n3o3io24n2o3i4no12i3no23i4n2oi4wperípí24poipiepwoirpweipsdfipoipip23i4pipweirp2oi34p2ipfpsdspfowpnhfpnfsdfnslkjlq43bl4b23l4n&yek=${data.memberId}+"&qpwoeiqpoieqpeipqoweiqpoweiqpwoeiqpwoqie=1231l23nlnlknlandqlwneqlwenqjnlkjnfkabkqbkqhwbekqwbeqkwhe=&yeekkqieo=123013012ljnlajsndiqwe&timestamp="${data.timestamp}`);
+                                    } else {
+                                        window.location.replace(`/numeros-esgotados?transaction=${paymentId}`);
+                                    }
+                                },
+                                error: function (error) {
+                                    console.error("Erro ao realizar a compra:", error);
+                                }
+                            });
+                        } else {       
+                            console.log("Compra já realizada, evitando nova requisição.");
+                            const data = JSON.parse(localStorage.getItem('compra'))
+
+                            //console.log(data);
+                        
+                            // Aqui você pode usar os dados recuperados conforme necessário
+                            // window.location.replace(`/numeros-selecionados?numbers=${data.numbers}&member_id=${data.memberId}&transaction_id=${data.paymentId}&timestamp=${data.timestamp}`);        
+                            // Após o redirecionamento, remova o item do localStorage
+                            localStorage.removeItem('compra');
+                            
+                            window.location.replace(`/numeros-selecionados?numbers=${data.numbers}&member_id=sdfwerwersfsfwerwrq423no2noino2o34iow2n3o42n3o3io24n2o3i4no12i3no23i4n2oi4wperípí24poipiepwoirpweipsdfipoipip23i4pipweirp2oi34p2ipfpsdspfowpnhfpnfsdfnslkjlq43bl4b23l4n&yek=${data.memberId}+"&qpwoeiqpoieqpeipqoweiqpoweiqpwoeiqpwoqie=1231l23nlnlknlandqlwneqlwenqjnlkjnfkabkqbkqhwbekqwbeqkwhe=&yeekkqieo=123013012ljnlajsndiqwe&timestamp="${data.timestamp}`);
+                        }
                     } else {
                         console.log("Status do pagamento: " + paymentStatus);
                     }
@@ -439,9 +468,52 @@ $(function () {
                 console.error("Erro ao verificar o pagamento:", error);
             }
         });
+
+        // // Faça uma solicitação AJAX para o seu servidor que consulta a API do Mercado Pago
+        // $.ajax({
+        //     url: `/check_payment_public`,
+        //     method: "GET",
+        //     data: { payment_id: paymentId },
+        //     success: function (data) {
+        //         if (data.status) {
+        //             var paymentStatus = data.status
+                    
+        //             paymentStatus = 'approved'
+                    
+        //             // Verifica se o pagamento foi aprovado
+        //             if (paymentStatus === 'approved') {
+        //                 console.log("Pagamento aprovado");
+        //                 const quantity = document.getElementById("quantity").value;
+        //                 const lotteryId = document.getElementById("lottery_id").value;
+        //                 const memberId = document.getElementById("member_id").value;
+        //                 $.ajax({
+        //                     url: 'comprar_public',
+        //                     method: 'PUT',
+        //                     data: { lottery_id: lotteryId, quantity: quantity, member_id: memberId, transaction_id: paymentId },
+        //                     success: function (data) {
+        //                         console.log(data);
+        //                         if (data.numbers) {
+        //                             window.location.replace(`/numeros-selecionados?numbers=${data.numbers}&member_id=sdfwerwersfsfwerwrq423no2noino2o34iow2n3o42n3o3io24n2o3i4no12i3no23i4n2oi4wperípí24poipiepwoirpweipsdfipoipip23i4pipweirp2oi34p2ipfpsdspfowpnhfpnfsdfnslkjlq43bl4b23l4n&yek=${memberId}+"&qpwoeiqpoieqpeipqoweiqpoweiqpwoeiqpwoqie=1231l23nlnlknlandqlwneqlwenqjnlkjnfkabkqbkqhwbekqwbeqkwhe=&yeekkqieo=123013012ljnlajsndiqwe&timestamp="${data.timestamp}`);
+        //                         }else{
+        //                             window.location.replace(`/numeros-esgotados?transaction=${paymentId}`) 
+        //                         }
+        //                     }
+                            
+        //                 });
+                        
+        //             } else {
+        //                 console.log("Status do pagamento: " + paymentStatus);
+        //             }
+        //         } else {
+        //             console.error("Não foi possível obter o status do pagamento");
+        //         }
+        //     },
+        //     error: function (error) {
+        //         console.error("Erro ao verificar o pagamento:", error);
+        //     }
+        // });
     }
 
     
     setInterval(checkPaymentAtEndpoint, 10000);
-
 });
