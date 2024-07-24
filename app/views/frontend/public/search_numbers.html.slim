@@ -27,53 +27,28 @@
                     - rest = @member.email[(atIndex + 1)..-1]
                     = " #{primaryLetters}*****#{lastLetters}@#{rest}"
 
-  .container-purchase
-      .container-fluid   
-          .row
-              .purchase
-                  .sorteio-container
-                      .member-info 
-                  
-                        h3 Lista de pagamentos
-                      - unless @payments.empty?
-                          - @payments.each do |payment|
-                              - lottery = @lotteries.find_by(id: payment.lottery_id) 
-                              .sorteio-column.col-xs-12.col-md-6.col-lg-6  
-                                  /-raise
-                                  = link_to my_payment_path(id: payment.transaction_id), class: 'sorteio-box' do           
-                                      = image_tag lottery.image_url, class: 'img-responsive my-titles-img'
-                                      
-                                      .sorteio-content-winner      
-                                          h2 =  lottery.event
-                                          p = "Data do Pagamento: " + payment.created_at.strftime("%d/%m/%Y %H:%M:%S")
-                                          p = "Status: "  + "Aguardando Pagamento"
-                                          p = "Quantidade: " + payment.quantity.to_s
-                                          p = "Total: R$" + lottery.price.to_s      
-                                          p = "Id Transação: " + payment.transaction_id.to_s                                   
-                      - else 
-                          .not-lotteries
-                              p Por enquanto não há pagamentos
+   
 
-/         h3 Loterias Participantes
-/     .my-lotteries-container
-/       - @member.tickets.each do |lottery_id, numbers|
-/         .my-lotteries-box
-/           - lottery = Lottery.find(lottery_id)
-/           h3 Loteria #{lottery.event}
-/           /p  Data do Sorteio: #{lottery.date_event.strftime("%d/%m/%Y")}
-/           p  Status: #{lottery.status == true ? 'Ativo' : 'Inativo'}
-/           ul
-/             - numbers.each do |number|
-/               li 
-/                 p = number  
-/           - unless contar_numeros(Member.where("tickets->>:lottery_id IS NOT NULL", lottery_id: lottery.id.to_s), lottery.id) == lottery.ticket
-/             = link_to 'Comprar Mais números', '/comprar-bilhete/' + lottery_id
-/           - else 
-/             p Os números dessa loteria se esgostaram para compra!
-/ - else
-/   .not-numbers
-/     p Não há números de loteria cadastrados para este membro.
-/     = link_to 'Comprar Bilhetes', '/campanhas'
+        h3 Loterias Participantes
+    .my-lotteries-container
+      - @member.tickets.each do |lottery_id, numbers|
+        .my-lotteries-box
+          - lottery = Lottery.find(lottery_id)
+          h3 Loteria #{lottery.event}
+          /p  Data do Sorteio: #{lottery.date_event.strftime("%d/%m/%Y")}
+          p  Status: #{lottery.status == true ? 'Ativo' : 'Inativo'}
+          ul
+            - numbers.each do |number|
+              li 
+                p = number  
+          - unless contar_numeros(Member.where("tickets->>:lottery_id IS NOT NULL", lottery_id: lottery.id.to_s), lottery.id) == lottery.ticket
+            = link_to 'Comprar Mais números', '/comprar-bilhete/' + lottery_id
+          - else 
+            p Os números dessa loteria se esgostaram para compra!
+- else
+  .not-numbers
+    p Não há números de loteria cadastrados para este membro.
+    = link_to 'Comprar Bilhetes', '/campanhas'
   
 .not-numbers
   .alert-warning role="alert"
@@ -83,4 +58,32 @@
     .contact-link
         = link_to "https://wa.me/#{@whatsapp.url}", target: '_blank' do    
             = icon('fab', 'whatsapp') 
-            = 'Clique aqui'
+            = 'Clique aqui' 
+
+
+/ .container-purchase
+  /     .container-fluid   
+  /         .row
+              / .purchase
+              /     .sorteio-container
+              /         .member-info 
+                  
+              /           h3 Lista de pagamentos
+              /         - unless @payments.empty?
+              /             - @payments.each do |payment|
+              /                 - lottery = @lotteries.find_by(id: payment.lottery_id) 
+              /                 .sorteio-column.col-xs-12.col-md-6.col-lg-6  
+              /                     /-raise
+              /                     = link_to my_payment_path(id: payment.transaction_id), class: 'sorteio-box' do           
+              /                         = image_tag lottery.image_url, class: 'img-responsive my-titles-img'
+                                      
+              /                         .sorteio-content-winner      
+              /                             h2 =  lottery.event
+              /                             p = "Data do Pagamento: " + payment.created_at.strftime("%d/%m/%Y %H:%M:%S")
+              /                             p = "Status: "  + "Aguardando Pagamento"
+              /                             p = "Quantidade: " + payment.quantity.to_s
+              /                             p = "Total: R$" + lottery.price.to_s      
+              /                             p = "Id Transação: " + payment.transaction_id.to_s                                   
+              /         - else 
+              /             .not-lotteries
+              /                 p Por enquanto não há pagamentos
