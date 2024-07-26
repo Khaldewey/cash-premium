@@ -49,7 +49,37 @@
   .not-numbers
     p Não há números de loteria cadastrados para este membro.
     = link_to 'Comprar Bilhetes', '/campanhas'
-  
+
+.container-purchase
+       .container-fluid   
+           .row
+               .purchase
+                   .sorteio-container
+                       .member-info 
+                  
+                         h3 Lista de pagamentos
+                       - unless @transactions.empty?
+                           - @transactions.each do |transaction|
+                               - lottery = @lotteries.find_by(id: transaction.lottery_id) 
+                               .sorteio-column.col-xs-12.col-md-6.col-lg-6  
+                                   = link_to my_payment_path(id: transaction.transaction_id), class: 'sorteio-box' do           
+                                       = image_tag lottery.image_url, class: 'img-responsive my-titles-img'
+                                      
+                                       .sorteio-content-winner      
+                                           h2 =  lottery.event
+                                           p = "Data do Pagamento: " + transaction.created_at.strftime("%d/%m/%Y %H:%M:%S")
+                                           - if transaction.status == "pending"
+                                              p = "Status: "  + "Aguardando Pagamento"
+                                           - if transaction.status == "expired" 
+                                              p = "Status: "  + "Pagamento expirado" 
+                                           - if transaction.status == "approved" 
+                                             p = "Status: "  + "Pagamento aprovado"
+                                           p = "Quantidade: " + transaction.quantity.to_s
+                                           p = "Total: R$" + lottery.price.to_s      
+                                           p = "Id Transação: " + transaction.transaction_id.to_s                                   
+                       - else 
+                           .not-lotteries
+                               p Por enquanto não há pagamentos  
 .not-numbers
   .alert-warning role="alert"
     p = icon('fas', 'exclamation-circle')
@@ -61,29 +91,4 @@
             = 'Clique aqui' 
 
 
-/ .container-purchase
-  /     .container-fluid   
-  /         .row
-              / .purchase
-              /     .sorteio-container
-              /         .member-info 
-                  
-              /           h3 Lista de pagamentos
-              /         - unless @payments.empty?
-              /             - @payments.each do |payment|
-              /                 - lottery = @lotteries.find_by(id: payment.lottery_id) 
-              /                 .sorteio-column.col-xs-12.col-md-6.col-lg-6  
-              /                     /-raise
-              /                     = link_to my_payment_path(id: payment.transaction_id), class: 'sorteio-box' do           
-              /                         = image_tag lottery.image_url, class: 'img-responsive my-titles-img'
-                                      
-              /                         .sorteio-content-winner      
-              /                             h2 =  lottery.event
-              /                             p = "Data do Pagamento: " + payment.created_at.strftime("%d/%m/%Y %H:%M:%S")
-              /                             p = "Status: "  + "Aguardando Pagamento"
-              /                             p = "Quantidade: " + payment.quantity.to_s
-              /                             p = "Total: R$" + lottery.price.to_s      
-              /                             p = "Id Transação: " + payment.transaction_id.to_s                                   
-              /         - else 
-              /             .not-lotteries
-              /                 p Por enquanto não há pagamentos
+ 
