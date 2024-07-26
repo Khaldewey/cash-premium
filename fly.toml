@@ -8,6 +8,7 @@ primary_region = 'gru'
 console_command = '/rails/bin/rails console'
 
 [build]
+  exclude = ["tmp/*", "log/*", "node_modules/*", ".git/*"]
 
 [[mounts]]
   source = 'uploads'
