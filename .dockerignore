@@ -19,8 +19,6 @@ pickle-email-*.html
 
 # Ignorar arquivos de configuração e metadados
 .vscode
-config/database.yml
-public/uploads/*
 .DS_Store
 
 # Ignorar arquivos específicos do Fly.io
