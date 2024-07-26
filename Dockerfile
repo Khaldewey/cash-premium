@@ -1,7 +1,6 @@
 # Use a imagem base do Ubuntu 18.04
 FROM ubuntu:18.04
 
-
 # Atualize os pacotes e instale as dependências do sistema necessárias para o Ruby, o Rails e o PostgreSQL
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -31,32 +30,23 @@ RUN ruby --version
 # Instale o Bundler na versão desejada
 RUN gem install bundler -v 2.3.5
 
-COPY . .
+# Defina o diretório de trabalho
+WORKDIR /myapp
 
 # Copie os arquivos do aplicativo para o contêiner
-COPY database.yml config/
+COPY . .
 
-# Define as variáveis de ambiente que vêm do Fly.io
-ENV DATABASE_NAME=${DATABASE_NAME} \
-    DATABASE_USER=${DATABASE_USER} \
-    DATABASE_PASSWORD=${DATABASE_PASSWORD} \
-    DATABASE_HOST=${DATABASE_HOST}
+# Copie o entrypoint script e defina as permissões
+COPY entrypoint.sh /usr/bin/entrypoint.sh
+RUN chmod +x /usr/bin/entrypoint.sh
 
 # Instale as dependências do Ruby
 RUN bundle install
 
-RUN bundle exec rake db:environment:set RAILS_ENV=test
-
-# # Execute as tarefas de setup do banco de dados
-# RUN DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bundle exec rake db:setup RAILS_ENV=production
-
-RUN bundle exec rake assets:precompile RAILS_ENV=test
-
 # Exponha a porta 3000 para acessar o aplicativo Rails
 EXPOSE 3000
 
-# Comando para iniciar o servidor Rails quando o contêiner for iniciado
-CMD ["sh", "-c", "DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bundle exec rake db:migrate RAILS_ENV=test && bundle exec rake db:seed RAILS_ENV=test && rails server -b 0.0.0.0 -p 3000"]
+# Configure o entrypoint e o comando padrão
+ENTRYPOINT ["/usr/bin/entrypoint.sh"]
 
-# Configurando o script de entrada
-# ENTRYPOINT ["./entrypoint.sh"]
+CMD ["rails", "server", "-b", "0.0.0.0", "-p", "3000"]
