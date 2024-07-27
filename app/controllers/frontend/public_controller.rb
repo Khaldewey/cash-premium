@@ -372,11 +372,7 @@ class Frontend::PublicController < Frontend::ApplicationController
 
     # URL da API do Mercado Pago para criar um pagamento
     url = 'https://api.mercadopago.com/v1/payments'
-    # TEST-191553553627645-052119-e02f16e5c678bc716b9d93cfcdba8d03-472243321 teste 
-    # APP_USR-191553553627645-052119-4e39a47a786002999f0f2bd945244922-472243321 produção
 
-    # TEST-7566194155648643-062420-491e0d66fe9706fad2c3f65286367516-576411779 teste Matheus
-    # APP_USR-7566194155648643-062420-1d483b50a9f63af77d98a4b0548d8006-576411779 produção Matheus
     # Headers da requisição
     headers = {
       'Content-Type' => 'application/json',
