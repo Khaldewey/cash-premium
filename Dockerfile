@@ -44,12 +44,12 @@ ENV DATABASE_NAME=${DATABASE_NAME} \
     DATABASE_HOST=${DATABASE_HOST}
 
 # Instale as dependências do Ruby
-# RUN bundle install
+RUN bundle install
 
 # Execute as tarefas de setup do banco de dados
 # RUN DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bundle exec rake db:setup RAILS_ENV=production
 
-# RUN bundle exec rake assets:precompile RAILS_ENV=test
+#RUN bundle exec rake assets:precompile RAILS_ENV=test
 
 # Exponha a porta 3000 para acessar o aplicativo Rails
 EXPOSE 3000
