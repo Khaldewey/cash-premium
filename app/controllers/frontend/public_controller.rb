@@ -428,17 +428,17 @@ class Frontend::PublicController < Frontend::ApplicationController
     
     @transactions.each do |transaction| 
      response = JSON.parse(check_transaction(transaction.transaction_id).body)
-     transaction.update_attribute(:status,response.dig("status"))
-     
-      if "approved" == "approved"
+     transaction.update_attribute(:status, response.dig("status"))
+     #  response.dig("status")
+      # if "approved" == "approved"
         
-        @payment = Payment.find_by(transaction_id: transaction.transaction_id)
+      #   @payment = Payment.find_by(transaction_id: transaction.transaction_id)
         
-        if !@payment.present?
-          # -raise 
-          create_after_approved(@member.id, transaction.lottery_id, transaction.quantity, transaction)
-        end
-      end
+      #   if !@payment.present?
+      #     @flag = true 
+      #     create_after_approved(@member.id, transaction.lottery_id, transaction.quantity, transaction)
+      #   end
+      # end
   
     end
   
@@ -460,19 +460,19 @@ class Frontend::PublicController < Frontend::ApplicationController
     
   end 
 
-  def create_after_approved(member, lottery, quantity, transaction)
-    @lottery = Lottery.find(lottery)
-    @member = Member.find(member)
-    numbers_count = quantity
-    @transaction = transaction
+  def create_after_approved
+    @lottery = Lottery.find(params[:lottery_id])
+    @member = Member.find(params[:member_id])
+    numbers_count = params[:quantity].to_i
+    @transaction = Transaction.find_by(transaction_id: params[:transaction_id])
     @all_numbers = []
     @all_numbers = verificar_numeros_participantes(Member.where("tickets @> ?", { @lottery.id.to_s => [] }.to_json), @lottery.id).flatten
     
     @payment = Payment.new(
-    lottery_id: lottery,
-    member_id: member,
-    transaction_id: transaction.transaction_id,
-    quantity: transaction.quantity
+    lottery_id: params[:lottery_id],
+    member_id: params[:member_id],
+    transaction_id: params[:transaction_id],
+    quantity: params[:quantity].to_i
     ) 
 
     @payment.save

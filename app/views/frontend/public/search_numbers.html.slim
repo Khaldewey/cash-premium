@@ -56,17 +56,18 @@
                .purchase
                    .sorteio-container
                        .member-info 
-                  
+                          /= link_to my_payment_path(id: transaction.transaction_id), class: 'sorteio-box' do
                           h3 Lista de pagamentos
                           - unless @transactions.empty?
                               - @transactions.each do |transaction|
                                   - lottery = @lotteries.find_by(id: transaction.lottery_id) 
                                   .sorteio-column.col-xs-12.col-md-6.col-lg-6  
-                                      = link_to my_payment_path(id: transaction.transaction_id), class: 'sorteio-box' do           
+                                     .sorteio-box             
                                           = image_tag lottery.image_url, class: 'img-responsive my-titles-img'
                                           
                                           .sorteio-content-winner      
                                               h2 =  lottery.event
+                                              
                                               p = "Data do Pagamento: " + transaction.created_at.strftime("%d/%m/%Y %H:%M:%S")
                                               - if transaction.status == "pending"
                                                   p = "Status: "  + "Aguardando Pagamento"
@@ -74,6 +75,10 @@
                                                   p = "Status: "  + "Pagamento expirado" 
                                               - if transaction.status == "approved" 
                                                 p = "Status: "  + "Pagamento aprovado"
+                                                - payment =  Payment.find_by(transaction_id: transaction.transaction_id)
+                                                - if !payment.present?
+                                                 p = "Necessário finalizar processamento"
+                                                 = link_to 'Clique Aqui', reprocess_path(member_id: @member.id, lottery_id: transaction.lottery_id, quantity: transaction.quantity, transaction_id: transaction.transaction_id), class: 'btn btn-primary', method: :post
                                               p = "Quantidade: " + transaction.quantity.to_s
                                               p = "Total: R$" + lottery.price.to_s      
                                               p = "Id Transação: " + transaction.transaction_id.to_s

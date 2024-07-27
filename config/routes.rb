@@ -26,7 +26,9 @@ Target::Application.routes.draw do
   get '/numeros-esgotados' => 'frontend/public#finished' , as: :finished_numbers
 
   get '/meus-pagamentos' => 'frontend/public#meus_titulos' , as: :my_payments
-  get '/meus-pagamentos/:id' => 'frontend/public#pix' , as: :my_payment
+  get '/meus-pagamentos/:id' => 'frontend/public#pix' , as: :my_payment 
+
+  post 'reprocessar' => 'frontend/public#create_after_approved', as: :reprocess
 
   %w( 404 422 500 ).each do |code|
     get code, :to => "errors#show", :code => code
