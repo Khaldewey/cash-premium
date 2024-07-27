@@ -428,9 +428,19 @@ class Frontend::PublicController < Frontend::ApplicationController
     
     @transactions.each do |transaction| 
      response = JSON.parse(check_transaction(transaction.transaction_id).body)
-     transaction.update_attribute(:status,response.dig("status")) 
+     transaction.update_attribute(:status,response.dig("status"))
+     
+      if "approved" == "approved"
+        @quantidade_pagamentos = Payment.where(member_id: @member.id, lottery_id: transaction.lottery_id).sum(:quantity) + transaction.quantity
+        @quantidade_atual = @member.tickets[transaction.lottery_id.to_s].size
+        -raise
+        if @quantidade_pagamentos != @quantidade_atual 
+          create_after_approved(@member.id, transaction.lottery_id, @quantidade_pagamentos - @quantidade_atual, transaction)
+        end
+      end
+  
     end
-
+  
   end  
 
   def check_transaction(id)
@@ -446,6 +456,92 @@ class Frontend::PublicController < Frontend::ApplicationController
 
     # Realizar a requisição GET para consultar o pagamento
     response = HTTParty.get(url, headers: headers)
+    
+  end 
+
+  def create_after_approved(member, lottery, quantity, transaction)
+    @lottery = Lottery.find(lottery)
+    @member = Member.find(member)
+    numbers_count = quantity
+    @payment = transaction
+    @all_numbers = []
+    @all_numbers = verificar_numeros_participantes(Member.where("tickets @> ?", { @lottery.id.to_s => [] }.to_json), @lottery.id).flatten
+    
+    if @lottery.ticket - @all_numbers.count < numbers_count
+      @failure = Failure.new(
+      member_id: params[:member_id],
+      payment_id: @payment.id
+      )
+      @failure.save 
+      Rails.logger.error("Números: #{@lottery.ticket - @all_numbers.count}")
+      redirect_to finished_numbers_path(transaction: @payment.transaction_id)
+      return
+    end
+    if @member.tickets == nil || @member.tickets.empty?
+      available_numbers = ((1..@lottery.ticket).to_a - @all_numbers)
+      selected_numbers = available_numbers.sample(numbers_count)
+      selected_numbers = []
+      while selected_numbers.length < numbers_count do
+        new_number = (1..@lottery.ticket).to_a.sample
+        selected_numbers << new_number unless selected_numbers.include?(new_number) || @all_numbers.include?(new_number)
+      end
+      @member.lottery_id = @lottery.id
+      @member.tickets ||= {} 
+      @member.tickets[@lottery.id] ||= [] 
+      @member.tickets[@lottery.id] += selected_numbers 
+      # -raise
+    else
+      
+      if @member.tickets.keys.include?(@lottery.id.to_s)
+        # -raise
+        available_numbers = ((1..@lottery.ticket).to_a - @all_numbers)
+        selected_numbers = available_numbers.sample(numbers_count)
+        # selected_numbers = (1..@lottery.ticket).to_a.sample(numbers_count)
+        selected_numbers.each_with_index do |number, index|
+          if @member.tickets[@lottery.id.to_s].include?(number)
+            available_numbers = ((1..@lottery.ticket).to_a - @member.tickets[@lottery.id.to_s] - @all_numbers)
+            new_number = available_numbers.sample(1).first
+            selected_numbers[index] = new_number  # Substitui o número existente pelo novo número
+          end
+        end
+        @member.tickets[@lottery.id.to_s].concat(selected_numbers)
+        
+      else
+        available_numbers = ((1..@lottery.ticket).to_a - @all_numbers)
+        selected_numbers = available_numbers.sample(numbers_count)
+        while selected_numbers.length < numbers_count do
+          new_number = (1..@lottery.ticket).to_a.sample
+          selected_numbers << new_number unless selected_numbers.include?(new_number) || @all_numbers.include?(new_number)
+        end
+        @member.lottery_id = @lottery.id
+        @member.tickets[@lottery.id] ||= [] 
+        @member.tickets[@lottery.id] += selected_numbers
+       
+      end
+    end
+    
+    
+    # if selected_numbers.length == 0
+    #   Rails.logger.error("Erro: Números selecionados estão vazios.")
+    #   redirect_to error_path, alert: "Números esgotados sua compra será reembolsada."
+    #   return
+    # end
+    if @member.save
+      # render json: {
+      #   "numbers": selected_numbers,
+      #   "timestamp": @payment.created_at
+      # }
+      redirect_to numbers_after_approved_path(numbers: selected_numbers, yek: @member.id, timestamp: @payment.created_at), notice: "Números selecionados com sucesso!"
+    else
+      redirect_to error_path
+      # render json: {
+      #   "mensagem": "Números esgotados sua compra será reembolsada"
+      # }
+    end
+   
+    # else 
+    #   redirect_to member_new_ticket_path, notice: "Números esgotados sua compra será reembolsada imediatamente pelo administrador !"
+    # end
     
   end
 

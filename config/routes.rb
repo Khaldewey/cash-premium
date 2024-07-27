@@ -16,7 +16,7 @@ Target::Application.routes.draw do
   get 'comprar-ticket/:id' => 'frontend/public#new', as: :new_ticket
   put 'comprar_public' => 'frontend/public#create', as: :lottery_tickets_public
   get '/meus-titulos' => 'frontend/public#meus_titulos'
-  get '/numeros-selecionados' => 'frontend/public#numbers'
+  get '/numeros-selecionados' => 'frontend/public#numbers', as: :numbers_after_approved
   post '/meus-numeros' => 'frontend/public#search_numbers', as: :procurar_numeros
   get '/comunicados' => 'frontend/public#comunications'
   get '/ganhadores' => 'frontend/public#winners'
