@@ -342,7 +342,6 @@ class Frontend::PublicController < Frontend::ApplicationController
     headers = {
       'Content-Type' => 'application/json',
       'Authorization' => "Bearer #{access_token}"
-      'Authorization' => "Bearer #{access_token}"
     }
 
   def create_pix_payment(member, amount)
