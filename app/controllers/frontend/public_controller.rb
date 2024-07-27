@@ -200,6 +200,7 @@ class Frontend::PublicController < Frontend::ApplicationController
   end 
   
   def fetch_payment_details(payment_id)
+    access_token = ENV.fetch("MERCADO_PAGO_ACCESS_TOKEN")
     # Exemplo de como fazer a requisição ao Mercado Pago
     # response = MercadoPago::Client.get("/v1/payments/#{payment_id}") 
     url = "https://api.mercadopago.com/v1/payments/#{payment_id}"
@@ -207,7 +208,7 @@ class Frontend::PublicController < Frontend::ApplicationController
     # Headers da requisição
     headers = {
       'Content-Type' => 'application/json',
-      'Authorization' => "Bearer APP_USR-191553553627645-052119-4e39a47a786002999f0f2bd945244922-472243321"
+      'Authorization' => "Bearer #{access_token}"
     }
 
     # Realizar a requisição GET para consultar o pagamento
@@ -312,6 +313,8 @@ class Frontend::PublicController < Frontend::ApplicationController
 
   def check_payment
     payment_id = params[:payment_id]
+
+    access_token = ENV.fetch("MERCADO_PAGO_ACCESS_TOKEN")
     
     # URL da API do Mercado Pago para consultar um pagamento específico
     url = "https://api.mercadopago.com/v1/payments/#{payment_id}"
@@ -319,7 +322,7 @@ class Frontend::PublicController < Frontend::ApplicationController
     # Headers da requisição
     headers = {
       'Content-Type' => 'application/json',
-      'Authorization' => "Bearer APP_USR-191553553627645-052119-4e39a47a786002999f0f2bd945244922-472243321"
+      'Authorization' => "Bearer #{access_token}"
     }
 
     # Realizar a requisição GET para consultar o pagamento
@@ -331,6 +334,8 @@ class Frontend::PublicController < Frontend::ApplicationController
 
 
   def create_pix_payment(member, amount)
+
+    access_token = ENV.fetch("MERCADO_PAGO_ACCESS_TOKEN")
       
     # Calcula a data de expiração
     expiration_time = (Time.now + 10*60).strftime("%Y-%m-%dT%H:%M:%S.%L%:z")
@@ -375,7 +380,7 @@ class Frontend::PublicController < Frontend::ApplicationController
     # Headers da requisição
     headers = {
       'Content-Type' => 'application/json',
-      'Authorization' => "Bearer APP_USR-191553553627645-052119-4e39a47a786002999f0f2bd945244922-472243321",
+      'Authorization' => "Bearer #{access_token}",
       'X-Idempotency-Key' => idempotency_key
     }
 
