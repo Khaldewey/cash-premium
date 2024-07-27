@@ -424,18 +424,19 @@ class Frontend::PublicController < Frontend::ApplicationController
     @member = Member.find(params[:yek])
     @whatsapp = SocialNetwork.find_by(slug: "whatsapp")
     @lotteries = Lottery.all
-    @transactions = Transaction.where(member_id: @member.id) 
+    @transactions = Transaction.where(member_id: @member.id).order(created_at: :desc)
     
     @transactions.each do |transaction| 
      response = JSON.parse(check_transaction(transaction.transaction_id).body)
      transaction.update_attribute(:status,response.dig("status"))
      
       if "approved" == "approved"
-        @quantidade_pagamentos = Payment.where(member_id: @member.id, lottery_id: transaction.lottery_id).sum(:quantity) + transaction.quantity
-        @quantidade_atual = @member.tickets[transaction.lottery_id.to_s].size
-        -raise
-        if @quantidade_pagamentos != @quantidade_atual 
-          create_after_approved(@member.id, transaction.lottery_id, @quantidade_pagamentos - @quantidade_atual, transaction)
+        
+        @payment = Payment.find_by(transaction_id: transaction.transaction_id)
+        
+        if !@payment.present?
+          # -raise 
+          create_after_approved(@member.id, transaction.lottery_id, transaction.quantity, transaction)
         end
       end
   
@@ -463,10 +464,18 @@ class Frontend::PublicController < Frontend::ApplicationController
     @lottery = Lottery.find(lottery)
     @member = Member.find(member)
     numbers_count = quantity
-    @payment = transaction
+    @transaction = transaction
     @all_numbers = []
     @all_numbers = verificar_numeros_participantes(Member.where("tickets @> ?", { @lottery.id.to_s => [] }.to_json), @lottery.id).flatten
     
+    @payment = Payment.new(
+    lottery_id: lottery,
+    member_id: member,
+    transaction_id: transaction.transaction_id,
+    quantity: transaction.quantity
+    ) 
+
+    @payment.save
     if @lottery.ticket - @all_numbers.count < numbers_count
       @failure = Failure.new(
       member_id: params[:member_id],
@@ -531,7 +540,8 @@ class Frontend::PublicController < Frontend::ApplicationController
       #   "numbers": selected_numbers,
       #   "timestamp": @payment.created_at
       # }
-      redirect_to numbers_after_approved_path(numbers: selected_numbers, yek: @member.id, timestamp: @payment.created_at), notice: "Números selecionados com sucesso!"
+      formatted_string = selected_numbers.join(',')
+      redirect_to numbers_after_approved_path(numbers: formatted_string, yek: @member.id, timestamp: @transaction.created_at), notice: "Números selecionados com sucesso!"
     else
       redirect_to error_path
       # render json: {

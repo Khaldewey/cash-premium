@@ -57,29 +57,30 @@
                    .sorteio-container
                        .member-info 
                   
-                         h3 Lista de pagamentos
-                       - unless @transactions.empty?
-                           - @transactions.each do |transaction|
-                               - lottery = @lotteries.find_by(id: transaction.lottery_id) 
-                               .sorteio-column.col-xs-12.col-md-6.col-lg-6  
-                                   = link_to my_payment_path(id: transaction.transaction_id), class: 'sorteio-box' do           
-                                       = image_tag lottery.image_url, class: 'img-responsive my-titles-img'
-                                      
-                                       .sorteio-content-winner      
-                                           h2 =  lottery.event
-                                           p = "Data do Pagamento: " + transaction.created_at.strftime("%d/%m/%Y %H:%M:%S")
-                                           - if transaction.status == "pending"
-                                              p = "Status: "  + "Aguardando Pagamento"
-                                           - if transaction.status == "expired" 
-                                              p = "Status: "  + "Pagamento expirado" 
-                                           - if transaction.status == "approved" 
-                                             p = "Status: "  + "Pagamento aprovado"
-                                           p = "Quantidade: " + transaction.quantity.to_s
-                                           p = "Total: R$" + lottery.price.to_s      
-                                           p = "Id Transação: " + transaction.transaction_id.to_s                                   
-                       - else 
-                           .not-lotteries
-                               p Por enquanto não há pagamentos  
+                          h3 Lista de pagamentos
+                          - unless @transactions.empty?
+                              - @transactions.each do |transaction|
+                                  - lottery = @lotteries.find_by(id: transaction.lottery_id) 
+                                  .sorteio-column.col-xs-12.col-md-6.col-lg-6  
+                                      = link_to my_payment_path(id: transaction.transaction_id), class: 'sorteio-box' do           
+                                          = image_tag lottery.image_url, class: 'img-responsive my-titles-img'
+                                          
+                                          .sorteio-content-winner      
+                                              h2 =  lottery.event
+                                              p = "Data do Pagamento: " + transaction.created_at.strftime("%d/%m/%Y %H:%M:%S")
+                                              - if transaction.status == "pending"
+                                                  p = "Status: "  + "Aguardando Pagamento"
+                                              - if transaction.status == "expired" 
+                                                  p = "Status: "  + "Pagamento expirado" 
+                                              - if transaction.status == "approved" 
+                                                p = "Status: "  + "Pagamento aprovado"
+                                              p = "Quantidade: " + transaction.quantity.to_s
+                                              p = "Total: R$" + lottery.price.to_s      
+                                              p = "Id Transação: " + transaction.transaction_id.to_s
+                          
+                          - else 
+                            .not-lotteries
+                              p Por enquanto não há transações   
 .not-numbers
   .alert-warning role="alert"
     p = icon('fas', 'exclamation-circle')
@@ -89,6 +90,4 @@
         = link_to "https://wa.me/#{@whatsapp.url}", target: '_blank' do    
             = icon('fab', 'whatsapp') 
             = 'Clique aqui' 
-
-
  

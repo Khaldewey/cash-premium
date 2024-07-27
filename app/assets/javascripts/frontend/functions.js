@@ -515,5 +515,5 @@ $(function () {
     }
 
     
-    setInterval(checkPaymentAtEndpoint, 65000);
+    setInterval(checkPaymentAtEndpoint, 40000);
 });
