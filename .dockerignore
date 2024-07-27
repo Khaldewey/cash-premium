@@ -1,24 +1,25 @@
-# flyctl launch added from .gitignore
-**\*.rbc
-**\*.sassc
-**\.sass-cache
-**\capybara-*.html
-**\.rspec
-**\.rvmrc
+# Ignorar arquivos e diretórios comuns
+*.rbc
+*.sassc
+.sass-cache
+capybara-*.html
+.rspec
+.rvmrc
 .bundle
-vendor\bundle
-log\*
-tmp\*
-db\*.sqlite3
-public\system\*
+vendor/bundle
+log/*
+tmp/*
+db/*.sqlite3
+public/system/*
 coverage
-spec\tmp\*
-**\**.orig
-**\rerun.txt
-**\pickle-email-*.html
+spec/tmp/*
+**/*.orig
+rerun.txt
+pickle-email-*.html
 
-**\.vscode
-**\config\database.yml
-**\public\uploads\*
-**\.DS_Store
+# Ignorar arquivos de configuração e metadados
+.vscode
+.DS_Store
+
+# Ignorar arquivos específicos do Fly.io
 fly.toml
