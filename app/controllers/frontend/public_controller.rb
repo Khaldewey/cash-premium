@@ -164,14 +164,14 @@ class Frontend::PublicController < Frontend::ApplicationController
     @member = Member.find_by(id: params[:yek])
     @numbers_count = params[:lottery][:quantity].to_i if params[:lottery][:quantity].present?
     # @payments = Payment.where(member_id: @member.id, lottery_id: @lottery.id)
-
+    
     #Vou verificar se tem algum pagamento pendente aqui, se for encontrado vou renderizar o qrcode do pagamento pendente e colocar o cronometro do tempo que falta para pagar
     # Método para iniciar pagamento pix
     # payment_response = PaymentService.create_pix_payment(@member, params[:member][:quantity].to_i*@lottery.price)
     if cookies[:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7]
       # Requisição ao Mercado Pago para obter os detalhes do pagamento
       payment_details = fetch_payment_details(cookies[:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7])
-    
+      
       if payment_details
           @qr_code_base64 = payment_details.dig("point_of_interaction", "transaction_data", "qr_code_base64")
           @qr_code = payment_details.dig("point_of_interaction", "transaction_data", "qr_code")
@@ -180,7 +180,7 @@ class Frontend::PublicController < Frontend::ApplicationController
           cookies.delete(:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7)
           create_and_store_payment
       end
-    else
+    else     
         create_and_store_payment
     end
     # Antigamento pagamento pix
@@ -207,7 +207,7 @@ class Frontend::PublicController < Frontend::ApplicationController
     # Headers da requisição
     headers = {
       'Content-Type' => 'application/json',
-      'Authorization' => "Bearer APP_USR-7566194155648643-062420-1d483b50a9f63af77d98a4b0548d8006-576411779"
+      'Authorization' => "Bearer TEST-191553553627645-052119-e02f16e5c678bc716b9d93cfcdba8d03-472243321"
     }
 
     # Realizar a requisição GET para consultar o pagamento
@@ -233,6 +233,15 @@ class Frontend::PublicController < Frontend::ApplicationController
       @qr_code_base64 = parsed_response.dig("point_of_interaction", "transaction_data", "qr_code_base64")
       @qr_code = parsed_response.dig("point_of_interaction", "transaction_data", "qr_code")
       @id = parsed_response.dig("id")
+      unless Transaction.find_by(transaction_id: @id)
+        @transaction = Transaction.new(
+          lottery_id:  @lottery.id,
+          member_id: @member.id,
+          transaction_id: @id,
+          quantity: @numbers_count.to_i
+        )
+        @transaction.save
+      end
     else
       logger.error "Payment response error: #{payment_response.inspect}"
       redirect_to error_path
@@ -303,7 +312,16 @@ class Frontend::PublicController < Frontend::ApplicationController
       end
       @qr_code_base64 = parsed_response.dig("point_of_interaction", "transaction_data", "qr_code_base64")
       @qr_code = parsed_response.dig("point_of_interaction", "transaction_data", "qr_code")
-      @id = parsed_response.dig("id")
+      @id = parsed_response.dig("id") 
+      unless Transaction.find_by(transaction_id: @id)
+        @transaction = Transaction.new(
+          lottery_id:  @lottery.id,
+          member_id: @member.id,
+          transaction_id: @id,
+          quantity: @numbers_count.to_i
+        )
+        @transaction.save
+      end
     else
       logger.error "Payment response error: #{payment_response.inspect}"
       redirect_to error_path
@@ -319,7 +337,7 @@ class Frontend::PublicController < Frontend::ApplicationController
     # Headers da requisição
     headers = {
       'Content-Type' => 'application/json',
-      'Authorization' => "Bearer APP_USR-7566194155648643-062420-1d483b50a9f63af77d98a4b0548d8006-576411779"
+      'Authorization' => "Bearer TEST-191553553627645-052119-e02f16e5c678bc716b9d93cfcdba8d03-472243321"
     }
 
     # Realizar a requisição GET para consultar o pagamento
@@ -375,7 +393,7 @@ class Frontend::PublicController < Frontend::ApplicationController
     # Headers da requisição
     headers = {
       'Content-Type' => 'application/json',
-      'Authorization' => "Bearer APP_USR-7566194155648643-062420-1d483b50a9f63af77d98a4b0548d8006-576411779",
+      'Authorization' => "Bearer TEST-191553553627645-052119-e02f16e5c678bc716b9d93cfcdba8d03-472243321",
       'X-Idempotency-Key' => idempotency_key
     }
 
@@ -405,9 +423,31 @@ class Frontend::PublicController < Frontend::ApplicationController
     end
     @member = Member.find(params[:yek])
     @whatsapp = SocialNetwork.find_by(slug: "whatsapp")
-    @payments = Payment.where(member_id: @member.id)
     @lotteries = Lottery.all
-  end 
+    @transactions = Transaction.where(member_id: @member.id) 
+    
+    @transactions.each do |transaction| 
+     response = JSON.parse(check_transaction(transaction.transaction_id).body)
+     transaction.update_attribute(:status,response.dig("status")) 
+    end
+
+  end  
+
+  def check_transaction(id)
+    transaction_id = id
+    # URL da API do Mercado Pago para consultar um pagamento específico
+    url = "https://api.mercadopago.com/v1/payments/#{transaction_id}"
+    
+    # Headers da requisição
+    headers = {
+      'Content-Type' => 'application/json',
+      'Authorization' => "Bearer TEST-191553553627645-052119-e02f16e5c678bc716b9d93cfcdba8d03-472243321"
+    }
+
+    # Realizar a requisição GET para consultar o pagamento
+    response = HTTParty.get(url, headers: headers)
+    
+  end
 
   def comunications
     if cookies[:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7]
