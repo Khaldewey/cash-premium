@@ -29,14 +29,15 @@ h3.m-b-xs.text-black Dashboard
             span.clear
               span.h3.block.m-t-xs.text-info= @members_count
               small.text-muted.text-u-c Clientes
-        /.col-md-6.b-b
+        
+        .col-md-6.b-b
           .block.padder-v.hover href="#" 
             span.i-s.i-s-2x.pull-left.m-r-sm
               .text-primary
-                = icon('fas', 'cogs')
+                = icon('fa', 'money-check-alt')
             span.clear
-              span.h3.block.m-t-xs.text-primary= @articles_count
-              small.text-muted.text-u-c Conteúdo  
+              span.h3.block.m-t-xs.text-primary= @payments_count
+              small.text-muted.text-u-c Pagamentos  
 .row 
   .col-md-4
     section.panel.b-light
@@ -80,7 +81,7 @@ h3.m-b-xs.text-black Dashboard
                 = icon('fas', 'home')
             span.clear
               span.h3.block.m-t-xs.text-danger Site
-              = link_to 'cash.com', 'https://www.cash.com/', target: '_blank', class: 'small text-muted'
+              = link_to 'cash.com', 'https://www.cashpremios.me', target: '_blank', class: 'small text-muted'
                  
         
 javascript:
