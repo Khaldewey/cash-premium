@@ -200,7 +200,6 @@ class Frontend::PublicController < Frontend::ApplicationController
   end 
   
   def fetch_payment_details(payment_id)
-    access_token = ENV.fetch("MERCADO_PAGO_ACCESS_TOKEN")
     # Exemplo de como fazer a requisição ao Mercado Pago
     # response = MercadoPago::Client.get("/v1/payments/#{payment_id}") 
     url = "https://api.mercadopago.com/v1/payments/#{payment_id}"
@@ -208,7 +207,7 @@ class Frontend::PublicController < Frontend::ApplicationController
     # Headers da requisição
     headers = {
       'Content-Type' => 'application/json',
-      'Authorization' => "Bearer #{access_token}"
+      'Authorization' => "Bearer TEST-191553553627645-052119-e02f16e5c678bc716b9d93cfcdba8d03-472243321"
     }
 
     # Realizar a requisição GET para consultar o pagamento
@@ -331,8 +330,6 @@ class Frontend::PublicController < Frontend::ApplicationController
 
   def check_payment
     payment_id = params[:payment_id]
-
-    access_token = ENV.fetch("MERCADO_PAGO_ACCESS_TOKEN")
     
     # URL da API do Mercado Pago para consultar um pagamento específico
     url = "https://api.mercadopago.com/v1/payments/#{payment_id}"
@@ -340,7 +337,7 @@ class Frontend::PublicController < Frontend::ApplicationController
     # Headers da requisição
     headers = {
       'Content-Type' => 'application/json',
-      'Authorization' => "Bearer #{access_token}"
+      'Authorization' => "Bearer TEST-191553553627645-052119-e02f16e5c678bc716b9d93cfcdba8d03-472243321"
     }
 
     # Realizar a requisição GET para consultar o pagamento
@@ -352,8 +349,6 @@ class Frontend::PublicController < Frontend::ApplicationController
 
 
   def create_pix_payment(member, amount)
-
-    access_token = ENV.fetch("MERCADO_PAGO_ACCESS_TOKEN")
       
     # Calcula a data de expiração
     expiration_time = (Time.now + 10*60).strftime("%Y-%m-%dT%H:%M:%S.%L%:z")
@@ -390,11 +385,15 @@ class Frontend::PublicController < Frontend::ApplicationController
 
     # URL da API do Mercado Pago para criar um pagamento
     url = 'https://api.mercadopago.com/v1/payments'
+    # TEST-191553553627645-052119-e02f16e5c678bc716b9d93cfcdba8d03-472243321 teste 
+    # APP_USR-191553553627645-052119-4e39a47a786002999f0f2bd945244922-472243321 produção
 
+    # TEST-7566194155648643-062420-491e0d66fe9706fad2c3f65286367516-576411779 teste Matheus
+    # APP_USR-7566194155648643-062420-1d483b50a9f63af77d98a4b0548d8006-576411779 produção Matheus
     # Headers da requisição
     headers = {
       'Content-Type' => 'application/json',
-      'Authorization' => "Bearer #{access_token}",
+      'Authorization' => "Bearer TEST-191553553627645-052119-e02f16e5c678bc716b9d93cfcdba8d03-472243321",
       'X-Idempotency-Key' => idempotency_key
     }
 
@@ -429,17 +428,17 @@ class Frontend::PublicController < Frontend::ApplicationController
     
     @transactions.each do |transaction| 
      response = JSON.parse(check_transaction(transaction.transaction_id).body)
-     transaction.update_attribute(:status,response.dig("status"))
-     
-      if "approved" == "approved"
+     transaction.update_attribute(:status, response.dig("status"))
+     #  response.dig("status")
+      # if "approved" == "approved"
         
-        @payment = Payment.find_by(transaction_id: transaction.transaction_id)
+      #   @payment = Payment.find_by(transaction_id: transaction.transaction_id)
         
-        if !@payment.present?
-          # -raise 
-          create_after_approved(@member.id, transaction.lottery_id, transaction.quantity, transaction)
-        end
-      end
+      #   if !@payment.present?
+      #     @flag = true 
+      #     create_after_approved(@member.id, transaction.lottery_id, transaction.quantity, transaction)
+      #   end
+      # end
   
     end
   
@@ -461,19 +460,19 @@ class Frontend::PublicController < Frontend::ApplicationController
     
   end 
 
-  def create_after_approved(member, lottery, quantity, transaction)
-    @lottery = Lottery.find(lottery)
-    @member = Member.find(member)
-    numbers_count = quantity
-    @transaction = transaction
+  def create_after_approved
+    @lottery = Lottery.find(params[:lottery_id])
+    @member = Member.find(params[:member_id])
+    numbers_count = params[:quantity].to_i
+    @transaction = Transaction.find_by(transaction_id: params[:transaction_id])
     @all_numbers = []
     @all_numbers = verificar_numeros_participantes(Member.where("tickets @> ?", { @lottery.id.to_s => [] }.to_json), @lottery.id).flatten
     
     @payment = Payment.new(
-    lottery_id: lottery,
-    member_id: member,
-    transaction_id: transaction.transaction_id,
-    quantity: transaction.quantity
+    lottery_id: params[:lottery_id],
+    member_id: params[:member_id],
+    transaction_id: params[:transaction_id],
+    quantity: params[:quantity].to_i
     ) 
 
     @payment.save
