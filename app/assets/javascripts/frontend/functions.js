@@ -71,33 +71,41 @@ $(document).ready(function () {
         $("#quantity-sorteio").val(0);
     })
 
-    var timerInterval;
-    var elapsedTime = 10 * 60; // Inicia em 10 minutos
-    var maxTime = 0; // Termina em 0 segundos
 
-    function formatTime(timeInSeconds) {
-        var minutes = Math.floor((timeInSeconds % 3600) / 60);
-        var seconds = timeInSeconds % 60;
-        return (
-            (minutes < 10 ? "0" : "") + minutes + ":" +
-            (seconds < 10 ? "0" : "") + seconds
-        );
+    function timeToSeconds(time) {
+        var parts = time.split(':');
+        return parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
     }
 
-    function updateTimer() {
-          elapsedTime--;
-        $('#timer').text(formatTime(elapsedTime));
+    // Função para converter segundos para o formato "MM:SS"
+    function secondsToTime(seconds) {
+        var minutes = Math.floor(seconds / 60);
+        var remainingSeconds = seconds % 60;
+        // Garante que minutos e segundos tenham sempre dois dígitos
+        return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+    }
 
-        if (elapsedTime <= maxTime) {
-            clearInterval(timerInterval);
-            window.location.href = "/";
-            
+    // Tempo inicial em segundos
+    var initialTime = $('#timer').text();
+    var totalSeconds = timeToSeconds(initialTime);
+
+    // Função para atualizar o timer
+    function updateTimer() {
+        if (totalSeconds <= 0) {
+            clearInterval(timerInterval); // Para o intervalo quando o tempo acabar
+            $('#timer').text('00:00'); // Define o tempo como 00:00
+            window.location.replace("/campanhas")
+        } else {
+            $('#timer').text(secondsToTime(totalSeconds)); // Atualiza a exibição
+            totalSeconds--; // Subtrai um segundo
         }
     }
 
+    // Atualiza o timer a cada segundo
+    var timerInterval = setInterval(updateTimer, 1000);
 
-    // Iniciar o cronômetro automaticamente
-    timerInterval = setInterval(updateTimer, 1000);
+    // Exibe o tempo inicial corretamente
+    $('#timer').text(secondsToTime(totalSeconds));
 
     $("#openModal").click(function() {
         var quantityInput = $('#quantity-sorteio');

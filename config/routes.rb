@@ -78,6 +78,12 @@ Target::Application.routes.draw do
       end
     end 
 
+    resources :transactions do
+      collection do
+        get 'search' => 'transactions#search', as: :search
+      end
+    end 
+
     resources :failures do
       collection do
         get 'search' => 'failures#search', as: :search

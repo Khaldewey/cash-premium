@@ -12,6 +12,6 @@ class Admin::MembersController < Admin::ResourceController
     end
 
     def index
-        @members = Member.paginate(page: params[:page], per_page: 5)
+        @members = Member.paginate(page: params[:page], per_page: 8)
     end
 end

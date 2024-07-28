@@ -52,9 +52,18 @@ input#member_id(type="hidden" value="#{@member.id}")
         .alert-warning role="alert"
             p = icon('fas', 'exclamation-circle')
             p Acesse o seu aplicativo bancário realize o pagamento e retorne para esta página.
-    .member-info
+    .member-info   
+        - current_time = Time.now  
+        - date_string = @expiration_time
+        - other_time = Time.iso8601(date_string)
+        - difference = other_time - current_time
+        - difference_in_minutes = difference / 60   
+        - hours = difference_in_minutes.to_i
+        - minutes = ((difference_in_minutes - hours) * 60).round  
+        - formatted_time = format("%d:%02d", hours, minutes)
+
         span O pagamento expira em 10 min
-        #timer 10:00  
+        #timer = formatted_time
         h3 QR Code
         span Escanei o QR Code abaixo para efetuar o pagamento
         img[src="data:image/jpeg;base64,#{@qr_code_base64}" width="200" height="200"]

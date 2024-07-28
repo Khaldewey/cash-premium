@@ -1,4 +1,5 @@
 require 'parallel'
+require 'active_support/time'
 
 class Frontend::PublicController < Frontend::ApplicationController
 
@@ -166,6 +167,8 @@ class Frontend::PublicController < Frontend::ApplicationController
     @member = Member.find_by(id: params[:yek])
     @numbers_count = params[:quantity].to_i if params[:quantity].present?
     @transaction_id = params[:transaction_id] = params[:transaction].to_i
+  
+    @transaction = Transaction.find_by(transaction_id: params[:transaction_id])
     
     # @payments = Payment.where(member_id: @member.id, lottery_id: @lottery.id)
     
@@ -174,15 +177,30 @@ class Frontend::PublicController < Frontend::ApplicationController
     # payment_response = PaymentService.create_pix_payment(@member, params[:member][:quantity].to_i*@lottery.price)
   
       # Requisição ao Mercado Pago para obter os detalhes do pagamento
-    payment_details = fetch_payment_details(@transaction_id)
-      
+    payment_details = fetch_payment_details(@transaction.transaction_id)
+    
+   
+    
+
     if payment_details
       @qr_code_base64 = payment_details.dig("point_of_interaction", "transaction_data", "qr_code_base64")
       @qr_code = payment_details.dig("point_of_interaction", "transaction_data", "qr_code")
       @id = payment_details["id"]
-    end 
-
+      date_of_expiration_string = payment_details["date_of_expiration"]
+      # Converte a string para um objeto Time (ou DateTime)
+      expiration_time = Time.iso8601(date_of_expiration_string)
+      # Converte a hora para UTC
+      expiration_time_utc = expiration_time.utc
+      
+      # Ajusta para o novo fuso horário (-03:00)
+      # O novo fuso horário pode ser configurado diretamente com ActiveSupport::TimeZone
+      timezone = ActiveSupport::TimeZone['Brasilia']  # Representa UTC-03:00
+      
+      # Converte o tempo UTC para o novo fuso horário
+      @expiration_time = timezone.at(expiration_time_utc.to_i).strftime("%Y-%m-%dT%H:%M:%S.%L%:z")      
     
+    end 
+  
 
     # Antigamento pagamento pix
     # payment_response = create_pix_payment(@member, (params[:lottery][:quantity].to_f * @lottery.price.to_f).round(2))
@@ -217,6 +235,20 @@ class Frontend::PublicController < Frontend::ApplicationController
           @qr_code_base64 = payment_details.dig("point_of_interaction", "transaction_data", "qr_code_base64")
           @qr_code = payment_details.dig("point_of_interaction", "transaction_data", "qr_code")
           @id = payment_details["id"]
+
+          date_of_expiration_string = payment_details["date_of_expiration"]
+          # Converte a string para um objeto Time (ou DateTime)
+          expiration_time = Time.iso8601(date_of_expiration_string)
+          # Converte a hora para UTC
+          expiration_time_utc = expiration_time.utc
+          
+          # Ajusta para o novo fuso horário (-03:00)
+          # O novo fuso horário pode ser configurado diretamente com ActiveSupport::TimeZone
+          timezone = ActiveSupport::TimeZone['Brasilia']  # Representa UTC-03:00
+          
+          # Converte o tempo UTC para o novo fuso horário
+          @expiration_time = timezone.at(expiration_time_utc.to_i).strftime("%Y-%m-%dT%H:%M:%S.%L%:z")      
+    
       else
           cookies.delete(:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7)
           create_and_store_payment
@@ -276,15 +308,20 @@ class Frontend::PublicController < Frontend::ApplicationController
       @qr_code_base64 = parsed_response.dig("point_of_interaction", "transaction_data", "qr_code_base64")
       @qr_code = parsed_response.dig("point_of_interaction", "transaction_data", "qr_code")
       @id = parsed_response.dig("id")
+      @status = parsed_response.dig("status")
+      
       unless Transaction.find_by(transaction_id: @id)
         @transaction = Transaction.new(
           lottery_id:  @lottery.id,
           member_id: @member.id,
           transaction_id: @id,
-          quantity: @numbers_count.to_i
+          quantity: @numbers_count.to_i,
+          status: @status,
+          expiration_time: (Time.now + 10*60).strftime("%Y-%m-%dT%H:%M:%S.%L%:z")
         )
         @transaction.save
       end
+
     else
       logger.error "Payment response error: #{payment_response.inspect}"
       redirect_to error_path
@@ -320,6 +357,19 @@ class Frontend::PublicController < Frontend::ApplicationController
           @qr_code_base64 = payment_details.dig("point_of_interaction", "transaction_data", "qr_code_base64")
           @qr_code = payment_details.dig("point_of_interaction", "transaction_data", "qr_code")
           @id = payment_details["id"]
+          date_of_expiration_string = payment_details["date_of_expiration"]
+          # Converte a string para um objeto Time (ou DateTime)
+          expiration_time = Time.iso8601(date_of_expiration_string)
+          # Converte a hora para UTC
+          expiration_time_utc = expiration_time.utc
+          
+          # Ajusta para o novo fuso horário (-03:00)
+          # O novo fuso horário pode ser configurado diretamente com ActiveSupport::TimeZone
+          timezone = ActiveSupport::TimeZone['Brasilia']  # Representa UTC-03:00
+          
+          # Converte o tempo UTC para o novo fuso horário
+          @expiration_time = timezone.at(expiration_time_utc.to_i).strftime("%Y-%m-%dT%H:%M:%S.%L%:z")      
+        
       else
           cookies.delete(:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7)
           create_and_store_payment_member
@@ -356,15 +406,23 @@ class Frontend::PublicController < Frontend::ApplicationController
       @qr_code_base64 = parsed_response.dig("point_of_interaction", "transaction_data", "qr_code_base64")
       @qr_code = parsed_response.dig("point_of_interaction", "transaction_data", "qr_code")
       @id = parsed_response.dig("id") 
+      @status = parsed_response.dig("status")
+    
+      puts @status
+      
       unless Transaction.find_by(transaction_id: @id)
         @transaction = Transaction.new(
           lottery_id:  @lottery.id,
           member_id: @member.id,
           transaction_id: @id,
-          quantity: @numbers_count.to_i
+          quantity: @numbers_count.to_i,
+          status: @status,
+          expiration_time: (Time.now + 10*60).strftime("%Y-%m-%dT%H:%M:%S.%L%:z")
         )
         @transaction.save
+
       end
+
     else
       logger.error "Payment response error: #{payment_response.inspect}"
       redirect_to error_path
@@ -416,9 +474,11 @@ class Frontend::PublicController < Frontend::ApplicationController
   def create_pix_payment(member, amount)
       
     # Calcula a data de expiração
-    expiration_time = (Time.now + 10*60).strftime("%Y-%m-%dT%H:%M:%S.%L%:z")
-    
+    expiration_time = Time.now + 10 * 60
+    expiration_time += 1.hour
     # precisa ser igual 2024-06-05T17:48:49.105-04:00
+
+    expiration_time = (Time.now + 10*60).strftime("%Y-%m-%dT%H:%M:%S.%L%:z")
     
     # Dados do pagamento
     payment_data = {
@@ -493,12 +553,16 @@ class Frontend::PublicController < Frontend::ApplicationController
     @whatsapp = SocialNetwork.find_by(slug: "whatsapp")
     @lotteries = Lottery.all
     @transactions = Transaction.where(member_id: @member.id).order(created_at: :desc)
-  
+
     Parallel.each(@transactions, in_threads: 5) do |transaction|
       response = JSON.parse(check_transaction(transaction.transaction_id).body)
-  
+    
       if transaction.status != response.dig("status")
-        transaction.update_attribute(:status, response.dig("status"))
+        transaction.update(status: response.dig("status"))
+      end
+
+      if transaction.expiration_time < Time.current && transaction.status == "pending"
+        transaction.update(status: "cancelled")
       end
     end
   end
@@ -506,9 +570,11 @@ class Frontend::PublicController < Frontend::ApplicationController
   def check_transaction(id)
     access_token = ENV.fetch("MERCADO_PAGO_ACCESS_TOKEN")
     transaction_id = id
+
     # URL da API do Mercado Pago para consultar um pagamento específico
     url = "https://api.mercadopago.com/v1/payments/#{transaction_id}"
-    
+
+
     # Headers da requisição
     headers = {
       'Content-Type' => 'application/json',
@@ -534,8 +600,8 @@ class Frontend::PublicController < Frontend::ApplicationController
     transaction_id: params[:transaction_id],
     quantity: params[:quantity].to_i
     ) 
-
     @payment.save
+
     if @lottery.ticket - @all_numbers.count < numbers_count
       @failure = Failure.new(
       member_id: params[:member_id],

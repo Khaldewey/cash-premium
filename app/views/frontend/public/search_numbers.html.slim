@@ -83,7 +83,8 @@
                                               p Status: Erro no Pagamento
                                             - when "pending"
                                               p Status: Aguardando Pagamento
-                                              = link_to 'Link de Pagamento', "#{capturar_pagamento_path(id: transaction.lottery_id)}?member_id=pqwoeipqpasdkpaoskdqp6a5s4da654da8sd7a79we87qw879a8s7dq8w7eq98e7q98ew798as7d9q7we7q9we7q97e98d9f79e7rw97er98t7r9t87q87qwe7qw8e7q98we7q9w7r98w7t98wr&opk=q8we7q98we7q98e7qw98e7q97eq987eq98w7eq98w7eq98w7eq98we7qw7e&yek=#{@member.id}&quantity=#{transaction.quantity}&transaction=#{transaction.transaction_id}&yeekk=q9q87e9q87we9q8e79qw7e9q8ewq6a54dq8e7qa6s54da65s4dq8ew7"
+                                              - if Time.current < transaction.expiration_time
+                                                = link_to 'Link de Pagamento', "#{capturar_pagamento_path(id: transaction.lottery_id)}?member_id=pqwoeipqpasdkpaoskdqp6a5s4da654da8sd7a79we87qw879a8s7dq8w7eq98e7q98ew798as7d9q7we7q9we7q97e98d9f79e7rw97er98t7r9t87q87qwe7qw8e7q98we7q9w7r98w7t98wr&opk=q8we7q98we7q98e7qw98e7q97eq987eq98w7eq98w7eq98w7eq98we7qw7e&yek=#{@member.id}&quantity=#{transaction.quantity}&transaction=#{transaction.transaction_id}&yeekk=q9q87e9q87we9q8e79qw7e9q8ewq6a54dq8e7qa6s54da65s4dq8ew7"
                                             - when "approved"
                                               p Status: Pagamento Aprovado
                                               - if !payment.present?

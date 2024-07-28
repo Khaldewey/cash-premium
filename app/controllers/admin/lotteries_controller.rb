@@ -15,6 +15,6 @@ class Admin::LotteriesController < Admin::ResourceController
   end
 
   def index
-    @lottery = Lottery.paginate(page: params[:page], per_page: 5)
+    @lottery = Lottery.paginate(page: params[:page], per_page: 8)
   end
 end

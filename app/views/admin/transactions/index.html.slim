@@ -1,17 +1,22 @@
-h2 Números Vendidos
+h2 Pagamentos
 .panel.panel-default
   .panel-body
-    = simple_form_for :search, url: search_admin_payments_path, html: {class: 'search-form'}, method: :get do |f|
+    = simple_form_for :search, url: search_admin_transactions_path, html: {class: 'search-form'}, method: :get do |f|
       .search-lotteries-container
         .search-lotteries-box  
           = f.label :lottery_id, label: 'Campanha', required: false
           = f.collection_select :lottery_id, Lottery.all, :id, :event, { prompt: 'Todas as campanhas' }, { class: 'col-md-12 form-control' }
         .search-lotteries-box 
           = f.label :member_id, label: 'Cliente', required: false
-          = f.collection_select :member_id, Member.all, :id, :name, { prompt: 'Todos os clientes' }, { class: 'col-md-12 form-control' }      
+          = f.collection_select :member_id, Member.all, :id, :name, { prompt: 'Todos os clientes' }, { class: 'col-md-12 form-control' }
         .search-lotteries-box 
-          = f.label :member_id, label: 'Telefone', required: false
-          = f.collection_select :member_id, Member.all, :id, :phone, { prompt: 'Todos os clientes' }, { class: 'col-md-12 form-control' }
+          = f.label :status, label: 'Status', required: false
+          = f.collection_select :status, 
+                      [['Pendente', 'pending'], ['Aprovado', 'approved'], ['Rejeitado', 'cancelled'], ["Erro", "404"]],
+                      :last,  
+                      :first, 
+                      { prompt: 'Todos os status' },  
+                      { class: 'col-md-12 form-control' }
         .button-search-member
           = f.submit 'Buscar', class: 'btn btn-primary'
           = link_to 'Limpar Busca', '', class: 'btn btn-warning'
@@ -27,8 +32,9 @@ h2 Números Vendidos
           th.text-center Quantidade
           th.text-center Cliente
           th.text-center Telefone
-          th.text-center Números
-          th.text-center Data e Horário
+          th.text-center Data Criação
+          th.text-center Data de Expiração
+          th.text-center Status
       tbody
         - @collection.order(created_at: :asc).each do |r|
           tr
@@ -37,8 +43,19 @@ h2 Números Vendidos
             td.text-center = r.quantity
             td.text-center = Member.find(r.member_id).name
             td.text-center = Member.find(r.member_id).phone
-            td.text-center = Member.find(r.member_id).tickets[r.lottery_id.to_s].to_s
             td.text-center = r.created_at.strftime("%d/%m/%Y %H:%M")
+            td.text-center = r.expiration_time.strftime("%d/%m/%Y %H:%M")
+            - if r.status == "approved"
+              td.text-center = "Aprovado"
+            -elsif r.status == "cancelled"
+              td.text-center = "Cancelado"
+            - elsif r.status == "expired"
+              td.text-center = "Expirado"
+            - elsif r.status == "pending"
+              td.text-center = "Pendente"
+            - elsif r.status == "404"
+              td.text-center = "Erro no Pagamento"
+
 
 .text-center
   = will_paginate @collection, renderer: ApplicationHelper::LinkRenderer, class: 'pagination pagination-lg'

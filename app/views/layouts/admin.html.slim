@@ -75,8 +75,12 @@ html lang="pt-BR"
                 span Clientes
             - if can? :read, Payment
               = nav_link_to admin_payments_path, {:class => 'menu_link'}, {:wrapper => 'li', :wrapper_class => 'nav-item-box', :selected_class => 'active', :url_segment => 2 } do
+                = icon('fas', 'check-circle')
+                span Números Vendidos
+            - if can? :read, Transaction
+              = nav_link_to admin_transactions_path, {:class => 'menu_link'}, {:wrapper => 'li', :wrapper_class => 'nav-item-box', :selected_class => 'active', :url_segment => 2 } do
                 = icon('fas', 'money-bill-wave')
-                span Pagamentos
+                span Transações
             - if can? :read, Failure
               = nav_link_to admin_failures_path, {:class => 'menu_link'}, {:wrapper => 'li', :wrapper_class => 'nav-item-box', :selected_class => 'active', :url_segment => 2 } do
                 = icon('fas', 'exclamation-triangle')
