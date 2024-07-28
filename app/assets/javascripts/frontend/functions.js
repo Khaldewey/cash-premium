@@ -388,7 +388,7 @@ $(function () {
     // Função para verificar o pagamento apenas quando estiver no endpoint desejado
     function checkPaymentAtEndpoint() {
         // Verifica se a URL atual corresponde ao endpoint desejado
-        if (window.location.pathname === "/pagamento" || window.location.pathname === "/pagamento-membro") {
+        if (window.location.pathname === "/pagamento" || window.location.pathname === "/pagamento-membro" || window.location.pathname === "/capturar-pagamento") {
             // Chama a função de verificação de pagamento
             checkPayment();
         }
@@ -409,7 +409,7 @@ $(function () {
                     var paymentStatus = data.status;
         
                     //paymentStatus = 'approved';
-        
+                   
                     // Verifica se o pagamento foi aprovado
                     if (paymentStatus === 'approved') {
                         console.log("Pagamento aprovado");
@@ -427,7 +427,7 @@ $(function () {
                                 method: 'PUT',
                                 data: { lottery_id: lotteryId, quantity: quantity, member_id: memberId, transaction_id: paymentId },
                                 success: function (data) {
-                                    //console.log(data);
+                                    console.log(data);
                                     if (data.numbers) {
                                         localStorage.setItem('compra', JSON.stringify({
                                             memberId: memberId,
@@ -515,5 +515,5 @@ $(function () {
     }
 
     
-    setInterval(checkPaymentAtEndpoint, 40000);
+    setInterval(checkPaymentAtEndpoint, 10000);
 });

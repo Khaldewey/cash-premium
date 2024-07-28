@@ -13,6 +13,7 @@ Target::Application.routes.draw do
   get '/campanhas' => 'frontend/public#events'
   post '/pagamento' => 'frontend/public#pix', as: :validar_pagamento_publico
   get '/pagamento-membro' => 'frontend/public#pix_member', as: :validar_pagamento
+  get '/capturar-pagamento' => 'frontend/public#capture_payment', as: :capturar_pagamento
   get 'comprar-ticket/:id' => 'frontend/public#new', as: :new_ticket
   put 'comprar_public' => 'frontend/public#create', as: :lottery_tickets_public
   get '/meus-titulos' => 'frontend/public#meus_titulos'

@@ -1,3 +1,5 @@
+require 'parallel'
+
 class Frontend::PublicController < Frontend::ApplicationController
 
   def purchase
@@ -157,6 +159,45 @@ class Frontend::PublicController < Frontend::ApplicationController
       end
     end
     return flag_array
+  end 
+  
+  def capture_payment  
+    @lottery = Lottery.find(params[:id])
+    @member = Member.find_by(id: params[:yek])
+    @numbers_count = params[:quantity].to_i if params[:quantity].present?
+    @transaction_id = params[:transaction_id] = params[:transaction].to_i
+    
+    # @payments = Payment.where(member_id: @member.id, lottery_id: @lottery.id)
+    
+    #Vou verificar se tem algum pagamento pendente aqui, se for encontrado vou renderizar o qrcode do pagamento pendente e colocar o cronometro do tempo que falta para pagar
+    # Método para iniciar pagamento pix
+    # payment_response = PaymentService.create_pix_payment(@member, params[:member][:quantity].to_i*@lottery.price)
+  
+      # Requisição ao Mercado Pago para obter os detalhes do pagamento
+    payment_details = fetch_payment_details(@transaction_id)
+      
+    if payment_details
+      @qr_code_base64 = payment_details.dig("point_of_interaction", "transaction_data", "qr_code_base64")
+      @qr_code = payment_details.dig("point_of_interaction", "transaction_data", "qr_code")
+      @id = payment_details["id"]
+    end 
+
+    
+
+    # Antigamento pagamento pix
+    # payment_response = create_pix_payment(@member, (params[:lottery][:quantity].to_f * @lottery.price.to_f).round(2))
+
+    # if payment_response.code == 201
+    #   parsed_response = payment_response.parsed_response
+    #   @qr_code_base64 = parsed_response.dig("point_of_interaction", "transaction_data", "qr_code_base64")
+    #   @qr_code = parsed_response.dig("point_of_interaction", "transaction_data", "qr_code")
+    #   @id = parsed_response.dig("id")
+      
+    # else 
+    #   logger.error "Payment response error: #{payment_response.inspect}"
+    #   redirect_to error_path
+    # end
+    
   end 
 
   def pix  
@@ -332,6 +373,7 @@ class Frontend::PublicController < Frontend::ApplicationController
 
   def check_payment
     payment_id = params[:payment_id]
+    access_token = ENV.fetch("MERCADO_PAGO_ACCESS_TOKEN")
     
     
     # URL da API do Mercado Pago para consultar um pagamento específico
@@ -343,12 +385,32 @@ class Frontend::PublicController < Frontend::ApplicationController
       'Authorization' => "Bearer #{access_token}"
     }
 
+
     # Realizar a requisição GET para consultar o pagamento
     response = HTTParty.get(url, headers: headers)
     
     # Retornar a resposta da API
     render json: response.body
   end 
+
+  def capture_payment_pix(payment_id)
+    access_token = ENV.fetch("MERCADO_PAGO_ACCESS_TOKEN")
+  
+    # URL da API do Mercado Pago para capturar um pagamento
+    url = "https://api.mercadopago.com/v1/payments/#{payment_id}/capture"
+  
+    # Headers da requisição
+    headers = {
+      'Content-Type' => 'application/json',
+      'Authorization' => "Bearer #{access_token}"
+    }
+  
+    # Realizar a requisição POST para capturar o pagamento
+    response = HTTParty.post(url, headers: headers)
+  
+    # Retornar a resposta da API
+    response
+  end
 
 
   def create_pix_payment(member, amount)
@@ -426,29 +488,20 @@ class Frontend::PublicController < Frontend::ApplicationController
     if cookies[:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7].present?
       cookies.delete(:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7)
     end
-    
+  
     @member = Member.find(params[:yek])
     @whatsapp = SocialNetwork.find_by(slug: "whatsapp")
     @lotteries = Lottery.all
     @transactions = Transaction.where(member_id: @member.id).order(created_at: :desc)
-    
-    @transactions.each do |transaction| 
-     response = JSON.parse(check_transaction(transaction.transaction_id).body)
-     transaction.update_attribute(:status, response.dig("status"))
-     #  response.dig("status")
-      # if "approved" == "approved"
-        
-      #   @payment = Payment.find_by(transaction_id: transaction.transaction_id)
-        
-      #   if !@payment.present?
-      #     @flag = true 
-      #     create_after_approved(@member.id, transaction.lottery_id, transaction.quantity, transaction)
-      #   end
-      # end
   
+    Parallel.each(@transactions, in_threads: 5) do |transaction|
+      response = JSON.parse(check_transaction(transaction.transaction_id).body)
+  
+      if transaction.status != response.dig("status")
+        transaction.update_attribute(:status, response.dig("status"))
+      end
     end
-  
-  end  
+  end
 
   def check_transaction(id)
     access_token = ENV.fetch("MERCADO_PAGO_ACCESS_TOKEN")

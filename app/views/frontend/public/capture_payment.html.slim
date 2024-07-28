@@ -1,0 +1,69 @@
+input#payment_id(type="hidden" value="#{@id}")
+input#quantity(type="hidden" value="#{@numbers_count}")
+input#lottery_id(type="hidden" value="#{@lottery.id}")
+input#member_id(type="hidden" value="#{@member.id}")
+
+.pix-container
+    .member-info 
+        h3 Dados da Campanha
+        ul 
+            li 
+                strong Evento: 
+                |  #{@lottery.event}
+            li
+                strong Quantidade de Cotas: 
+                |  #{@numbers_count}
+            li 
+                strong Valor da Cota: 
+                |  #{number_to_currency(@lottery.price, unit: 'R$', precision: 2)}
+            li 
+                strong Valor Total: 
+                |  #{number_to_currency(@lottery.price * @numbers_count, unit: 'R$', precision: 2)}
+   
+    .member-info
+        h3 Dados do Cliente
+        ul
+            li
+                strong Nome:
+                |  #{@member.name}
+            li
+                strong CPF:
+                |  #{@member.cpf[0..2] + '.***.***-' + @member.cpf[12..13]}
+            li
+                strong Telefone:
+                |  #{@member.phone[0..3] + '*****-' + @member.phone[10..13]}
+            li
+                strong Email:
+                - if @member.email.include?("@")
+                    - atIndex = @member.email.index("@")
+                    - primaryLetters = @member.email[0..2]
+                    - lastLetters = @member.email[(atIndex - 2)..(atIndex - 1)]
+                    - rest = @member.email[(atIndex + 1)..-1]
+                    = " #{primaryLetters}*****#{lastLetters}@#{rest}"
+            li
+                strong Data e Hora:
+                |  #{Time.now.strftime("%d/%m/%Y %H:%M:%S")}
+
+    .not-numbers
+        .alert-warning role="alert"
+            p = icon('fas', 'exclamation-circle')
+            p Não feche o seu navegador até concluir todo processo de pagamento.
+
+        .alert-warning role="alert"
+            p = icon('fas', 'exclamation-circle')
+            p Acesse o seu aplicativo bancário realize o pagamento e retorne para esta página.
+    .member-info
+        span O pagamento expira em 10 min
+        #timer 10:00  
+        h3 QR Code
+        span Escanei o QR Code abaixo para efetuar o pagamento
+        img[src="data:image/jpeg;base64,#{@qr_code_base64}" width="200" height="200"]
+        h3 Pix Copia e Cola
+        span Copie o codigo do pix abaixo e realize o pagamento
+    .member-info
+        .pix-copia
+            button type="button" id="btn-copiar" Copiar
+            input type="text" id="copiar" value=@qr_code readonly=true
+
+    
+        
