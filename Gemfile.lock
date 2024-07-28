@@ -114,6 +114,10 @@ GEM
       devise (>= 4.6)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
+    dotenv (2.8.1)
+    dotenv-rails (2.8.1)
+      dotenv (= 2.8.1)
+      railties (>= 3.2)
     erubi (1.8.0)
     execjs (2.7.0)
     ffi (1.9.25)
@@ -327,6 +331,7 @@ DEPENDENCIES
   dedent
   devise
   devise-i18n
+  dotenv-rails
   execjs
   font-awesome-sass (~> 5.6.1)
   friendly_id

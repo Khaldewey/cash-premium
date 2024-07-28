@@ -20,5 +20,6 @@ pickle-email-*.html
 config/database.yml
 public/uploads/*
 .DS_Store
+.env
 
 

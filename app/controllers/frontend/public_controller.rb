@@ -209,7 +209,7 @@ class Frontend::PublicController < Frontend::ApplicationController
     # Headers da requisição
     headers = {
       'Content-Type' => 'application/json',
-      'Authorization' => "Bearer #{access_tokenF}"
+      'Authorization' => "Bearer #{access_token}"
     }
 
     # Realizar a requisição GET para consultar o pagamento
@@ -333,8 +333,7 @@ class Frontend::PublicController < Frontend::ApplicationController
   def check_payment
     payment_id = params[:payment_id]
     
-    access_token = ENV.fetch("MERCADO_PAGO_ACCESS_TOKEN")
-
+    
     # URL da API do Mercado Pago para consultar um pagamento específico
     url = "https://api.mercadopago.com/v1/payments/#{payment_id}"
     
@@ -427,6 +426,7 @@ class Frontend::PublicController < Frontend::ApplicationController
     if cookies[:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7].present?
       cookies.delete(:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7)
     end
+    
     @member = Member.find(params[:yek])
     @whatsapp = SocialNetwork.find_by(slug: "whatsapp")
     @lotteries = Lottery.all

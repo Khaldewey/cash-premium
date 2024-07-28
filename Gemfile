@@ -86,6 +86,8 @@ gem 'wkhtmltopdf-binary'
 
 gem 'wicked_pdf'
 
+gem 'dotenv-rails', groups: [:development]
+
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
