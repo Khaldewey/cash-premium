@@ -1,5 +1,4 @@
 class Frontend::PublicController < Frontend::ApplicationController
-  
 
   def purchase
       if cookies[:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7].present?
@@ -201,15 +200,16 @@ class Frontend::PublicController < Frontend::ApplicationController
   end 
   
   def fetch_payment_details(payment_id)
-    access_token = ENV.fetch("MERCADO_PAGO_ACCESS_TOKEN")
     # Exemplo de como fazer a requisição ao Mercado Pago
     # response = MercadoPago::Client.get("/v1/payments/#{payment_id}") 
     url = "https://api.mercadopago.com/v1/payments/#{payment_id}"
     
+    access_token = ENV.fetch("MERCADO_PAGO_ACCESS_TOKEN")
+
     # Headers da requisição
     headers = {
       'Content-Type' => 'application/json',
-      'Authorization' => "Bearer #{access_token}"
+      'Authorization' => "Bearer #{access_tokenF}"
     }
 
     # Realizar a requisição GET para consultar o pagamento
@@ -332,17 +332,25 @@ class Frontend::PublicController < Frontend::ApplicationController
 
   def check_payment
     payment_id = params[:payment_id]
-
+    
     access_token = ENV.fetch("MERCADO_PAGO_ACCESS_TOKEN")
 
     # URL da API do Mercado Pago para consultar um pagamento específico
     url = "https://api.mercadopago.com/v1/payments/#{payment_id}"
-
+    
     # Headers da requisição
     headers = {
       'Content-Type' => 'application/json',
       'Authorization' => "Bearer #{access_token}"
     }
+
+    # Realizar a requisição GET para consultar o pagamento
+    response = HTTParty.get(url, headers: headers)
+    
+    # Retornar a resposta da API
+    render json: response.body
+  end 
+
 
   def create_pix_payment(member, amount)
       
@@ -376,13 +384,18 @@ class Frontend::PublicController < Frontend::ApplicationController
       }
     }
 
+    access_token = ENV.fetch("MERCADO_PAGO_ACCESS_TOKEN")
+
     # Gerar um valor único para a chave de idempotência
     idempotency_key = SecureRandom.uuid
 
-    access_token = ENV.fetch("MERCADO_PAGO_ACCESS_TOKEN")
     # URL da API do Mercado Pago para criar um pagamento
     url = 'https://api.mercadopago.com/v1/payments'
+    # TEST-191553553627645-052119-e02f16e5c678bc716b9d93cfcdba8d03-472243321 teste 
+    # APP_USR-191553553627645-052119-4e39a47a786002999f0f2bd945244922-472243321 produção
 
+    # TEST-7566194155648643-062420-491e0d66fe9706fad2c3f65286367516-576411779 teste Matheus
+    # APP_USR-7566194155648643-062420-1d483b50a9f63af77d98a4b0548d8006-576411779 produção Matheus
     # Headers da requisição
     headers = {
       'Content-Type' => 'application/json',
@@ -438,12 +451,11 @@ class Frontend::PublicController < Frontend::ApplicationController
   end  
 
   def check_transaction(id)
+    access_token = ENV.fetch("MERCADO_PAGO_ACCESS_TOKEN")
     transaction_id = id
     # URL da API do Mercado Pago para consultar um pagamento específico
     url = "https://api.mercadopago.com/v1/payments/#{transaction_id}"
     
-    access_token = ENV.fetch("MERCADO_PAGO_ACCESS_TOKEN")
-
     # Headers da requisição
     headers = {
       'Content-Type' => 'application/json',
