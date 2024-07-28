@@ -1,4 +1,20 @@
 class Admin::TransactionsController < Admin::ResourceController 
+  def index
+    @collection  = Transaction.order(created_at: :desc).paginate(page: params[:page], per_page: 8)
+
+    Parallel.each(@collection, in_threads: 5) do |transaction|
+      response = JSON.parse(check_transaction(transaction.transaction_id).body)
+  
+      if transaction.status != response.dig("status")
+        transaction.update_attribute(:status, response.dig("status"))
+      end
+
+      if transaction.expiration_time.present? && transaction.expiration_time < Time.current && transaction.status == "pending"
+        transaction.update(status: "cancelled")
+      end
+    end
+  end
+
   def search
     @collection = Transaction.all
 
@@ -36,21 +52,5 @@ class Admin::TransactionsController < Admin::ResourceController
     response = HTTParty.get(url, headers: headers)  
   end 
 
-  def index
 
-
-    @collection  = Transaction.order(created_at: :desc).paginate(page: params[:page], per_page: 8)
-
-    Parallel.each(@collection, in_threads: 5) do |transaction|
-      response = JSON.parse(check_transaction(transaction.transaction_id).body)
-  
-      if transaction.status != response.dig("status")
-        transaction.update_attribute(:status, response.dig("status"))
-      end
-
-      if transaction.expiration_time < Time.current && transaction.status == "pending"
-        transaction.update(status: "cancelled")
-      end
-    end
-  end
 end

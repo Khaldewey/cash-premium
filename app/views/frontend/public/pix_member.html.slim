@@ -57,7 +57,7 @@ input#member_id(type="hidden" value="#{@member.id}")
         - current_time = Time.now  
         - date_string = @expiration_time
         - other_time = Time.iso8601(date_string)
-        - difference = current_time - other_time 
+        - difference = other_time - current_time 
         - difference_in_minutes = difference / 60   
         - hours = difference_in_minutes.to_i
         - minutes = ((difference_in_minutes - hours) * 60).round  
