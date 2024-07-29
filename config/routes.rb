@@ -13,6 +13,7 @@ Target::Application.routes.draw do
   get '/campanhas' => 'frontend/public#events'
   post '/pagamento' => 'frontend/public#pix', as: :validar_pagamento_publico
   get '/pagamento-membro' => 'frontend/public#pix_member', as: :validar_pagamento
+  get '/capturar-pagamento' => 'frontend/public#capture_payment', as: :capturar_pagamento
   get 'comprar-ticket/:id' => 'frontend/public#new', as: :new_ticket
   put 'comprar_public' => 'frontend/public#create', as: :lottery_tickets_public
   get '/meus-titulos' => 'frontend/public#meus_titulos'
@@ -26,7 +27,7 @@ Target::Application.routes.draw do
   get '/numeros-esgotados' => 'frontend/public#finished' , as: :finished_numbers
 
   get '/meus-pagamentos' => 'frontend/public#meus_titulos' , as: :my_payments
-  get '/meus-pagamentos/:id' => 'frontend/public#pix' , as: :my_payment 
+  get '/meus-pagamentos/:id' => 'frontend/public#pix' , as: :my_payment
 
   post 'reprocessar' => 'frontend/public#create_after_approved', as: :reprocess
 
@@ -74,6 +75,12 @@ Target::Application.routes.draw do
     resources :payments do
       collection do
         get 'search' => 'payments#search', as: :search
+      end
+    end 
+
+    resources :transactions do
+      collection do
+        get 'search' => 'transactions#search', as: :search
       end
     end 
 

@@ -63,26 +63,34 @@
                                   - lottery = @lotteries.find_by(id: transaction.lottery_id) 
                                   .sorteio-column.col-xs-12.col-md-6.col-lg-6  
                                      .sorteio-box             
-                                          = image_tag lottery.image_url, class: 'img-responsive my-titles-img'
-                                          
-                                          .sorteio-content-winner      
-                                              h2 =  lottery.event
-                                              
-                                              p = "Data do Pagamento: " + transaction.created_at.strftime("%d/%m/%Y %H:%M:%S")
-                                              - if transaction.status == "pending"
-                                                  p = "Status: "  + "Aguardando Pagamento"
-                                              - if transaction.status == "expired" 
-                                                  p = "Status: "  + "Pagamento expirado" 
-                                              - if transaction.status == "approved" 
-                                                p = "Status: "  + "Pagamento aprovado"
-                                                - payment =  Payment.find_by(transaction_id: transaction.transaction_id)
-                                                - if !payment.present?
-                                                 p = "Necessário finalizar processamento"
-                                                 = link_to 'Clique Aqui', reprocess_path(member_id: @member.id, lottery_id: transaction.lottery_id, quantity: transaction.quantity, transaction_id: transaction.transaction_id), class: 'btn btn-primary', method: :post
-                                              p = "Quantidade: " + transaction.quantity.to_s
-                                              p = "Total: R$" + lottery.price.to_s      
-                                              p = "Id Transação: " + transaction.transaction_id.to_s
-                          
+                                        = image_tag lottery.image_url, class: 'img-responsive my-titles-img'
+                                                                                                      
+                                        .sorteio-payment-box
+                                          p Campanha: #{lottery.event}
+                                          p Quantidade: #{transaction.quantity}
+                                          p Valor Total: R$#{lottery.price}
+                                          p Id Transação: #{transaction.transaction_id}
+
+                                          - payment = Payment.find_by(transaction_id: transaction.transaction_id)
+                                          p Data do Pagamento: #{transaction.created_at.strftime("%d/%m/%Y %H:%M:%S")}
+
+                                          - case transaction.status
+                                            - when "cancelled"
+                                              p Status: Pagamento Cancelado
+                                            - when "expired"
+                                              p Status: Pagamento Expirado
+                                            - when "404"
+                                              p Status: Erro no Pagamento
+                                            - when "pending"
+                                              p Status: Aguardando Pagamento
+                                              - if Time.current < transaction.expiration_time
+                                                = link_to 'Link de Pagamento', "#{capturar_pagamento_path(id: transaction.lottery_id)}?member_id=pqwoeipqpasdkpaoskdqp6a5s4da654da8sd7a79we87qw879a8s7dq8w7eq98e7q98ew798as7d9q7we7q9we7q97e98d9f79e7rw97er98t7r9t87q87qwe7qw8e7q98we7q9w7r98w7t98wr&opk=q8we7q98we7q98e7qw98e7q97eq987eq98w7eq98w7eq98w7eq98we7qw7e&yek=#{@member.id}&quantity=#{transaction.quantity}&transaction=#{transaction.transaction_id}&yeekk=q9q87e9q87we9q8e79qw7e9q8ewq6a54dq8e7qa6s54da65s4dq8ew7"
+                                            - when "approved"
+                                              p Status: Pagamento Aprovado
+                                              - if !payment.present?
+                                                = link_to 'Confirmar Pagamento', reprocess_path(member_id: @member.id, lottery_id: transaction.lottery_id, quantity: transaction.quantity, transaction_id: transaction.transaction_id), method: :post
+
+                                                           
                           - else 
                             .not-lotteries
                               p Por enquanto não há transações   
@@ -95,4 +103,3 @@
         = link_to "https://wa.me/#{@whatsapp.url}", target: '_blank' do    
             = icon('fab', 'whatsapp') 
             = 'Clique aqui' 
- 
