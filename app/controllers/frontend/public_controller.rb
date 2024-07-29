@@ -233,7 +233,7 @@ class Frontend::PublicController < Frontend::ApplicationController
           @qr_code = payment_details.dig("point_of_interaction", "transaction_data", "qr_code")
           @id = payment_details["id"]
 
-          date_of_expiration_string = payment_response["date_of_expiration"]
+          date_of_expiration_string = payment_details["date_of_expiration"]
           # Converte a string para um objeto Time (ou DateTime)
           expiration_time = Time.iso8601(date_of_expiration_string)
           # Converte a hora para UTC
