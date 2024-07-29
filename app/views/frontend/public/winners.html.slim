@@ -20,8 +20,13 @@ section#winners
                                             p = 'Código do Sorteio: ' + winner.id.to_s
                                             p = 'Prêmio: ' + winner.event 
                                             p = 'Numéro da Sorte: '+ winner.number_winner.to_s
-                                                                
+                                               
+                            .text-center
+                                = will_paginate @winners, renderer: ApplicationHelper::LinkRenderer, class: 'pagination pagination-lg'                                 
                         - else 
                             .not-lotteries
                                 p Por enquanto não há vencedores! 
+
+           
+     
 

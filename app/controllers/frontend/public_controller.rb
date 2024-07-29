@@ -717,7 +717,7 @@ class Frontend::PublicController < Frontend::ApplicationController
     if cookies[:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7]
       cookies.delete(:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7)
     end
-    @winners = Lottery.where.not(winner: [nil, ""])
+    @winners = Lottery.where.not(winner: [nil, ""]).order(created_at: :desc).paginate(page: params[:page], per_page: 8)
   end
 
   
