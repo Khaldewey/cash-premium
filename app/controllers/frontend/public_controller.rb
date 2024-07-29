@@ -179,9 +179,6 @@ class Frontend::PublicController < Frontend::ApplicationController
       # Requisição ao Mercado Pago para obter os detalhes do pagamento
     payment_details = fetch_payment_details(@transaction.transaction_id)
     
-   
-    
-
     if payment_details
       @qr_code_base64 = payment_details.dig("point_of_interaction", "transaction_data", "qr_code_base64")
       @qr_code = payment_details.dig("point_of_interaction", "transaction_data", "qr_code")
@@ -235,20 +232,6 @@ class Frontend::PublicController < Frontend::ApplicationController
           @qr_code_base64 = payment_details.dig("point_of_interaction", "transaction_data", "qr_code_base64")
           @qr_code = payment_details.dig("point_of_interaction", "transaction_data", "qr_code")
           @id = payment_details["id"]
-
-          date_of_expiration_string = payment_details["date_of_expiration"]
-          # Converte a string para um objeto Time (ou DateTime)
-          expiration_time = Time.iso8601(date_of_expiration_string)
-          # Converte a hora para UTC
-          expiration_time_utc = expiration_time.utc
-          
-          # Ajusta para o novo fuso horário (-03:00)
-          # O novo fuso horário pode ser configurado diretamente com ActiveSupport::TimeZone
-          timezone = ActiveSupport::TimeZone['Brasilia']  # Representa UTC-03:00
-          
-          # Converte o tempo UTC para o novo fuso horário
-          @expiration_time = timezone.at(expiration_time_utc.to_i).strftime("%Y-%m-%dT%H:%M:%S.%L%:z")      
-    
       else
           cookies.delete(:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7)
           create_and_store_payment
@@ -309,7 +292,21 @@ class Frontend::PublicController < Frontend::ApplicationController
       @qr_code = parsed_response.dig("point_of_interaction", "transaction_data", "qr_code")
       @id = parsed_response.dig("id")
       @status = parsed_response.dig("status")
+
+      date_of_expiration_string = payment_response["date_of_expiration"]
+      # Converte a string para um objeto Time (ou DateTime)
+      expiration_time = Time.iso8601(date_of_expiration_string)
+      # Converte a hora para UTC
+      expiration_time_utc = expiration_time.utc
       
+      # Ajusta para o novo fuso horário (-03:00)
+      # O novo fuso horário pode ser configurado diretamente com ActiveSupport::TimeZone
+      timezone = ActiveSupport::TimeZone['Brasilia']  # Representa UTC-03:00
+      
+      # Converte o tempo UTC para o novo fuso horário
+      @expiration_time = timezone.at(expiration_time_utc.to_i).strftime("%Y-%m-%dT%H:%M:%S.%L%:z")      
+
+
       unless Transaction.find_by(transaction_id: @id)
         @transaction = Transaction.new(
           lottery_id:  @lottery.id,
@@ -357,6 +354,7 @@ class Frontend::PublicController < Frontend::ApplicationController
           @qr_code_base64 = payment_details.dig("point_of_interaction", "transaction_data", "qr_code_base64")
           @qr_code = payment_details.dig("point_of_interaction", "transaction_data", "qr_code")
           @id = payment_details["id"]
+
           date_of_expiration_string = payment_details["date_of_expiration"]
           # Converte a string para um objeto Time (ou DateTime)
           expiration_time = Time.iso8601(date_of_expiration_string)
@@ -369,7 +367,6 @@ class Frontend::PublicController < Frontend::ApplicationController
           
           # Converte o tempo UTC para o novo fuso horário
           @expiration_time = timezone.at(expiration_time_utc.to_i).strftime("%Y-%m-%dT%H:%M:%S.%L%:z")      
-        
       else
           cookies.delete(:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7)
           create_and_store_payment_member
@@ -408,6 +405,20 @@ class Frontend::PublicController < Frontend::ApplicationController
       @id = parsed_response.dig("id") 
       @status = parsed_response.dig("status")
     
+      date_of_expiration_string = parsed_response.dig("date_of_expiration")
+      # Converte a string para um objeto Time (ou DateTime)
+      expiration_time = Time.iso8601(date_of_expiration_string)
+      # Converte a hora para UTC
+      expiration_time_utc = expiration_time.utc
+      
+      # Ajusta para o novo fuso horário (-03:00)
+      # O novo fuso horário pode ser configurado diretamente com ActiveSupport::TimeZone
+      timezone = ActiveSupport::TimeZone['Brasilia']  # Representa UTC-03:00
+      
+      # Converte o tempo UTC para o novo fuso horário
+      @expiration_time = timezone.at(expiration_time_utc.to_i).strftime("%Y-%m-%dT%H:%M:%S.%L%:z")      
+
+
       puts @status
       
       unless Transaction.find_by(transaction_id: @id)
@@ -561,7 +572,7 @@ class Frontend::PublicController < Frontend::ApplicationController
         transaction.update(status: response.dig("status"))
       end
 
-      if transaction.expiration_time < Time.current && transaction.status == "pending"
+      if transaction.expiration_time.present? && transaction.expiration_time < Time.current && transaction.status == "pending"
         transaction.update(status: "cancelled")
       end
     end

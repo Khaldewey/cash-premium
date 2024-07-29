@@ -53,7 +53,6 @@ input#member_id(type="hidden" value="#{@member.id}")
             p = icon('fas', 'exclamation-circle')
             p Acesse o seu aplicativo bancário realize o pagamento e retorne para esta página.
     .member-info
-        span O pagamento expira em 10 min
         - current_time = Time.now  
         - date_string = @expiration_time
         - other_time = Time.iso8601(date_string)
