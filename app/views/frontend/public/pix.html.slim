@@ -47,13 +47,12 @@ input#member_id(type="hidden" value="#{@member.id}")
     .not-numbers
         .alert-warning role="alert"
             p = icon('fas', 'exclamation-circle')
-            p Não feche o seu navegador até concluir todo processo de pagamento.
+            p Acesse o seu aplicativo bancário realize o pagamento.
 
         .alert-warning role="alert"
             p = icon('fas', 'exclamation-circle')
-            p Acesse o seu aplicativo bancário realize o pagamento e retorne para esta página.
+            p O link de pagamento estará disponível também ná opção "Meus Títulos"
     .member-info
-        span O pagamento expira em 10 min
         - current_time = Time.now  
         - date_string = @expiration_time
         - other_time = Time.iso8601(date_string)
