@@ -30,6 +30,7 @@ h2 Pagamentos
           th.text-center N° Transação
           th.text-center Campanha
           th.text-center Quantidade
+          th.text-center Valor Total
           th.text-center Cliente
           th.text-center Telefone
           th.text-center Data Criação
@@ -41,6 +42,7 @@ h2 Pagamentos
             td.text-center = r.transaction_id
             td.text-center = Lottery.find(r.lottery_id).event
             td.text-center = r.quantity
+            td.text-center = r.quantity * Lottery.find(r.lottery_id).price
             td.text-center = Member.find(r.member_id).name
             td.text-center = Member.find(r.member_id).phone
             td.text-center = r.created_at.strftime("%d/%m/%Y %H:%M")

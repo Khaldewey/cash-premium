@@ -577,7 +577,7 @@ class Frontend::PublicController < Frontend::ApplicationController
     @member = Member.find(params[:yek])
     @whatsapp = SocialNetwork.find_by(slug: "whatsapp")
     @lotteries = Lottery.all
-    @transactions = Transaction.where(member_id: @member.id).order(created_at: :desc)
+    @transactions = Transaction.where(member_id: @member.id).order(created_at: :desc).paginate(page: params[:page], per_page: 8)
 
     Parallel.each(@transactions, in_threads: 5) do |transaction|
       response = JSON.parse(check_transaction(transaction.transaction_id).body)
