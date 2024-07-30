@@ -6,12 +6,12 @@ h2 Números Vendidos
         .search-lotteries-box  
           = f.label :lottery_id, label: 'Campanha', required: false
           = f.collection_select :lottery_id, Lottery.all, :id, :event, { prompt: 'Todas as campanhas' }, { class: 'col-md-12 form-control' }
+        / .search-lotteries-box 
+        /   = f.label :member_id, label: 'Cliente', required: false
+        /   = f.collection_select :member_id, Member.all, :id, :name, { prompt: 'Todos os clientes' }, { class: 'col-md-12 form-control' }
         .search-lotteries-box 
           = f.label :member_id, label: 'Cliente', required: false
-          = f.collection_select :member_id, Member.all, :id, :name, { prompt: 'Todos os clientes' }, { class: 'col-md-12 form-control' }      
-        .search-lotteries-box 
-          = f.label :member_id, label: 'Telefone', required: false
-          = f.collection_select :member_id, Member.all, :id, :phone, { prompt: 'Todos os clientes' }, { class: 'col-md-12 form-control' }
+          = f.collection_select :member_id, Member.all, :id, :display_name, { prompt: 'Todos os clientes' }, { class: 'col-md-12 form-control' }
         .button-search-member
           = f.submit 'Buscar', class: 'btn btn-primary'
           = link_to 'Limpar Busca', '', class: 'btn btn-warning'

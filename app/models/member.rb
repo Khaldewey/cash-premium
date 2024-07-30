@@ -8,4 +8,8 @@ class Member < ApplicationRecord
     end
     nil
   end
+
+  def display_name
+    "#{phone} - #{name}"
+  end
 end

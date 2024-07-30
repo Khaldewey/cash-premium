@@ -8,11 +8,11 @@ h2 Pagamentos
           = f.collection_select :lottery_id, Lottery.all, :id, :event, { prompt: 'Todas as campanhas' }, { class: 'col-md-12 form-control' }
         .search-lotteries-box 
           = f.label :member_id, label: 'Cliente', required: false
-          = f.collection_select :member_id, Member.all, :id, :name, { prompt: 'Todos os clientes' }, { class: 'col-md-12 form-control' }
+          = f.collection_select :member_id, Member.all, :id, :display_name, { prompt: 'Todos os clientes' }, { class: 'col-md-12 form-control' }
         .search-lotteries-box 
           = f.label :status, label: 'Status', required: false
           = f.collection_select :status, 
-                      [['Pendente', 'pending'], ['Aprovado', 'approved'], ['Rejeitado', 'cancelled'], ["Erro", "404"]],
+                      [['Expirado', 'expired'],['Pendente', 'pending'], ['Aprovado', 'approved'], ['Cancelado', 'cancelled'], ["Erro", "404"]],
                       :last,  
                       :first, 
                       { prompt: 'Todos os status' },  
