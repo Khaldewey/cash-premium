@@ -14,7 +14,9 @@
                     .messages-box  
                         h4 = comunication.title + ' - ' + comunication.created_at.strftime("%d/%m/%Y")
                         = raw comunication.content
+            .text-center
+                = will_paginate @comunications, renderer: ApplicationHelper::LinkRenderer, class: 'pagination pagination-lg'
         - else 
             .not-lotteries
                 p Não há nenhum comunicado no momento!
-        
+

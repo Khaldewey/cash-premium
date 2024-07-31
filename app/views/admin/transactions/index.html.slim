@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 h2 Transações
+=======
+h2 Pagamentos
+>>>>>>> 4ed2d872b0bed04c3e0b73c45c923f1ff4211e3e
 .panel.panel-default
   .panel-body
     = simple_form_for :search, url: search_admin_transactions_path, html: {class: 'search-form'}, method: :get do |f|
@@ -8,11 +12,19 @@ h2 Transações
           = f.collection_select :lottery_id, Lottery.all, :id, :event, { prompt: 'Todas as campanhas' }, { class: 'col-md-12 form-control' }
         .search-lotteries-box 
           = f.label :member_id, label: 'Cliente', required: false
+<<<<<<< HEAD
           = f.collection_select :member_id, Member.all, :id, :name, { prompt: 'Todos os clientes' }, { class: 'col-md-12 form-control' }
         .search-lotteries-box 
           = f.label :status, label: 'Status', required: false
           = f.collection_select :status, 
                       [['Pendente', 'pending'], ['Aprovado', 'approved'], ['Rejeitado', 'cancelled'], ["Erro", "404"]],
+=======
+          = f.collection_select :member_id, Member.all, :id, :display_name, { prompt: 'Todos os clientes' }, { class: 'col-md-12 form-control' }
+        .search-lotteries-box 
+          = f.label :status, label: 'Status', required: false
+          = f.collection_select :status, 
+                      [['Expirado', 'expired'],['Pendente', 'pending'], ['Aprovado', 'approved'], ['Cancelado', 'cancelled'], ["Erro", "404"]],
+>>>>>>> 4ed2d872b0bed04c3e0b73c45c923f1ff4211e3e
                       :last,  
                       :first, 
                       { prompt: 'Todos os status' },  
@@ -30,6 +42,10 @@ h2 Transações
           th.text-center N° Transação
           th.text-center Campanha
           th.text-center Quantidade
+<<<<<<< HEAD
+=======
+          th.text-center Valor Total
+>>>>>>> 4ed2d872b0bed04c3e0b73c45c923f1ff4211e3e
           th.text-center Cliente
           th.text-center Telefone
           th.text-center Data Criação
@@ -37,10 +53,18 @@ h2 Transações
           th.text-center Status
       tbody
         - @collection.order(created_at: :asc).each do |r|
+<<<<<<< HEAD
           tr
             td.text-center = r.transaction_id
             td.text-center = Lottery.find(r.lottery_id).event
             td.text-center = r.quantity
+=======
+          tr      
+            td.text-center = r.transaction_id
+            td.text-center = Lottery.find(r.lottery_id).event
+            td.text-center = r.quantity
+            td.text-center = number_to_currency(r.quantity * Lottery.find(r.lottery_id).price, unit: 'R$', precision: 2)
+>>>>>>> 4ed2d872b0bed04c3e0b73c45c923f1ff4211e3e
             td.text-center = Member.find(r.member_id).name
             td.text-center = Member.find(r.member_id).phone
             td.text-center = r.created_at.strftime("%d/%m/%Y %H:%M")
@@ -60,4 +84,8 @@ h2 Transações
 .text-center
   = will_paginate @collection, renderer: ApplicationHelper::LinkRenderer, class: 'pagination pagination-lg'
 
+<<<<<<< HEAD
 /= link_to "Voltar", admin_payments_path, class: 'btn btn-s-md btn-danger mr-10'
+=======
+/= link_to "Voltar", admin_payments_path, class: 'btn btn-s-md btn-danger mr-10'
+>>>>>>> 4ed2d872b0bed04c3e0b73c45c923f1ff4211e3e

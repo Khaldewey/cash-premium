@@ -16,6 +16,6 @@ class Admin::FailuresController < Admin::ResourceController
   # end
 
   def index
-    @collection  = Failure.paginate(page: params[:page], per_page: 5)
+    @collection  = Failure.paginate(page: params[:page], per_page: 8)
   end
 end

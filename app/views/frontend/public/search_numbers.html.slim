@@ -68,7 +68,11 @@
                                         .sorteio-payment-box
                                           p Campanha: #{lottery.event}
                                           p Quantidade: #{transaction.quantity}
+<<<<<<< HEAD
                                           p Valor Total: R$#{lottery.price}
+=======
+                                          p Valor Total: R$#{lottery.price * transaction.quantity}
+>>>>>>> 4ed2d872b0bed04c3e0b73c45c923f1ff4211e3e
                                           p Id Transação: #{transaction.transaction_id}
 
                                           - payment = Payment.find_by(transaction_id: transaction.transaction_id)
@@ -90,10 +94,17 @@
                                               - if !payment.present?
                                                 = link_to 'Confirmar Pagamento', reprocess_path(member_id: @member.id, lottery_id: transaction.lottery_id, quantity: transaction.quantity, transaction_id: transaction.transaction_id), method: :post
 
+<<<<<<< HEAD
                                                            
+=======
+                           
+>>>>>>> 4ed2d872b0bed04c3e0b73c45c923f1ff4211e3e
                           - else 
                             .not-lotteries
                               p Por enquanto não há transações   
+                          - if @transactions.present?
+                            .text-center
+                              = will_paginate @transactions, renderer: ApplicationHelper::LinkRenderer, class: 'pagination pagination-lg', params: params                                 
 .not-numbers
   .alert-warning role="alert"
     p = icon('fas', 'exclamation-circle')

@@ -9,13 +9,16 @@ class Admin::PaymentsController < Admin::ResourceController
       if params[:search][:member_id].present?
         @collection = @collection.where(member_id: params[:search][:member_id])
       end
+      if params[:search][:name].present?
+        @collection = @collection.where(name: params[:search][:name])
+      end
     end
 
-    @collection = @collection.order(created_at: :asc).paginate(page: params[:page])
+    @collection = @collection.order(created_at: :desc).paginate(page: params[:page], per_page: 8)
     render :index
   end
 
   def index
-    @collection  = Payment.paginate(page: params[:page], per_page: 5)
+    @collection  = Payment.order(created_at: :desc).paginate(page: params[:page], per_page: 8)
   end
 end

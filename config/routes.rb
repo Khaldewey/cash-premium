@@ -19,6 +19,7 @@ Target::Application.routes.draw do
   get '/meus-titulos' => 'frontend/public#meus_titulos'
   get '/numeros-selecionados' => 'frontend/public#numbers', as: :numbers_after_approved
   post '/meus-numeros' => 'frontend/public#search_numbers', as: :procurar_numeros
+  get '/meus-numeros' => 'frontend/public#search_numbers'
   get '/comunicados' => 'frontend/public#comunications'
   get '/ganhadores' => 'frontend/public#winners'
   get '/termo' => 'frontend/public#term'

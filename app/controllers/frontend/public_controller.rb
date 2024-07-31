@@ -577,7 +577,11 @@ class Frontend::PublicController < Frontend::ApplicationController
     @member = Member.find(params[:yek])
     @whatsapp = SocialNetwork.find_by(slug: "whatsapp")
     @lotteries = Lottery.all
+<<<<<<< HEAD
     @transactions = Transaction.where(member_id: @member.id).order(created_at: :desc)
+=======
+    @transactions = Transaction.where(member_id: @member.id).order(created_at: :desc).paginate(page: params[:page], per_page: 8)
+>>>>>>> 4ed2d872b0bed04c3e0b73c45c923f1ff4211e3e
 
     Parallel.each(@transactions, in_threads: 5) do |transaction|
       response = JSON.parse(check_transaction(transaction.transaction_id).body)
@@ -710,14 +714,14 @@ class Frontend::PublicController < Frontend::ApplicationController
     if cookies[:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7]
       cookies.delete(:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7)
     end
-    @comunications = Message.all
+    @comunications = Message.order(created_at: :desc).paginate(page: params[:page], per_page: 8)
   end 
 
   def winners
     if cookies[:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7]
       cookies.delete(:qweqwieuyqwiueyqiweyqasdasdasqweqweqasdasdqweqweqwasdqweiuqweuq65q4weq9w8e7q987eas65dqw98e7q9we7as8d7a9sd7q9w8e7)
     end
-    @winners = Lottery.where.not(winner: [nil, ""])
+    @winners = Lottery.where.not(winner: [nil, ""]).order(created_at: :desc).paginate(page: params[:page], per_page: 8)
   end
 
   

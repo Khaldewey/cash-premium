@@ -416,7 +416,7 @@ $(function () {
                 if (data.status) {
                     var paymentStatus = data.status;
         
-                    paymentStatus = 'approved';
+                    //paymentStatus = 'approved';
                    
                     // Verifica se o pagamento foi aprovado
                     if (paymentStatus === 'approved') {
@@ -522,6 +522,54 @@ $(function () {
         // });
     }
 
+
+    let isPageVisible = false; 
+    let requestInterval;
+
+    function startRequests() {
+        if (isPageVisible && !requestInterval) { // Verifica se a página está visível e se o intervalo não está ativo
+            requestInterval = setInterval(async function() {
+                try {
+                    checkPaymentAtEndpoint();
+                } catch (error) {
+                    console.error('Erro na requisição:', error);
+                }
+            }, 20000); // Intervalo de 10 segundos
+        }
+    }
+
+    function stopRequests() {
+        if (requestInterval) {
+            clearInterval(requestInterval);
+            requestInterval = null;
+        }
+    }
+
+    function manageRequests() {
+        if (isPageVisible) {
+            console.log('Enviando requisição');
+            startRequests();
+        } else {
+            console.log("Parando Requisição")
+            stopRequests();
+        }
+    }
+
+    document.addEventListener("visibilitychange", function() {
+        console.log('Visibilidade alterada:', document.hidden);
+        isPageVisible = !document.hidden;
+        manageRequests();
+    });
     
-    setInterval(checkPaymentAtEndpoint, 10000);
+    console.log('DOMContentLoaded disparado');
+    isPageVisible = !document.hidden;
+    console.log('isPageVisible:', isPageVisible);
+    manageRequests();
+    // Inicia as requisições imediatamente se a página estiver visível
+    if (isPageVisible) {
+        startRequests();
+    }
 });
+
+
+
