@@ -90,12 +90,17 @@ gem 'dotenv-rails', groups: [:development]
 
 gem 'parallel'
 
+gem "simplecov", "~> 0.18.5"
+
+gem "simplecov_json_formatter", "~> 0.1.4"
+
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'meta_request'
   gem 'dedent'
   gem 'bullet'
+  gem 'rspec-rails', '~> 5.0' 
 end
 #
 gem 'bootstrap-sass'

@@ -17,7 +17,6 @@ rerun.txt
 pickle-email-*.html
 
 .vscode/
-config/database.yml
 public/uploads/*
 .DS_Store
 .env
