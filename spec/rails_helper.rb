@@ -1,22 +1,7 @@
 require 'spec_helper'
-require 'simplecov'
-require 'simplecov_json_formatter'
+
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
-  SimpleCov::Formatter::JSONFormatter,
-  SimpleCov::Formatter::HTMLFormatter
-])
-
-SimpleCov.start do
-  add_group 'Config', 'config'
-  add_group 'Controllers', 'app/controllers'
-  add_group 'Helpers', 'app/helpers'
-  add_group 'Libs', 'lib'
-  add_group 'Models', 'app/models'
-  # add_group 'Serializers', 'app/serializers'
-  add_group 'Specs', 'spec'
-end
 
 ENV['RAILS_ENV'] ||= 'development'
 require_relative '../config/environment'
