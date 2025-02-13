@@ -97,10 +97,20 @@ group :development do
   gem 'meta_request'
   gem 'dedent'
   gem 'bullet'
-  gem 'rspec-rails', '~> 5.0' 
+  gem 'rspec-rails', '~> 5.0'
+  gem 'wdm', '>= 0.1.0' if Gem.win_platform?
+end
+
+group :test do
+  gem 'capybara'
+  gem 'selenium-webdriver'
 end
 #
 gem 'bootstrap-sass'
 gem 'momentjs-rails'
 gem 'bootstrap3-datetimepicker-rails'
 gem 'font-awesome-sass', '~> 5.6.1'
+
+gem "simplecov", "~> 0.18.5", :group => :test, :require => false
+
+gem "simplecov_json_formatter", "~> 0.1.4", :group => :test, :require => false
