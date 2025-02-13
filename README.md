@@ -76,6 +76,7 @@ Este projeto está sob a licença MIT. Sinta-se livre para modificá-lo e usá-l
 Caso tenha dúvidas ou sugestões, entre em contato:
 - **Email**: israel_alves77@hotmail.com
 - **Linkedin**: www.linkedin.com/in/is-rael
+- **Linkedin**: www.linkedin.com/in/thiagosilvaweb
 
 ---
 
