@@ -1,5 +1,6 @@
-# 🎟️ Sistema de Venda de Rifas Online
-
+# 🎟️ Sistema de Venda de Rifas Online ![Tests](https://github.com/khaldewey/cash-premium/actions/workflows/ruby.yml/badge.svg)
+[![Maintainability](https://api.codeclimate.com/v1/badges/8c304b927c538c14ce6a/maintainability)](https://codeclimate.com/github/Khaldewey/cash-premium/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/8c304b927c538c14ce6a/test_coverage)](https://codeclimate.com/github/Khaldewey/cash-premium/test_coverage)
 ## 📌 Sobre o Projeto
 Este projeto é um sistema de venda de rifas online desenvolvido em **Ruby on Rails**.
 Ele permite a criação, gerenciamento e venda de rifas de forma digital.
